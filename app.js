@@ -518,6 +518,15 @@ html, body {
   margin-top: 6px;
 }
 
+.hero-org {
+  font-size: 10px;
+  color: rgba(255,255,255,0.35);
+  margin-top: 6px;
+  line-height: 1.5;
+  max-width: 220px;
+  font-style: italic;
+}
+
 .hero-ball {
   position: absolute;
   right: -20px; top: -20px;
@@ -1229,9 +1238,10 @@ html, body {
             <div class="hero-orb orb3"></div>
           </div>
           <div class="hero-content">
-            <span class="hero-eyebrow">Temporada 2025</span>
+            <span class="hero-eyebrow">Edição 2026</span>
             <h2 class="hero-title">Campeonato<br><em>AfoHand</em></h2>
             <p class="hero-desc">O maior torneio de handebol de 5 de Afonso Cláudio</p>
+            <p class="hero-org">Um evento realizado pela Prefeitura Municipal de Afonso Cláudio via Secretaria de Esportes e Lazer</p>
           </div>
           <div class="hero-ball">
             <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1249,12 +1259,12 @@ html, body {
             <span class="stat-label">Times</span>
           </div>
           <div class="stat-card">
-            <span class="stat-num" id="statJogos">0</span>
+            <span class="stat-num" id="statJogos">9</span>
             <span class="stat-label">Jogos</span>
           </div>
           <div class="stat-card">
-            <span class="stat-num" id="statGols">0</span>
-            <span class="stat-label">Gols</span>
+            <span class="stat-num" id="statMinutos">+270</span>
+            <span class="stat-label">Min. de Handebol</span>
           </div>
         </div>
 
@@ -1672,10 +1682,12 @@ function renderAll() {
 // HOME
 function renderHome() {
   const jogosRealizados = state.jogos.filter(j => j.status === 'realizado');
-  const totalGols = jogosRealizados.reduce((s, j) => s + j.gols_casa + j.gols_visitante, 0);
 
-  document.getElementById('statJogos').textContent = jogosRealizados.length;
-  document.getElementById('statGols').textContent  = totalGols;
+  // Atualiza contagem de jogos se tiver dados da planilha
+  if (state.loaded && CONFIG.SHEET_ID !== 'YOUR_GOOGLE_SHEET_ID') {
+    document.getElementById('statJogos').textContent = jogosRealizados.length;
+  }
+  // statMinutos e statTimes ficam fixos conforme definido no HTML
 
   // próximos jogos
   const proximos = state.jogos.filter(j => j.status === 'pendente').slice(0, 4);
