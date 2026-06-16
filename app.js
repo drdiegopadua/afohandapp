@@ -142,20 +142,56 @@ function initSplash() {
 
 // ─── NAV ──────────────────────────────────
 function initNav() {
-  document.querySelectorAll('.nav-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const page = btn.dataset.page;
+  const marker = document.getElementById('nav-marker');
+  const items  = document.querySelectorAll('.nav-item');
+
+  function moveMarker(el) {
+    marker.style.left  = el.offsetLeft + 'px';
+    marker.style.width = el.offsetWidth + 'px';
+  }
+
+  // Set initial marker position
+  const activeItem = document.querySelector('.nav-item.active');
+  if (activeItem) {
+    // Wait for layout
+    requestAnimationFrame(() => moveMarker(activeItem));
+  }
+
+  items.forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.preventDefault();
+      const page = item.dataset.page;
+      if (!page) return;
+
+      // Move marker
+      moveMarker(item);
+
+      // Active class
+      items.forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+
       navigateTo(page);
     });
+
+    // Hover preview
+    item.addEventListener('mouseover', () => moveMarker(item));
+    item.addEventListener('mouseleave', () => {
+      const cur = document.querySelector('.nav-item.active');
+      if (cur) moveMarker(cur);
+    });
+  });
+
+  // Reposition on resize
+  window.addEventListener('resize', () => {
+    const cur = document.querySelector('.nav-item.active');
+    if (cur) moveMarker(cur);
   });
 }
 
 function navigateTo(page) {
   const old = document.getElementById(`page-${state.currentPage}`);
   const nw  = document.getElementById(`page-${page}`);
-
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector(`.nav-btn[data-page="${page}"]`).classList.add('active');
+  if (!nw || page === state.currentPage) return;
 
   old.classList.remove('active');
   nw.classList.add('active');
