@@ -1352,22 +1352,13 @@ html, body {
 
 // ─── CONFIG ──────────────────────────────────
 const CONFIG = {
-  // Substitua pelo ID da sua planilha Google Sheets publicada
-  // Vá em Arquivo → Compartilhar → Publicar na web → CSV
-  SHEET_ID: 'YOUR_GOOGLE_SHEET_ID',
-  
-  // Nomes das abas (configure conforme sua planilha)
-  SHEETS: {
-    JOGOS: 'Jogos',        // aba com os jogos
-    TIMES: 'Times',        // aba com os times (opcional)
-    MATAMATA: 'MataMata'   // aba com mata-mata
-  }
+  SHEET_ID: '1CT9nND4HHVakDZHydtDyF6g2ULwuF8iMpyE9OqaMQVU',
+  API_KEY:  'AIzaSyBzIsc4TKy_he2P8PcOgOzs8Eor3EVHBzw',
 };
 
-// URL de publicação da planilha (CSV público)
-// Formato: https://docs.google.com/spreadsheets/d/{ID}/gviz/tq?tqx=out:csv&sheet={NOME_ABA}
-const getSheetUrl = (sheetName) =>
-  `https://docs.google.com/spreadsheets/d/${CONFIG.SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
+// Lê range específico via Sheets API v4
+const apiUrl = (range) =>
+  `https://sheets.googleapis.com/v4/spreadsheets/${CONFIG.SHEET_ID}/values/${encodeURIComponent(range)}?key=${CONFIG.API_KEY}`;
 
 // ─── DADOS DEMO (usados enquanto sheet não está configurada) ─
 const DEMO = {
@@ -1551,79 +1542,92 @@ async function loadData() {
   refreshBtn.classList.add('spinning');
 
   try {
-    if (CONFIG.SHEET_ID === 'YOUR_GOOGLE_SHEET_ID') {
-      // usa dados demo
-      state.jogos    = DEMO.jogos;
-      state.matamata = DEMO.matamata;
-      showToast('📊 Usando dados de demonstração');
-    } else {
-      // busca planilha real
-      const [jogosData, mmData] = await Promise.all([
-        fetchSheet(CONFIG.SHEETS.JOGOS),
-        fetchSheet(CONFIG.SHEETS.MATAMATA)
-      ]);
-      state.jogos    = parseJogos(jogosData);
-      state.matamata = parseMM(mmData);
-    }
+    const [gruposRes, mmRes] = await Promise.all([
+      fetch(apiUrl("'Fase de Grupos'!A5:S7")),
+      fetch(apiUrl("'Mata-Mata'!A4:M17")),
+    ]);
+    const gruposData = await gruposRes.json();
+    const mmData     = await mmRes.json();
+
+    state.jogos    = parseGrupos(gruposData.values || []);
+    state.matamata = parseMataMata(mmData.values || []);
     state.loaded = true;
     renderAll();
   } catch (err) {
-    console.error(err);
+    console.error('[AFOHAND]', err);
     state.jogos    = DEMO.jogos;
     state.matamata = DEMO.matamata;
     state.loaded = true;
     renderAll();
-    showToast('⚠️ Erro ao buscar dados, usando demo');
+    showToast('⚠️ Sem conexão — dados demo');
   } finally {
     refreshBtn.classList.remove('spinning');
   }
 }
 
-async function fetchSheet(sheetName) {
-  const url = getSheetUrl(sheetName);
-  const res = await fetch(url);
-  const text = await res.text();
-  return parseCSV(text);
+// Parseia 3 linhas da "Fase de Grupos" (matriz: Grupo A cols 0-8, Grupo B cols 10-18)
+// Colunas: [JOGO, EQUIPE1, _, GOLS1, X, GOLS2, EQUIPE2, _, RESULTADO]
+function parseGrupos(rows) {
+  const jogos = [];
+  rows.forEach((row, ri) => {
+    const gA_eq1 = row[1] || '';
+    const gA_eq2 = row[6] || '';
+    const gA_g1  = row[3] || '';
+    const gA_g2  = row[5] || '';
+    if (gA_eq1 && gA_eq2) {
+      const temGol = gA_g1 !== '' && gA_g2 !== '';
+      jogos.push({
+        id: parseInt(row[0]) || ri + 1,
+        grupo: 'A', rodada: 1,
+        casa: gA_eq1, visitante: gA_eq2,
+        gols_casa: temGol ? parseInt(gA_g1) : 0,
+        gols_visitante: temGol ? parseInt(gA_g2) : 0,
+        status: temGol ? 'realizado' : 'pendente',
+        data: '', hora: '',
+      });
+    }
+    const gB_eq1 = row[11] || '';
+    const gB_eq2 = row[16] || '';
+    const gB_g1  = row[13] || '';
+    const gB_g2  = row[15] || '';
+    if (gB_eq1 && gB_eq2) {
+      const temGol = gB_g1 !== '' && gB_g2 !== '';
+      jogos.push({
+        id: parseInt(row[10]) || ri + 4,
+        grupo: 'B', rodada: 1,
+        casa: gB_eq1, visitante: gB_eq2,
+        gols_casa: temGol ? parseInt(gB_g1) : 0,
+        gols_visitante: temGol ? parseInt(gB_g2) : 0,
+        status: temGol ? 'realizado' : 'pendente',
+        data: '', hora: '',
+      });
+    }
+  });
+  return jogos;
 }
 
-function parseCSV(text) {
-  const lines = text.trim().split('\n');
-  const headers = lines[0].split(',').map(h => h.replace(/^"|"$/g,'').trim().toLowerCase());
-  return lines.slice(1).map(line => {
-    const values = line.match(/(".*?"|[^,]+|(?<=,)(?=,)|(?<=,)$|^(?=,))/g) || [];
-    const obj = {};
-    headers.forEach((h, i) => {
-      obj[h] = (values[i] || '').replace(/^"|"$/g, '').trim();
-    });
-    return obj;
-  }).filter(r => Object.values(r).some(v => v));
-}
-
-function parseJogos(rows) {
-  return rows.map((r, i) => ({
-    id:              i + 1,
-    grupo:           r.grupo || r['grupo'] || 'A',
-    rodada:          parseInt(r.rodada) || 1,
-    casa:            r.casa || r['time_casa'] || '',
-    visitante:       r.visitante || r['time_visitante'] || '',
-    gols_casa:       parseInt(r.gols_casa) || 0,
-    gols_visitante:  parseInt(r.gols_visitante) || 0,
-    status:          r.status || 'pendente',
-    data:            r.data || '',
-    hora:            r.hora || ''
-  }));
-}
-
-function parseMM(rows) {
-  return rows.map((r, i) => ({
-    fase:    r.fase || '',
-    jogo:    i + 1,
-    time1:   r.time1 || r['time_1'] || '',
-    time2:   r.time2 || r['time_2'] || '',
-    gols1:   parseInt(r.gols1 || r['gols_1']) || 0,
-    gols2:   parseInt(r.gols2 || r['gols_2']) || 0,
-    status:  r.status || 'pendente'
-  }));
+// Parseia "Mata-Mata": SF1 rows 0-1, SF2 rows 5-6, Final rows 11-12 (dentro do range A4:M17)
+function parseMataMata(rows) {
+  const get = (ri, ci) => (rows[ri] && rows[ri][ci]) ? rows[ri][ci].toString().trim() : '';
+  const buildJogo = (fase, nameRow, golRow) => {
+    const t1  = get(nameRow, 1);
+    const t2  = get(nameRow, 7);
+    const g1s = get(golRow, 1);
+    const g2s = get(golRow, 7);
+    const temGol = g1s !== '' && g2s !== '';
+    return {
+      fase, jogo: 1,
+      time1: t1 || fase + ' T1', time2: t2 || fase + ' T2',
+      gols1: temGol ? parseInt(g1s) : 0,
+      gols2: temGol ? parseInt(g2s) : 0,
+      status: temGol ? 'realizado' : 'pendente',
+    };
+  };
+  return [
+    buildJogo('Semifinal', 0, 1),
+    buildJogo('Semifinal', 5, 6),
+    buildJogo('Final',     11, 12),
+  ];
 }
 
 // ─── CLASSIFICAÇÃO ──────────────────────────────────
@@ -1684,7 +1688,7 @@ function renderHome() {
   const jogosRealizados = state.jogos.filter(j => j.status === 'realizado');
 
   // Atualiza contagem de jogos se tiver dados da planilha
-  if (state.loaded && CONFIG.SHEET_ID !== 'YOUR_GOOGLE_SHEET_ID') {
+  if (state.loaded) {
     document.getElementById('statJogos').textContent = jogosRealizados.length;
   }
   // statMinutos e statTimes ficam fixos conforme definido no HTML
