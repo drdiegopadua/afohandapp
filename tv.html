@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COPA AFOHAND 2026 — Placar TV</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #051F20;
+    --card: #0a2e2f;
+    --green: #1a7a3c;
+    --green-light: #8EB69B;
+    --accent: #DAF1DE;
+    --gold: #FFD700;
+    --silver: #C0C0C0;
+    --bronze: #CD7F32;
+    --text: #ffffff;
+    --text-muted: #8EB69B;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Poppins', sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── HEADER ── */
+  .tv-header {
+    background: linear-gradient(135deg, #051F20, #0d3b20);
+    border-bottom: 3px solid var(--green);
+    padding: 14px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  .tv-logo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .tv-logo-icon {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #1a7a3c, #8EB69B);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+  }
+
+  .tv-logo-text h1 {
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--accent);
+    letter-spacing: 2px;
+  }
+
+  .tv-logo-text p {
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .tv-clock {
+    text-align: right;
+  }
+
+  .tv-clock .time {
+    font-size: 38px;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .tv-clock .date {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .tv-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(26,122,60,0.2);
+    border: 1px solid var(--green);
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-size: 13px;
+    color: var(--green-light);
+  }
+
+  .tv-status .dot {
+    width: 8px;
+    height: 8px;
+    background: #4cff7a;
+    border-radius: 50%;
+    animation: blink 1.5s infinite;
+  }
+
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  /* ── MAIN ── */
+  .tv-main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    padding: 20px 30px;
+    overflow: hidden;
+  }
+
+  .tv-panel {
+    background: var(--card);
+    border-radius: 16px;
+    border: 1px solid rgba(142,182,155,0.15);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .panel-title {
+    background: linear-gradient(135deg, var(--green), #0d5c2a);
+    padding: 14px 20px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  .panel-body {
+    flex: 1;
+    padding: 12px 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* ── CLASSIFICAÇÃO ── */
+  .class-header-row {
+    display: grid;
+    grid-template-columns: 36px 1fr 36px 36px 36px 50px;
+    gap: 4px;
+    padding: 6px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(142,182,155,0.15);
+    margin-bottom: 4px;
+  }
+
+  .class-row {
+    display: grid;
+    grid-template-columns: 36px 1fr 36px 36px 36px 50px;
+    gap: 4px;
+    align-items: center;
+    padding: 10px 10px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.03);
+    transition: background 0.3s;
+  }
+
+  .class-row:nth-child(1) { background: rgba(255,215,0,0.08); border-left: 3px solid var(--gold); }
+  .class-row:nth-child(2) { background: rgba(192,192,192,0.06); border-left: 3px solid var(--silver); }
+
+  .rank-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 800;
+  }
+
+  .rank-1 { background: var(--gold); color: #000; }
+  .rank-2 { background: var(--silver); color: #000; }
+  .rank-3 { background: var(--bronze); color: #fff; }
+  .rank-n { background: rgba(255,255,255,0.1); color: var(--text-muted); }
+
+  .class-team {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .class-num {
+    text-align: center;
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+
+  .class-pts {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--accent);
+  }
+
+  /* ── JOGOS ── */
+  .jogo-card {
+    background: rgba(255,255,255,0.04);
+    border-radius: 12px;
+    padding: 12px 14px;
+    border-left: 3px solid transparent;
+    flex-shrink: 0;
+  }
+
+  .jogo-card.realizado { border-left-color: var(--green); }
+  .jogo-card.pendente  { border-left-color: rgba(142,182,155,0.3); }
+
+  .jogo-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .jogo-teams {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .jogo-team {
+    flex: 1;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .jogo-team.right { text-align: right; }
+
+  .jogo-score {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--accent);
+    letter-spacing: 2px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    min-width: 80px;
+    text-align: center;
+  }
+
+  .jogo-score.pendente {
+    font-size: 18px;
+    color: var(--text-muted);
+    letter-spacing: 4px;
+  }
+
+  .winner { color: var(--accent); }
+
+  /* ── MATA-MATA ── */
+  .mm-fase {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    padding: 0 4px;
+  }
+
+  .mm-card {
+    background: rgba(255,255,255,0.04);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    flex-shrink: 0;
+  }
+
+  .mm-team-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+  }
+
+  .mm-team-row:first-child { border-bottom: 1px solid rgba(255,255,255,0.06); }
+
+  .mm-team-name {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .mm-team-score {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--text-muted);
+    min-width: 40px;
+    text-align: center;
+  }
+
+  .mm-team-row.winner-row .mm-team-name { color: var(--accent); }
+  .mm-team-row.winner-row .mm-team-score { color: var(--gold); }
+
+  .campeao-banner {
+    background: linear-gradient(135deg, #1a7a3c, #0d5c2a);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    margin-top: 8px;
+    flex-shrink: 0;
+  }
+
+  .campeao-banner .trophy { font-size: 36px; margin-bottom: 6px; }
+  .campeao-banner .label { font-size: 11px; color: var(--green-light); letter-spacing: 3px; margin-bottom: 4px; }
+  .campeao-banner .name { font-size: 24px; font-weight: 900; color: var(--gold); }
+
+  /* ── FOOTER ── */
+  .tv-footer {
+    background: rgba(0,0,0,0.3);
+    border-top: 1px solid rgba(142,182,155,0.1);
+    padding: 8px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  .tv-footer span {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .tv-footer .next-update {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .progress-bar {
+    width: 120px;
+    height: 3px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--green);
+    border-radius: 2px;
+    transition: width 1s linear;
+  }
+
+  .loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 100;
+    transition: opacity 0.5s;
+  }
+
+  .loading-overlay.hidden { opacity: 0; pointer-events: none; }
+
+  .spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(142,182,155,0.2);
+    border-top-color: var(--green);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<div class="loading-overlay" id="loading">
+  <div style="font-size:48px;">🤾</div>
+  <div class="spinner"></div>
+  <div style="font-size:18px;color:var(--text-muted);letter-spacing:2px;">CARREGANDO DADOS...</div>
+</div>
+
+<!-- HEADER -->
+<div class="tv-header">
+  <div class="tv-logo">
+    <div class="tv-logo-icon">🤾</div>
+    <div class="tv-logo-text">
+      <h1>COPA AFOHAND 2026</h1>
+      <p>Campeonato de Handebol de 5 — Afonso Cláudio/ES</p>
+    </div>
+  </div>
+  <div class="tv-status">
+    <div class="dot"></div>
+    AO VIVO
+  </div>
+  <div class="tv-clock">
+    <div class="time" id="clockTime">00:00</div>
+    <div class="date" id="clockDate">--/--/----</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="tv-main">
+  <!-- Grupo A -->
+  <div class="tv-panel">
+    <div class="panel-title">📊 Classificação — Grupo A</div>
+    <div class="panel-body" id="classA">
+      <div style="color:var(--text-muted);text-align:center;margin-top:20px;">Carregando...</div>
+    </div>
+  </div>
+
+  <!-- Grupo B -->
+  <div class="tv-panel">
+    <div class="panel-title">📊 Classificação — Grupo B</div>
+    <div class="panel-body" id="classB">
+      <div style="color:var(--text-muted);text-align:center;margin-top:20px;">Carregando...</div>
+    </div>
+  </div>
+
+  <!-- Jogos / Mata-Mata -->
+  <div class="tv-panel">
+    <div class="panel-title" id="rightPanelTitle">🏆 Jogos &amp; Mata-Mata</div>
+    <div class="panel-body" id="rightPanel">
+      <div style="color:var(--text-muted);text-align:center;margin-top:20px;">Carregando...</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="tv-footer">
+  <span>Quadra Eurico Vieira de Resende — Afonso Cláudio/ES</span>
+  <div class="next-update">
+    <span id="updateLabel">Próxima atualização em 30s</span>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:100%"></div></div>
+  </div>
+  <span id="lastUpdate">Última atualização: --</span>
+</div>
+
+<script>
+var SHEET_ID = '1CT9nND4HHVakDZHydtDyF6g2ULwuF8iMpyE9OqaMQVU';
+var API_KEY  = 'AIzaSyBzIsc4TKy_he2P8PcOgOzs8Eor3EVHBzw';
+var REFRESH  = 30; // segundos
+var countdown = REFRESH;
+var appData = { jogos: [], matamata: [] };
+
+function apiUrl(range) {
+  return 'https://sheets.googleapis.com/v4/spreadsheets/' + SHEET_ID + '/values/' +
+         encodeURIComponent(range) + '?key=' + API_KEY;
+}
+
+function getCell(rows, r, c) {
+  return (rows[r] && rows[r][c]) ? rows[r][c].toString().trim() : '';
+}
+
+// ── CLOCK ─────────────────────────────────────────────
+function updateClock() {
+  var now = new Date();
+  var h = String(now.getHours()).padStart(2,'0');
+  var m = String(now.getMinutes()).padStart(2,'0');
+  var s = String(now.getSeconds()).padStart(2,'0');
+  document.getElementById('clockTime').textContent = h + ':' + m + ':' + s;
+  var d = String(now.getDate()).padStart(2,'0');
+  var mo = String(now.getMonth()+1).padStart(2,'0');
+  var y = now.getFullYear();
+  var dias = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+  document.getElementById('clockDate').textContent = dias[now.getDay()] + ', ' + d + '/' + mo + '/' + y;
+}
+
+setInterval(updateClock, 1000);
+updateClock();
+
+// ── COUNTDOWN ─────────────────────────────────────────
+setInterval(function() {
+  countdown--;
+  if (countdown <= 0) { countdown = REFRESH; loadData(); }
+  document.getElementById('updateLabel').textContent = 'Próxima atualização em ' + countdown + 's';
+  var pct = (countdown / REFRESH) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+}, 1000);
+
+// ── LOAD ──────────────────────────────────────────────
+function loadData() {
+  Promise.all([
+    fetch(apiUrl("'Fase de Grupos'!A5:S7")).then(function(r){ return r.json(); }),
+    fetch(apiUrl("'Mata-Mata'!A4:M17")).then(function(r){ return r.json(); })
+  ]).then(function(res) {
+    var gruposRows = res[0].values || [];
+    var mmRows     = res[1].values || [];
+
+    appData.jogos = [];
+    var cfgs = [
+      { grupo:'A', e1:1, g1:3, g2:5, e2:6 },
+      { grupo:'B', e1:11, g1:13, g2:15, e2:16 }
+    ];
+    gruposRows.forEach(function(row, ri) {
+      cfgs.forEach(function(c) {
+        var ea = row[c.e1]||'', eb = row[c.e2]||'';
+        if (!ea && !eb) return;
+        var g1 = row[c.g1]||'', g2 = row[c.g2]||'';
+        var ok = g1 !== '' && g2 !== '';
+        appData.jogos.push({
+          grupo: c.grupo, rodada: ri+1,
+          casa: ea, visitante: eb,
+          gols_casa: ok ? parseInt(g1)||0 : null,
+          gols_vis:  ok ? parseInt(g2)||0 : null,
+          status: ok ? 'realizado' : 'pendente'
+        });
+      });
+    });
+
+    appData.matamata = [
+      { fase:'Semifinal 1', t1:getCell(mmRows,0,1),  t2:getCell(mmRows,0,7),  g1:getCell(mmRows,1,1),  g2:getCell(mmRows,1,7) },
+      { fase:'Semifinal 2', t1:getCell(mmRows,5,1),  t2:getCell(mmRows,5,7),  g1:getCell(mmRows,6,1),  g2:getCell(mmRows,6,7) },
+      { fase:'Final',       t1:getCell(mmRows,11,1), t2:getCell(mmRows,11,7), g1:getCell(mmRows,12,1), g2:getCell(mmRows,12,7) }
+    ];
+
+    renderAll();
+    document.getElementById('loading').classList.add('hidden');
+    var now = new Date();
+    document.getElementById('lastUpdate').textContent =
+      'Última atualização: ' + String(now.getHours()).padStart(2,'0') + ':' +
+      String(now.getMinutes()).padStart(2,'0') + ':' + String(now.getSeconds()).padStart(2,'0');
+  }).catch(function(e) {
+    console.warn('Erro:', e);
+  });
+}
+
+// ── CLASSIFICAÇÃO ─────────────────────────────────────
+function calcClassif(grupo) {
+  var times = {};
+  appData.jogos.filter(function(j){ return j.grupo===grupo; }).forEach(function(j) {
+    [j.casa, j.visitante].forEach(function(t){ if(t && !times[t]) times[t]={nome:t,j:0,v:0,e:0,d:0,gp:0,gc:0,pts:0}; });
+    if (j.status !== 'realizado' || j.gols_casa === null) return;
+    var ga=j.gols_casa, gb=j.gols_vis;
+    var tA=times[j.casa], tB=times[j.visitante];
+    if(!tA||!tB) return;
+    tA.j++; tB.j++; tA.gp+=ga; tA.gc+=gb; tB.gp+=gb; tB.gc+=ga;
+    if(ga>gb){tA.pts+=3;tA.v++;tB.d++;}
+    else if(ga<gb){tB.pts+=3;tB.v++;tA.d++;}
+    else{tA.pts++;tA.e++;tB.pts++;tB.e++;}
+  });
+  return Object.values(times).sort(function(a,b){ return b.pts-a.pts||(b.gp-b.gc)-(a.gp-a.gc)||b.gp-a.gp; });
+}
+
+function renderClassif(grupo, elId) {
+  var cl = calcClassif(grupo);
+  var rankClass = ['rank-1','rank-2','rank-3','rank-n','rank-n','rank-n'];
+  var html = '<div class="class-header-row"><div>#</div><div>Equipe</div><div style="text-align:center">J</div><div style="text-align:center">V</div><div style="text-align:center">D</div><div style="text-align:center">Pts</div></div>';
+  cl.forEach(function(t, i) {
+    html += '<div class="class-row">' +
+      '<div><div class="rank-num '+rankClass[i]+'">'+(i+1)+'</div></div>' +
+      '<div class="class-team">'+t.nome+'</div>' +
+      '<div class="class-num">'+t.j+'</div>' +
+      '<div class="class-num">'+t.v+'</div>' +
+      '<div class="class-num">'+t.d+'</div>' +
+      '<div class="class-pts">'+t.pts+'</div>' +
+    '</div>';
+  });
+  if (!cl.length) html += '<div style="color:var(--text-muted);text-align:center;padding:20px;">Aguardando dados...</div>';
+  document.getElementById(elId).innerHTML = html;
+}
+
+// ── PAINEL DIREITO ────────────────────────────────────
+function renderRight() {
+  var mm = appData.matamata;
+  var temMM = mm.some(function(m){ return m.t1 || m.t2; });
+
+  // verifica se tem final com resultado
+  var mf = mm[2];
+  var gf1 = mf && mf.g1 !== '' ? parseInt(mf.g1)||0 : null;
+  var gf2 = mf && mf.g2 !== '' ? parseInt(mf.g2)||0 : null;
+  var temCampeao = gf1 !== null && gf2 !== null;
+
+  if (temCampeao) {
+    document.getElementById('rightPanelTitle').innerHTML = '🏆 Resultado Final';
+    var camp = gf1 > gf2 ? mf.t1 : mf.t2;
+    var html = '';
+    mm.forEach(function(m) {
+      var g1 = m.g1 !== '' ? parseInt(m.g1)||0 : null;
+      var g2 = m.g2 !== '' ? parseInt(m.g2)||0 : null;
+      var ok = g1 !== null && g2 !== null;
+      var vA = ok && g1 > g2, vB = ok && g2 > g1;
+      html += '<div class="mm-fase">'+m.fase+'</div>' +
+        '<div class="mm-card">' +
+          '<div class="mm-team-row '+(vA?'winner-row':'')+'">' +
+            '<div class="mm-team-name">'+(m.t1||'A definir')+'</div>' +
+            '<div class="mm-team-score">'+(ok?g1:'--')+'</div>' +
+          '</div>' +
+          '<div class="mm-team-row '+(vB?'winner-row':'')+'">' +
+            '<div class="mm-team-name">'+(m.t2||'A definir')+'</div>' +
+            '<div class="mm-team-score">'+(ok?g2:'--')+'</div>' +
+          '</div>' +
+        '</div>';
+    });
+    html += '<div class="campeao-banner"><div class="trophy">🏆</div><div class="label">Campeão Copa Afohand 2026</div><div class="name">'+camp+'</div></div>';
+    document.getElementById('rightPanel').innerHTML = html;
+    return;
+  }
+
+  if (temMM) {
+    document.getElementById('rightPanelTitle').innerHTML = '🏆 Mata-Mata';
+    var html = '';
+    mm.forEach(function(m) {
+      if (!m.t1 && !m.t2) return;
+      var g1 = m.g1 !== '' ? parseInt(m.g1)||0 : null;
+      var g2 = m.g2 !== '' ? parseInt(m.g2)||0 : null;
+      var ok = g1 !== null && g2 !== null;
+      var vA = ok && g1 > g2, vB = ok && g2 > g1;
+      html += '<div class="mm-fase">'+m.fase+'</div>' +
+        '<div class="mm-card">' +
+          '<div class="mm-team-row '+(vA?'winner-row':'')+'">' +
+            '<div class="mm-team-name">'+(m.t1||'A definir')+'</div>' +
+            '<div class="mm-team-score">'+(ok?g1:'--')+'</div>' +
+          '</div>' +
+          '<div class="mm-team-row '+(vB?'winner-row':'')+'">' +
+            '<div class="mm-team-name">'+(m.t2||'A definir')+'</div>' +
+            '<div class="mm-team-score">'+(ok?g2:'--')+'</div>' +
+          '</div>' +
+        '</div>';
+    });
+    document.getElementById('rightPanel').innerHTML = html;
+    return;
+  }
+
+  // Mostra jogos
+  document.getElementById('rightPanelTitle').innerHTML = '⚽ Jogos — Fase de Grupos';
+  var realizados = appData.jogos.filter(function(j){ return j.status==='realizado'; });
+  var pendentes  = appData.jogos.filter(function(j){ return j.status==='pendente'; });
+  var todos = realizados.slice().reverse().concat(pendentes);
+  var html = '';
+  todos.forEach(function(j) {
+    var ok = j.status === 'realizado';
+    var vA = ok && j.gols_casa > j.gols_vis;
+    var vB = ok && j.gols_vis > j.gols_casa;
+    html += '<div class="jogo-card '+j.status+'">' +
+      '<div class="jogo-label">Grupo '+j.grupo+' · Jogo '+j.rodada+(ok?' · Finalizado':' · A Jogar')+'</div>' +
+      '<div class="jogo-teams">' +
+        '<div class="jogo-team '+(vA?'winner':'')+'">'+j.casa+'</div>' +
+        '<div class="jogo-score '+(ok?'':'pendente')+'">'+(ok? j.gols_casa+' × '+j.gols_vis : 'VS')+'</div>' +
+        '<div class="jogo-team right '+(vB?'winner':'')+'">'+j.visitante+'</div>' +
+      '</div>' +
+    '</div>';
+  });
+  if (!html) html = '<div style="color:var(--text-muted);text-align:center;padding:20px;">Aguardando dados...</div>';
+  document.getElementById('rightPanel').innerHTML = html;
+}
+
+function renderAll() {
+  renderClassif('A', 'classA');
+  renderClassif('B', 'classB');
+  renderRight();
+}
+
+loadData();
+</script>
+</body>
+</html>
