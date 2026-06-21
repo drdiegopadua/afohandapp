@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#C8102E" />
+  <meta name="theme-color" content="#007A33" />
   <meta name="description" content="AfoHand - Campeonato de Handebol de 5" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -77,8 +77,8 @@ html, body {
 
 .splash-bg {
   position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 30% 20%, var(--red-d) 0%, #0D0D0D 55%),
-              radial-gradient(ellipse at 80% 80%, var(--green-d) 0%, transparent 50%);
+  background: radial-gradient(ellipse at 30% 20%, var(--green-d) 0%, #0D0D0D 55%),
+              radial-gradient(ellipse at 80% 80%, #003D1A 0%, transparent 50%);
 }
 
 .splash-particles {
@@ -129,16 +129,16 @@ html, body {
 
 .logo-icon {
   width: 72px; height: 72px;
-  background: linear-gradient(135deg, var(--red), var(--red-d));
+  background: linear-gradient(135deg, var(--green), var(--green-d));
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 0 40px rgba(200,16,46,0.6);
+  box-shadow: 0 0 40px rgba(0,122,51,0.7);
   animation: pulse-logo 2s ease-in-out infinite;
 }
 
 @keyframes pulse-logo {
-  0%, 100% { box-shadow: 0 0 40px rgba(200,16,46,0.6); }
-  50%       { box-shadow: 0 0 60px rgba(200,16,46,0.9), 0 0 100px rgba(200,16,46,0.3); }
+  0%, 100% { box-shadow: 0 0 40px rgba(0,122,51,0.7); }
+  50%       { box-shadow: 0 0 60px rgba(0,122,51,1), 0 0 100px rgba(0,122,51,0.4); }
 }
 
 .splash-title {
@@ -146,7 +146,7 @@ html, body {
   font-size: 56px;
   letter-spacing: 4px;
   color: var(--white);
-  text-shadow: 0 4px 20px rgba(200,16,46,0.5);
+  text-shadow: 0 4px 20px rgba(0,122,51,0.7);
   animation: fadeUp 0.8s ease 0.3s both;
 }
 
@@ -198,7 +198,7 @@ html, body {
   position: absolute;
   left: 0; top: 0; bottom: 0;
   width: 0%;
-  background: linear-gradient(90deg, rgba(200,16,46,0.3), transparent);
+  background: linear-gradient(90deg, rgba(0,122,51,0.4), transparent);
   border-radius: 32px;
   transition: width 0.05s;
   pointer-events: none;
@@ -221,10 +221,10 @@ html, body {
 
 .unlock-btn {
   width: 48px; height: 48px;
-  background: linear-gradient(135deg, var(--red), var(--red-d));
+  background: linear-gradient(135deg, var(--green), var(--green-d));
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 20px rgba(200,16,46,0.5);
+  box-shadow: 0 4px 20px rgba(0,122,51,0.6);
   cursor: grab;
   position: relative;
   z-index: 2;
@@ -269,7 +269,7 @@ html, body {
 
 .header-icon {
   width: 38px; height: 38px;
-  background: linear-gradient(135deg, var(--red), var(--red-d));
+  background: linear-gradient(135deg, var(--green), var(--green-d));
   border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
 }
@@ -392,31 +392,35 @@ html, body {
   width: 40px;
   height: 3px;
   border-radius: 0 0 6px 6px;
-  background: var(--red);
+  background: var(--green);
   box-shadow:
-    0 0 10px var(--red),
-    0 0 20px var(--red),
-    0 0 40px var(--red),
-    0 0 60px rgba(200,16,46,0.4);
+    0 0 10px var(--green),
+    0 0 20px var(--green),
+    0 0 40px var(--green),
+    0 0 60px rgba(0,122,51,0.4);
   transition: background 0.4s, box-shadow 0.4s;
 }
 
-/* Color per tab */
+/* Color per tab — all green shades */
 .nav-item:nth-child(1).active ~ #nav-marker::before {
-  background: #C8102E;
-  box-shadow: 0 0 10px #C8102E, 0 0 25px #C8102E, 0 0 50px rgba(200,16,46,0.5);
+  background: #00C853;
+  box-shadow: 0 0 10px #00C853, 0 0 25px #00C853, 0 0 50px rgba(0,200,83,0.5);
 }
 .nav-item:nth-child(2).active ~ #nav-marker::before {
-  background: #5da6ff;
-  box-shadow: 0 0 10px #5da6ff, 0 0 25px #5da6ff, 0 0 50px rgba(93,166,255,0.5);
+  background: #00E676;
+  box-shadow: 0 0 10px #00E676, 0 0 25px #00E676, 0 0 50px rgba(0,230,118,0.5);
 }
 .nav-item:nth-child(3).active ~ #nav-marker::before {
-  background: #00e676;
-  box-shadow: 0 0 10px #00e676, 0 0 25px #00e676, 0 0 50px rgba(0,230,118,0.5);
+  background: #69F0AE;
+  box-shadow: 0 0 10px #69F0AE, 0 0 25px #69F0AE, 0 0 50px rgba(105,240,174,0.5);
 }
 .nav-item:nth-child(4).active ~ #nav-marker::before {
-  background: #ff9800;
-  box-shadow: 0 0 10px #ff9800, 0 0 25px #ff9800, 0 0 50px rgba(255,152,0,0.5);
+  background: #00BFA5;
+  box-shadow: 0 0 10px #00BFA5, 0 0 25px #00BFA5, 0 0 50px rgba(0,191,165,0.5);
+}
+.nav-item:nth-child(5).active ~ #nav-marker::before {
+  background: #B2DFDB;
+  box-shadow: 0 0 10px #B2DFDB, 0 0 25px #B2DFDB, 0 0 50px rgba(178,223,219,0.5);
 }
 
 /* Pages */
@@ -469,7 +473,7 @@ html, body {
 
 .hero-bg-animation {
   position: absolute; inset: 0;
-  background: linear-gradient(135deg, var(--dark) 0%, var(--red-d) 60%, var(--green-d) 100%);
+  background: linear-gradient(135deg, var(--dark) 0%, var(--green-d) 50%, #003D1A 100%);
 }
 
 .hero-orb {
@@ -478,9 +482,9 @@ html, body {
   filter: blur(40px);
   animation: orb-drift 6s ease-in-out infinite;
 }
-.orb1 { width: 200px; height: 200px; background: rgba(200,16,46,0.4); top: -60px; right: -40px; animation-delay: 0s; }
-.orb2 { width: 160px; height: 160px; background: rgba(0,122,51,0.3); bottom: -40px; left: 20%; animation-delay: 2s; }
-.orb3 { width: 120px; height: 120px; background: rgba(200,16,46,0.2); top: 30%; left: 10%; animation-delay: 4s; }
+.orb1 { width: 200px; height: 200px; background: rgba(0,163,68,0.4); top: -60px; right: -40px; animation-delay: 0s; }
+.orb2 { width: 160px; height: 160px; background: rgba(0,90,37,0.5); bottom: -40px; left: 20%; animation-delay: 2s; }
+.orb3 { width: 120px; height: 120px; background: rgba(0,200,83,0.2); top: 30%; left: 10%; animation-delay: 4s; }
 
 @keyframes orb-drift {
   0%, 100% { transform: translate(0, 0); }
@@ -510,7 +514,7 @@ html, body {
   letter-spacing: 2px;
   color: white;
 }
-.hero-title em { color: var(--red-l); font-style: normal; }
+.hero-title em { color: var(--green-l); font-style: normal; }
 
 .hero-desc {
   font-size: 12px;
@@ -562,7 +566,7 @@ html, body {
 .stat-num {
   font-family: var(--font-display);
   font-size: 36px;
-  color: var(--red);
+  color: var(--green-l);
   line-height: 1;
 }
 
@@ -614,15 +618,15 @@ html, body {
 }
 
 .upcoming-date {
-  background: rgba(200,16,46,0.15);
-  border: 1px solid rgba(200,16,46,0.3);
+  background: rgba(0,122,51,0.15);
+  border: 1px solid rgba(0,122,51,0.35);
   border-radius: 8px;
   padding: 6px 10px;
   text-align: center;
   flex-shrink: 0;
   min-width: 48px;
 }
-.upcoming-date .day { font-family: var(--font-display); font-size: 22px; color: var(--red); line-height: 1; }
+.upcoming-date .day { font-family: var(--font-display); font-size: 22px; color: var(--green-l); line-height: 1; }
 .upcoming-date .mon { font-size: 9px; color: var(--gray-l); text-transform: uppercase; letter-spacing: 1px; }
 
 .upcoming-match { flex: 1; min-width: 0; }
@@ -668,7 +672,7 @@ html, body {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 2px;
-  color: var(--red);
+  color: var(--green-l);
   margin-bottom: 10px;
   display: flex;
   align-items: center;
@@ -678,7 +682,7 @@ html, body {
   content: '';
   display: inline-block;
   width: 8px; height: 8px;
-  background: var(--red);
+  background: var(--green-l);
   border-radius: 50%;
 }
 
@@ -735,8 +739,8 @@ html, body {
 }
 
 .ftab.active {
-  background: var(--red);
-  border-color: var(--red);
+  background: var(--green);
+  border-color: var(--green);
   color: white;
 }
 
@@ -860,8 +864,8 @@ html, body {
 }
 
 .gtab.active {
-  background: var(--red);
-  border-color: var(--red);
+  background: var(--green);
+  border-color: var(--green);
   color: white;
 }
 
@@ -1117,6 +1121,46 @@ html, body {
   transform: translateX(-50%) translateY(0);
 }
 
+/* ═══════════ MAIS PAGE ═══════════ */
+.mais-section {
+  background: var(--dark2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin: 16px;
+  overflow: hidden;
+}
+.mais-section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: var(--green-l);
+}
+.mais-section-header ion-icon { font-size: 20px; }
+.mais-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 13px;
+}
+.mais-row:last-child { border-bottom: none; }
+.mais-row ion-icon { font-size: 18px; color: var(--green-l); flex-shrink: 0; margin-top: 1px; }
+.mais-row-label { font-weight: 600; font-size: 11px; letter-spacing: 1px; color: var(--gray-l); text-transform: uppercase; margin-bottom: 2px; }
+.mais-row-value { color: var(--white); line-height: 1.5; }
+.mais-em-breve {
+  text-align: center;
+  padding: 32px 16px;
+  color: var(--gray);
+  font-size: 13px;
+}
+.mais-em-breve .icon { font-size: 36px; margin-bottom: 8px; }
+
 /* ═══════════ RESPONSIVE ═══════════ */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
@@ -1139,9 +1183,9 @@ html, body {
         <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="40" cy="40" r="36" stroke="white" stroke-width="3" opacity="0.3"/>
           <path d="M25 28 L40 20 L55 28 L55 52 L40 60 L25 52 Z" fill="white" opacity="0.9"/>
-          <circle cx="40" cy="40" r="8" fill="#C8102E"/>
-          <path d="M32 36 L40 22 L48 36" stroke="#C8102E" stroke-width="2" fill="none"/>
-          <path d="M30 44 L40 58 L50 44" stroke="#C8102E" stroke-width="2" fill="none"/>
+          <circle cx="40" cy="40" r="8" fill="#007A33"/>
+          <path d="M32 36 L40 22 L48 36" stroke="#007A33" stroke-width="2" fill="none"/>
+          <path d="M30 44 L40 58 L50 44" stroke="#007A33" stroke-width="2" fill="none"/>
         </svg>
       </div>
     </div>
@@ -1174,7 +1218,7 @@ html, body {
         <div class="header-icon">
           <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" width="32" height="32">
             <path d="M12 14 L20 10 L28 14 L28 26 L20 30 L12 26 Z" fill="white" opacity="0.9"/>
-            <circle cx="20" cy="20" r="4" fill="#C8102E"/>
+            <circle cx="20" cy="20" r="4" fill="#007A33"/>
           </svg>
         </div>
         <div>
@@ -1217,7 +1261,12 @@ html, body {
           <span>Mata-Mata</span>
         </a>
       </li>
-      <div id="nav-marker"></div>
+      <li class="nav-item" data-page="mais">
+        <a href="#">
+          <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
+          <span>Mais</span>
+        </a>
+      </li>
       <div id="nav-marker"></div>
     </ul>
   </nav>
@@ -1255,7 +1304,7 @@ html, body {
 
         <div class="home-stats" id="homeStats">
           <div class="stat-card">
-            <span class="stat-num" id="statTimes">12</span>
+            <span class="stat-num" id="statTimes">6</span>
             <span class="stat-label">Times</span>
           </div>
           <div class="stat-card">
@@ -1263,8 +1312,8 @@ html, body {
             <span class="stat-label">Jogos</span>
           </div>
           <div class="stat-card">
-            <span class="stat-num" id="statMinutos">+270</span>
-            <span class="stat-label">Min. de Handebol</span>
+            <span class="stat-num" id="statRealizados">0</span>
+            <span class="stat-label">Realizados</span>
           </div>
         </div>
 
@@ -1335,6 +1384,108 @@ html, body {
         <div id="bracketWrap" class="bracket-outer">
           <div class="loading-skeleton tall"></div>
         </div>
+      </div>
+    </section>
+
+    <!-- MAIS PAGE -->
+    <section class="page" id="page-mais">
+      <div class="page-scroll">
+        <div class="page-header-bar">
+          <h2>Mais</h2>
+        </div>
+
+        <!-- Quadra -->
+        <div class="mais-section">
+          <div class="mais-section-header">
+            <ion-icon name="location-outline"></ion-icon>
+            LOCAL DO TORNEIO
+          </div>
+          <div class="mais-row">
+            <ion-icon name="business-outline"></ion-icon>
+            <div>
+              <div class="mais-row-label">Quadra</div>
+              <div class="mais-row-value">Quadra Eurico Vieira de Resende</div>
+            </div>
+          </div>
+          <div class="mais-row">
+            <ion-icon name="map-outline"></ion-icon>
+            <div>
+              <div class="mais-row-label">Cidade</div>
+              <div class="mais-row-value">Afonso Cláudio — ES</div>
+            </div>
+          </div>
+          <div class="mais-row">
+            <ion-icon name="time-outline"></ion-icon>
+            <div>
+              <div class="mais-row-label">Horário dos Jogos</div>
+              <div class="mais-row-value">A definir</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Regulamento -->
+        <div class="mais-section">
+          <div class="mais-section-header">
+            <ion-icon name="document-text-outline"></ion-icon>
+            REGULAMENTO
+          </div>
+          <div class="mais-row">
+            <ion-icon name="trophy-outline"></ion-icon>
+            <div>
+              <div class="mais-row-label">Formato</div>
+              <div class="mais-row-value">6 times · 2 grupos de 3 · Top 2 avançam ao Mata-Mata</div>
+            </div>
+          </div>
+          <div class="mais-row">
+            <ion-icon name="podium-outline"></ion-icon>
+            <div>
+              <div class="mais-row-label">Pontuação</div>
+              <div class="mais-row-value">Vitória: 3 pts · Empate: 1 pt · Derrota: 0 pts</div>
+            </div>
+          </div>
+          <div class="mais-row">
+            <ion-icon name="layers-outline"></ion-icon>
+            <div>
+              <div class="mais-row-label">Critérios de Desempate</div>
+              <div class="mais-row-value">1. Confronto direto · 2. Nº de vitórias · 3. Saldo de gols · 4. Gols pró · 5. Gols contra · 6. Sorteio</div>
+            </div>
+          </div>
+          <div class="mais-row">
+            <ion-icon name="alert-circle-outline"></ion-icon>
+            <div>
+              <div class="mais-row-label">W.O.</div>
+              <div class="mais-row-value">Placar 10 × 0 para o adversário</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Agenda -->
+        <div class="mais-section">
+          <div class="mais-section-header">
+            <ion-icon name="calendar-outline"></ion-icon>
+            AGENDA
+          </div>
+          <div class="mais-em-breve">
+            <div class="icon">📅</div>
+            <p>Agenda em breve</p>
+          </div>
+        </div>
+
+        <!-- Organização -->
+        <div class="mais-section" style="margin-bottom:32px">
+          <div class="mais-section-header">
+            <ion-icon name="ribbon-outline"></ion-icon>
+            ORGANIZAÇÃO
+          </div>
+          <div class="mais-row">
+            <ion-icon name="people-outline"></ion-icon>
+            <div>
+              <div class="mais-row-label">Realização</div>
+              <div class="mais-row-value">Prefeitura Municipal de Afonso Cláudio via Secretaria de Esportes e Lazer</div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
 
@@ -1687,11 +1838,10 @@ function renderAll() {
 function renderHome() {
   const jogosRealizados = state.jogos.filter(j => j.status === 'realizado');
 
-  // Atualiza contagem de jogos se tiver dados da planilha
   if (state.loaded) {
-    document.getElementById('statJogos').textContent = jogosRealizados.length;
+    document.getElementById('statRealizados').textContent = jogosRealizados.length;
+    document.getElementById('statJogos').textContent = state.jogos.length || 9;
   }
-  // statMinutos e statTimes ficam fixos conforme definido no HTML
 
   // próximos jogos
   const proximos = state.jogos.filter(j => j.status === 'pendente').slice(0, 4);
