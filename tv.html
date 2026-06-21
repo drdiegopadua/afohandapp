@@ -259,68 +259,156 @@ body > * { position:relative; z-index:1; }
 .jogos-table tbody tr.row-done { border-left:4px solid var(--green); }
 .jogos-table tbody tr.row-wait { border-left:4px solid rgba(142,182,155,.2); }
 
-/* ── MATA-MATA TV ── */
-.mm-grid { display:grid; grid-template-columns:1fr 60px 1fr; gap:0; align-items:center; height:100%; }
-
-.mm-col { display:flex; flex-direction:column; gap:14px; height:100%; justify-content:center; }
-
-.mm-center-line {
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  gap:12px; height:100%;
-}
-.mm-arrow { font-size:28px; color:rgba(142,182,155,.3); }
-
-.mm-match-card {
-  background:rgba(255,255,255,.04);
-  border-radius:14px; overflow:hidden;
-  animation: scaleIn .6s ease both;
-  transition: box-shadow .3s;
-}
-.mm-match-card:hover { box-shadow:0 0 24px rgba(26,122,60,.3); }
-
-.mm-match-header {
-  background:linear-gradient(135deg,var(--green),#0d5c2a);
-  padding:8px 16px;
-  font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#fff;
+/* ── BRACKET MATA-MATA ── */
+.bracket-scene {
+  display:flex; flex-direction:column; height:100%;
+  background: radial-gradient(ellipse 80% 70% at 50% 50%, rgba(26,60,26,.5) 0%, transparent 70%);
 }
 
-.mm-team-row {
+.bracket-tagline {
+  text-align:center; letter-spacing:6px; font-size:12px; font-weight:700;
+  color:rgba(255,215,0,.6); text-transform:uppercase; padding:6px 0 2px;
+  animation: fadeInDown .6s ease both;
+}
+
+.bracket-main {
+  flex:1; display:grid; grid-template-columns:1fr 220px 1fr;
+  gap:0; align-items:center; padding:0 20px 10px;
+}
+
+/* Lado esquerdo e direito */
+.bk-side { display:flex; flex-direction:column; gap:0; height:100%; justify-content:center; }
+
+.bk-sf-label {
+  text-align:center; font-size:10px; font-weight:700; letter-spacing:3px;
+  color:rgba(142,182,155,.6); text-transform:uppercase; margin-bottom:6px;
+}
+
+.bk-team-box {
+  background:rgba(10,46,47,.85);
+  border:1px solid rgba(142,182,155,.2);
+  border-radius:10px;
   display:flex; align-items:center; justify-content:space-between;
-  padding:14px 18px;
+  padding:12px 16px; gap:10px;
+  transition:all .3s;
+  animation: fadeInLeft .5s ease both;
 }
-.mm-team-row + .mm-team-row { border-top:1px solid rgba(255,255,255,.06); }
+.bk-side.right .bk-team-box { animation-name: fadeInRight; }
 
-.mm-team-name { font-size:20px; font-weight:700; color:var(--txt); }
-.mm-team-score { font-size:34px; font-weight:900; color:var(--muted); min-width:48px; text-align:center; }
-.mm-team-row.winner-row .mm-team-name  { color:var(--acc); }
-.mm-team-row.winner-row .mm-team-score { color:var(--gold); }
+.bk-team-box.winner {
+  border-color:rgba(255,215,0,.5);
+  background:rgba(26,60,10,.9);
+  box-shadow:0 0 16px rgba(255,215,0,.15);
+}
 
-.mm-final-card {
-  background:linear-gradient(135deg,rgba(26,122,60,.3),rgba(13,92,42,.3));
-  border:1px solid rgba(255,215,0,.2);
-  border-radius:14px; overflow:hidden;
-  animation: scaleIn .6s .3s ease both, glowPulse 2s infinite;
-}
-.mm-final-card .mm-match-header {
-  background:linear-gradient(135deg,#7a5c00,#a07800);
-  font-size:12px; letter-spacing:3px;
-}
-.mm-final-card .mm-team-score { color:var(--gold); }
+.bk-team-name { font-size:18px; font-weight:700; color:var(--txt); flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.bk-team-name.winner { color:var(--gold); }
+.bk-team-score { font-size:30px; font-weight:900; color:var(--muted); min-width:40px; text-align:center; }
+.bk-team-score.winner { color:var(--gold); }
+.bk-team-score.pending { font-size:16px; color:rgba(142,182,155,.4); letter-spacing:2px; }
 
-.campeao-banner {
-  background:linear-gradient(135deg,#1a7a3c,#0d5c2a);
-  border-radius:14px; padding:24px; text-align:center;
-  border:2px solid rgba(255,215,0,.3);
-  animation: scaleIn .7s .5s ease both, glowPulse 2s infinite;
+/* Conectores */
+.bk-connector {
+  display:flex; align-items:center; justify-content:center;
+  padding:0 0 0 0;
+  position:relative; height:60px;
 }
-.campeao-banner .trophy { font-size:48px; display:inline-block; animation:trophySpin 4s ease-in-out infinite; }
-.campeao-banner .label { font-size:11px; color:var(--gl); letter-spacing:4px; margin:8px 0 4px; }
-.campeao-banner .name {
-  font-size:28px; font-weight:900;
+
+.bk-connector-right {
+  display:flex; flex-direction:column; height:60px; position:relative;
+}
+
+/* Linhas do bracket */
+.bk-lines-left {
+  position:relative; width:50px; align-self:stretch;
+  display:flex; flex-direction:column; justify-content:center;
+}
+
+.bk-line-wrap {
+  display:flex; align-items:center; height:50%;
+  position:relative;
+}
+
+.bk-line-h {
+  height:2px; flex:1;
+  background:linear-gradient(90deg,rgba(142,182,155,.5),rgba(255,215,0,.5));
+}
+
+.bk-line-v {
+  position:absolute; right:0; width:2px;
+  background:linear-gradient(180deg,rgba(142,182,155,.5),rgba(255,215,0,.5));
+  top:0; height:100%;
+}
+
+/* Centro - troféu + final */
+.bk-center {
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:10px; height:100%; position:relative;
+}
+
+.bk-trophy-wrap {
+  position:relative; text-align:center;
+  animation: scaleIn .7s .3s ease both;
+}
+
+.bk-trophy-emoji {
+  font-size:72px; display:block; line-height:1;
+  filter:drop-shadow(0 0 20px rgba(255,215,0,.6));
+  animation: trophySpin 5s ease-in-out infinite;
+}
+
+.bk-event-name {
+  font-size:13px; font-weight:900; letter-spacing:3px; color:var(--gold);
+  text-align:center; text-transform:uppercase; margin-top:4px;
+}
+
+.bk-final-label {
+  font-size:10px; font-weight:700; letter-spacing:4px;
+  color:rgba(255,215,0,.7); text-transform:uppercase;
+  border:1px solid rgba(255,215,0,.3); border-radius:20px;
+  padding:3px 14px;
+}
+
+/* Caixa final (menor, no centro) */
+.bk-final-col { display:flex; flex-direction:column; gap:4px; width:100%; }
+
+.bk-final-box {
+  background:linear-gradient(135deg,rgba(40,30,0,.9),rgba(60,45,0,.9));
+  border:1px solid rgba(255,215,0,.35);
+  border-radius:10px; padding:10px 14px;
+  display:flex; align-items:center; justify-content:space-between;
+  animation: scaleIn .6s .5s ease both;
+}
+
+.bk-final-name { font-size:16px; font-weight:700; color:rgba(255,255,255,.7); flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.bk-final-name.winner { color:var(--gold); }
+.bk-final-score { font-size:26px; font-weight:900; color:rgba(255,215,0,.5); min-width:36px; text-align:center; }
+.bk-final-score.winner { color:var(--gold); }
+.bk-final-score.pending { font-size:14px; color:rgba(255,215,0,.3); letter-spacing:2px; }
+
+/* Campeão banner */
+.bk-campeao {
+  background:linear-gradient(135deg,rgba(40,30,0,.95),rgba(80,55,0,.95));
+  border:2px solid rgba(255,215,0,.5);
+  border-radius:12px; padding:12px 20px; text-align:center; width:100%;
+  animation: scaleIn .6s .8s ease both, glowPulse 2s infinite;
+}
+.bk-campeao .cl { font-size:10px; letter-spacing:4px; color:rgba(255,215,0,.7); text-transform:uppercase; }
+.bk-campeao .cn {
+  font-size:20px; font-weight:900; margin-top:2px;
   background:linear-gradient(90deg,var(--gold),#fff,var(--gold));
   background-size:200% auto;
   -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-  animation: shimmer 2s linear infinite;
+  animation:shimmer 2s linear infinite;
+}
+
+/* Linha horizontal conectando ao centro */
+.bk-h-line {
+  height:2px; width:100%;
+  background:linear-gradient(90deg,rgba(255,215,0,.5),rgba(255,215,0,.1));
+}
+.bk-side.right .bk-h-line {
+  background:linear-gradient(270deg,rgba(255,215,0,.5),rgba(255,215,0,.1));
 }
 
 /* ── SCENE INDICATOR ── */
@@ -657,52 +745,99 @@ function renderTabelaGrande(){
   document.getElementById('tabelaJogos').innerHTML=html;
 }
 
-// ── MATA-MATA ──────────────────────────────────────────
+// ── MATA-MATA BRACKET ──────────────────────────────────
 function renderMataMata(){
   var mm = appData.matamata;
-  var sf1=mm[0], sf2=mm[1], fin=mm[2];
+  var sf1=mm[0]||{}, sf2=mm[1]||{}, fin=mm[2]||{};
 
-  function parseG(v){ return v!==''?parseInt(v)||0:null; }
-  function matchCard(m, isFinal){
-    var g1=parseG(m.g1), g2=parseG(m.g2);
-    var ok=g1!==null&&g2!==null;
-    var vA=ok&&g1>g2, vB=ok&&g2>g1;
-    var cls = isFinal?'mm-final-card':'mm-match-card';
-    var hora = HORARIOS[m.key]||'';
-    return '<div class="'+cls+'">' +
-      '<div class="mm-match-header">'+m.fase+(hora?' · '+hora:'')+'</div>' +
-      '<div class="mm-team-row'+(vA?' winner-row':'')+'">' +
-        '<div class="mm-team-name">'+(m.t1||'Vencedor SF1')+'</div>' +
-        '<div class="mm-team-score">'+(ok?g1:'–')+'</div>' +
+  function pg(v){ return (v!==undefined&&v!=='') ? parseInt(v)||0 : null; }
+
+  var s1a=pg(sf1.g1), s1b=pg(sf1.g2), v1a=s1a!==null&&s1b!==null&&s1a>s1b, v1b=s1a!==null&&s1b!==null&&s1b>s1a;
+  var s2a=pg(sf2.g1), s2b=pg(sf2.g2), v2a=s2a!==null&&s2b!==null&&s2a>s2b, v2b=s2a!==null&&s2b!==null&&s2b>s2a;
+  var fa=pg(fin.g1),  fb=pg(fin.g2),  vfa=fa!==null&&fb!==null&&fa>fb,   vfb=fa!==null&&fb!==null&&fb>fa;
+  var temCampeao = fa!==null&&fb!==null;
+  var camp = temCampeao?(fa>fb?fin.t1:fin.t2):'';
+
+  function score(v,win,pend){ return '<div class="bk-team-score'+(win?' winner':pend?' pending':'')+'">'+( v!==null?v:'–' )+'</div>'; }
+  function finalScore(v,win,pend){ return '<div class="bk-final-score'+(win?' winner':pend?' pending':'')+'">'+( v!==null?v:'–' )+'</div>'; }
+
+  var html = '<div class="bracket-scene">' +
+    '<div class="bracket-tagline">A GLÓRIA ETERNA</div>' +
+    '<div class="bracket-main">' +
+
+    // ── LADO ESQUERDO (SF1) ──
+    '<div class="bk-side left" style="padding-right:0;">' +
+      '<div class="bk-sf-label">Semifinal 1 · '+(HORARIOS['SF1']||'')+'</div>' +
+      // Time 1
+      '<div class="bk-team-box'+(v1a?' winner':'')+'" style="animation-delay:.1s">' +
+        '<div class="bk-team-name'+(v1a?' winner':'')+'">'+(sf1.t1||'A definir')+'</div>' +
+        score(s1a, v1a, s1a===null) +
       '</div>' +
-      '<div class="mm-team-row'+(vB?' winner-row':'')+'">' +
-        '<div class="mm-team-name">'+(m.t2||'Vencedor SF2')+'</div>' +
-        '<div class="mm-team-score">'+(ok?g2:'–')+'</div>' +
+      // conector vertical + horizontal
+      '<div style="display:flex;height:50px;padding:0 0 0 0;">' +
+        '<div style="flex:1;display:flex;flex-direction:column;">' +
+          '<div style="flex:1;border-right:2px solid rgba(255,215,0,.45);border-bottom:2px solid rgba(255,215,0,.45);border-radius:0 0 8px 0;margin-right:0;"></div>' +
+          '<div style="flex:1;border-right:2px solid rgba(255,215,0,.45);"></div>' +
+        '</div>' +
+        '<div style="width:30px;align-self:center;height:2px;background:linear-gradient(90deg,rgba(255,215,0,.45),rgba(255,215,0,.1));"></div>' +
       '</div>' +
-    '</div>';
-  }
+      // Time 2
+      '<div class="bk-team-box'+(v1b?' winner':'')+'" style="animation-delay:.2s">' +
+        '<div class="bk-team-name'+(v1b?' winner':'')+'">'+(sf1.t2||'A definir')+'</div>' +
+        score(s1b, v1b, s1b===null) +
+      '</div>' +
+    '</div>' +
 
-  var gf1=parseG(fin.g1), gf2=parseG(fin.g2);
-  var temCampeao = gf1!==null&&gf2!==null;
-  var camp = temCampeao?(gf1>gf2?fin.t1:fin.t2):'';
+    // ── CENTRO (Troféu + Final) ──
+    '<div class="bk-center">' +
+      '<div class="bk-trophy-wrap">' +
+        '<span class="bk-trophy-emoji">🏆</span>' +
+        '<div class="bk-event-name">COPA AFOHAND</div>' +
+        '<div style="font-size:10px;letter-spacing:2px;color:rgba(255,215,0,.5);text-align:center;margin-top:2px;">AFONSO CLÁUDIO · 2026</div>' +
+      '</div>' +
+      '<div class="bk-final-label">⚡ GRANDE FINAL · '+(HORARIOS['Final']||'')+'</div>' +
+      '<div class="bk-final-col">' +
+        '<div class="bk-final-box'+(vfa?' winner':'')+'">' +
+          '<div class="bk-final-name'+(vfa?' winner':'')+'">'+(fin.t1||'Vencedor SF1')+'</div>' +
+          finalScore(fa, vfa, fa===null) +
+        '</div>' +
+        '<div style="height:3px;background:linear-gradient(90deg,rgba(255,215,0,.1),rgba(255,215,0,.4),rgba(255,215,0,.1));border-radius:2px;margin:2px 0;"></div>' +
+        '<div class="bk-final-box'+(vfb?' winner':'')+'">' +
+          '<div class="bk-final-name'+(vfb?' winner':'')+'">'+(fin.t2||'Vencedor SF2')+'</div>' +
+          finalScore(fb, vfb, fb===null) +
+        '</div>' +
+      '</div>' +
+      (temCampeao ?
+        '<div class="bk-campeao"><div class="cl">🥇 Campeão Copa Afohand 2026</div><div class="cn">'+camp+'</div></div>'
+        : '') +
+    '</div>' +
 
-  var html='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;height:100%;align-items:center;">';
+    // ── LADO DIREITO (SF2) ──
+    '<div class="bk-side right" style="padding-left:0;">' +
+      '<div class="bk-sf-label">Semifinal 2 · '+(HORARIOS['SF2']||'')+'</div>' +
+      '<div class="bk-team-box'+(v2a?' winner':'')+'" style="animation-delay:.1s">' +
+        score(s2a, v2a, s2a===null) +
+        '<div class="bk-team-name'+(v2a?' winner':'')+'" style="text-align:right;">'+(sf2.t1||'A definir')+'</div>' +
+      '</div>' +
+      '<div style="display:flex;height:50px;">' +
+        '<div style="width:30px;align-self:center;height:2px;background:linear-gradient(270deg,rgba(255,215,0,.45),rgba(255,215,0,.1));"></div>' +
+        '<div style="flex:1;display:flex;flex-direction:column;">' +
+          '<div style="flex:1;border-left:2px solid rgba(255,215,0,.45);border-bottom:2px solid rgba(255,215,0,.45);border-radius:0 0 0 8px;"></div>' +
+          '<div style="flex:1;border-left:2px solid rgba(255,215,0,.45);"></div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="bk-team-box'+(v2b?' winner':'')+'" style="animation-delay:.2s">' +
+        score(s2b, v2b, s2b===null) +
+        '<div class="bk-team-name'+(v2b?' winner':'')+'" style="text-align:right;">'+(sf2.t2||'A definir')+'</div>' +
+      '</div>' +
+    '</div>' +
 
-  // SF1
-  html+='<div style="animation:fadeInLeft .6s .2s ease both">'+matchCard(sf1,false)+'</div>';
+    '</div>' + // bracket-main
+  '</div>'; // bracket-scene
 
-  // Final (centro)
-  html+='<div style="animation:scaleIn .6s .4s ease both">'+matchCard(fin,true)+
-    (temCampeao?
-      '<div class="campeao-banner" style="margin-top:16px;"><div class="trophy">🏆</div><div class="label">Campeão Copa Afohand 2026</div><div class="name">'+camp+'</div></div>'
-    :'')+
-  '</div>';
-
-  // SF2
-  html+='<div style="animation:fadeInRight .6s .2s ease both">'+matchCard(sf2,false)+'</div>';
-
-  html+='</div>';
-  document.getElementById('mmPanel').innerHTML=html;
+  document.getElementById('mmPanel').innerHTML = html;
+  document.getElementById('mmPanel').style.padding = '0';
+  document.getElementById('mmPanel').style.overflow = 'hidden';
 }
 
 // ── RENDER ALL ─────────────────────────────────────────
