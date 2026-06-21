@@ -630,15 +630,10 @@ function pad(v){ return String(v).padStart(2,'0'); }
 setInterval(updateClock,1000); updateClock();
 
 // ── DETECT MODE ────────────────────────────────────────
-// ?modo=matamata força mata-mata; ?modo=grupos força grupos
-// Senão: domingo=matamata, resto=grupos
+// ?modo=matamata força mata-mata; senão sempre grupos
 function getMode(){
   var params = new URLSearchParams(window.location.search);
-  var modo = params.get('modo');
-  if(modo === 'matamata') return 'matamata';
-  if(modo === 'grupos')   return 'grupos';
-  var day = new Date().getDay();
-  if(day === 0) return 'matamata';
+  if(params.get('modo') === 'matamata') return 'matamata';
   return 'grupos';
 }
 
