@@ -842,20 +842,20 @@ Noticias
 
 <!-- Bottom Nav -->
 <nav class="bottom-nav">
-<a href="#" class="nav-item active" onclick="showPage('home'); return false;" data-page="home">
-<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
-<span>Inicio</span>
-</a>
 <a href="#" class="nav-item" onclick="showPage('games'); return false;" data-page="games">
 <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
 <span>Jogos</span>
 </a>
-<div class="nav-fab" onclick="showToast('Filtro de jogos')">
-<svg fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 24 24"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg>
-</div>
 <a href="#" class="nav-item" onclick="showPage('classification'); return false;" data-page="classification">
 <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6"/><path d="M15 19v-6a2 2 0 012-2h2a2 2 0 012 2v6"/><path d="M12 3v16"/></svg>
 <span>Classif.</span>
+</a>
+<div class="nav-fab active" onclick="showPage('home'); return false;" data-page="home">
+<svg fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
+</div>
+<a href="#" class="nav-item" onclick="showPage('knockout'); return false;" data-page="knockout">
+<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 21V10.5M16 21V10.5M3 7l9-4 9 4M3 7v2l9 4 9-4V7"/></svg>
+<span>Mata-Mata</span>
 </a>
 <a href="#" class="nav-item" onclick="showPage('more'); return false;" data-page="more">
 <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
@@ -1133,7 +1133,24 @@ setTimeout(function() {
 }, 2000);
 
 function toggleMenu() { var menu = document.getElementById('sideMenu'); var overlay = document.getElementById('sideMenuOverlay'); var btn = document.getElementById('menuBtn'); menu.classList.toggle('open'); overlay.classList.toggle('open'); btn.classList.toggle('active'); }
-function showPage(pageName) { var pages = document.querySelectorAll('.page'); var navItems = document.querySelectorAll('.nav-item'); var titles = { 'home': 'Seja Bem-Vindo', 'games': 'Jogos', 'classification': 'Classificacao', 'knockout': 'Mata-Mata', 'more': 'Mais' }; pages.forEach(function(p) { p.classList.remove('active'); }); navItems.forEach(function(n) { n.classList.remove('active'); }); document.getElementById('page-' + pageName).classList.add('active'); document.getElementById('pageTitle').textContent = titles[pageName]; var activeNav = document.querySelector('.nav-item[data-page="' + pageName + '"]'); if (activeNav) activeNav.classList.add('active'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+function showPage(pageName) {
+  var pages = document.querySelectorAll('.page');
+  var navItems = document.querySelectorAll('.nav-item');
+  var fab = document.querySelector('.nav-fab');
+  var titles = { 'home': 'Seja Bem-Vindo', 'games': 'Jogos', 'classification': 'Classificação', 'knockout': 'Mata-Mata', 'more': 'Mais' };
+  pages.forEach(function(p) { p.classList.remove('active'); });
+  navItems.forEach(function(n) { n.classList.remove('active'); });
+  if (fab) fab.style.boxShadow = '';
+  document.getElementById('page-' + pageName).classList.add('active');
+  document.getElementById('pageTitle').textContent = titles[pageName] || pageName;
+  if (pageName === 'home') {
+    if (fab) fab.style.boxShadow = '0 8px 28px rgba(142,182,155,0.8)';
+  } else {
+    var activeNav = document.querySelector('.nav-item[data-page="' + pageName + '"]');
+    if (activeNav) activeNav.classList.add('active');
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 function showToast(message) { var toast = document.getElementById('toast'); toast.textContent = message; toast.classList.add('show'); setTimeout(function() { toast.classList.remove('show'); }, 2500); }
 
 // Regulation Modal
