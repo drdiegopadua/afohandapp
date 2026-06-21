@@ -255,38 +255,38 @@ body > * { position:relative; z-index:1; }
 .jogo-mini-score.vs { font-size:14px; color:var(--muted); letter-spacing:3px; }
 
 /* ── TABELA DE JOGOS (tela grande) ── */
-.jogos-table { width:100%; border-collapse:separate; border-spacing:0 6px; }
+.jogos-table { width:100%; border-collapse:separate; border-spacing:0 4px; }
 .jogos-table thead th {
-  font-size:11px; font-weight:700; color:var(--muted);
+  font-size:10px; font-weight:700; color:var(--muted);
   letter-spacing:2px; text-transform:uppercase;
-  padding:6px 14px; border-bottom:1px solid rgba(142,182,155,.2);
+  padding:4px 10px; border-bottom:1px solid rgba(142,182,155,.2);
 }
 .jogos-table tbody tr {
   background:rgba(255,255,255,.04);
-  border-radius:10px;
+  border-radius:8px;
   animation: slideRowIn .5s ease both;
 }
-.jogos-table tbody tr td { padding:14px 14px; vertical-align:middle; }
-.jogos-table tbody tr td:first-child { border-radius:12px 0 0 12px; }
-.jogos-table tbody tr td:last-child  { border-radius:0 12px 12px 0; }
+.jogos-table tbody tr td { padding:8px 10px; vertical-align:middle; }
+.jogos-table tbody tr td:first-child { border-radius:8px 0 0 8px; }
+.jogos-table tbody tr td:last-child  { border-radius:0 8px 8px 0; }
 .jogos-table .g-badge {
-  display:inline-block; padding:3px 10px;
-  border-radius:20px; font-size:11px; font-weight:700;
+  display:inline-block; padding:2px 8px;
+  border-radius:20px; font-size:10px; font-weight:700;
   background:rgba(26,122,60,.25); color:var(--gl); letter-spacing:1px;
 }
 .jogos-table .hora-badge {
-  display:inline-block; padding:3px 10px;
-  border-radius:20px; font-size:12px; font-weight:700;
+  display:inline-block; padding:2px 8px;
+  border-radius:20px; font-size:11px; font-weight:700;
   background:rgba(255,255,255,.06); color:var(--muted);
 }
-.jogos-table .team-name { font-size:20px; font-weight:700; }
+.jogos-table .team-name { font-size:15px; font-weight:700; }
 .jogos-table .team-name.winner { color:var(--acc); }
-.jogos-table .score-big { font-size:32px; font-weight:900; color:var(--acc); letter-spacing:3px; text-align:center; }
-.jogos-table .score-big.vs { font-size:16px; color:var(--muted); letter-spacing:5px; }
-.jogos-table .status-done { color:var(--green); font-size:13px; font-weight:600; text-align:center; }
-.jogos-table .status-wait { color:var(--muted); font-size:13px; text-align:center; }
-.jogos-table tbody tr.row-done { border-left:4px solid var(--green); }
-.jogos-table tbody tr.row-wait { border-left:4px solid rgba(142,182,155,.2); }
+.jogos-table .score-big { font-size:22px; font-weight:900; color:var(--acc); letter-spacing:2px; text-align:center; }
+.jogos-table .score-big.vs { font-size:13px; color:var(--muted); letter-spacing:4px; }
+.jogos-table .status-done { color:var(--green); font-size:11px; font-weight:600; text-align:center; }
+.jogos-table .status-wait { color:var(--muted); font-size:11px; text-align:center; }
+.jogos-table tbody tr.row-done { border-left:3px solid var(--green); }
+.jogos-table tbody tr.row-wait { border-left:3px solid rgba(142,182,155,.2); }
 
 /* ── BRACKET MATA-MATA ── */
 .bracket-scene {
