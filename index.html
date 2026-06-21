@@ -880,47 +880,75 @@ function getCell(rows, r, c) {
 }
 
 // ── CARREGA DADOS DA PLANILHA ──────────────────────────
-function loadSheetData() {
-  Promise.all([
-    fetch(apiUrl("'Fase de Grupos'!A5:S7")).then(function(r){ return r.json(); }),
-    fetch(apiUrl("'Mata-Mata'!A4:M17")).then(function(r){ return r.json(); })
-  ]).then(function(results) {
-    var gruposRows = results[0].values || [];
-    var mmRows     = results[1].values || [];
+function parseSheetResults(results, isOffline) {
+  var gruposRows = results[0].values || [];
+  var mmRows     = results[1].values || [];
 
-    appData.jogos = [];
-    var configs = [
-      { grupo:'A', e1:1, g1:3, g2:5, e2:6 },
-      { grupo:'B', e1:11, g1:13, g2:15, e2:16 }
-    ];
-    gruposRows.forEach(function(row, ri) {
-      configs.forEach(function(c) {
-        var ea = row[c.e1] || '', eb = row[c.e2] || '';
-        if (!ea && !eb) return;
-        var g1 = row[c.g1] || '', g2 = row[c.g2] || '';
-        var temGol = g1 !== '' && g2 !== '';
-        appData.jogos.push({
-          id: ri + (c.grupo==='A'?1:4),
-          grupo: c.grupo, rodada: ri+1,
-          casa: ea, visitante: eb,
-          gols_casa: temGol ? parseInt(g1)||0 : null,
-          gols_vis:  temGol ? parseInt(g2)||0 : null,
-          status: temGol ? 'realizado' : 'pendente'
-        });
+  appData.jogos = [];
+  var configs = [
+    { grupo:'A', e1:1, g1:3, g2:5, e2:6 },
+    { grupo:'B', e1:11, g1:13, g2:15, e2:16 }
+  ];
+  gruposRows.forEach(function(row, ri) {
+    configs.forEach(function(c) {
+      var ea = row[c.e1] || '', eb = row[c.e2] || '';
+      if (!ea && !eb) return;
+      var g1 = row[c.g1] || '', g2 = row[c.g2] || '';
+      var temGol = g1 !== '' && g2 !== '';
+      appData.jogos.push({
+        id: ri + (c.grupo==='A'?1:4),
+        grupo: c.grupo, rodada: ri+1,
+        casa: ea, visitante: eb,
+        gols_casa: temGol ? parseInt(g1)||0 : null,
+        gols_vis:  temGol ? parseInt(g2)||0 : null,
+        status: temGol ? 'realizado' : 'pendente'
       });
     });
-
-    appData.matamata = [
-      { fase:'Semifinal 1', t1:getCell(mmRows,0,1), t2:getCell(mmRows,0,7), g1:getCell(mmRows,1,1), g2:getCell(mmRows,1,7) },
-      { fase:'Semifinal 2', t1:getCell(mmRows,5,1), t2:getCell(mmRows,5,7), g1:getCell(mmRows,6,1), g2:getCell(mmRows,6,7) },
-      { fase:'Final',       t1:getCell(mmRows,11,1),t2:getCell(mmRows,11,7),g1:getCell(mmRows,12,1),g2:getCell(mmRows,12,7) }
-    ];
-
-    renderAll();
-  }).catch(function(e) {
-    console.warn('Erro ao carregar planilha:', e);
-    showToast('Dados locais — sem conexao com a planilha');
   });
+
+  appData.matamata = [
+    { fase:'Semifinal 1', t1:getCell(mmRows,0,1), t2:getCell(mmRows,0,7), g1:getCell(mmRows,1,1), g2:getCell(mmRows,1,7) },
+    { fase:'Semifinal 2', t1:getCell(mmRows,5,1), t2:getCell(mmRows,5,7), g1:getCell(mmRows,6,1), g2:getCell(mmRows,6,7) },
+    { fase:'Final',       t1:getCell(mmRows,11,1),t2:getCell(mmRows,11,7),g1:getCell(mmRows,12,1),g2:getCell(mmRows,12,7) }
+  ];
+
+  renderAll();
+  if (isOffline) showOfflineBanner();
+}
+
+function showOfflineBanner() {
+  var b = document.getElementById('_offlineBanner');
+  if (!b) {
+    b = document.createElement('div');
+    b.id = '_offlineBanner';
+    b.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(20,20,20,.92);' +
+      'color:#FFD700;text-align:center;font-size:12px;font-weight:600;padding:7px 16px;' +
+      'letter-spacing:1px;backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,215,0,.3);';
+    b.textContent = '📴 Sem conexão — exibindo últimos dados conhecidos';
+    document.body.prepend(b);
+  }
+}
+
+function loadSheetData() {
+  var urls = [
+    apiUrl("'Fase de Grupos'!A5:S7"),
+    apiUrl("'Mata-Mata'!A4:M17")
+  ];
+
+  Promise.all(urls.map(function(u){ return fetch(u).then(function(r){ return r.json(); }); }))
+    .then(function(results){ parseSheetResults(results, false); })
+    .catch(function() {
+      // Sem rede — tenta cache do Service Worker
+      if (!('caches' in window)) {
+        showToast('Sem conexão com a planilha');
+        return;
+      }
+      Promise.all(urls.map(function(u){
+        return caches.match(u).then(function(r){ return r ? r.json() : Promise.reject(); });
+      }))
+      .then(function(results){ parseSheetResults(results, true); })
+      .catch(function(){ showToast('Sem conexão — sem dados em cache'); });
+    });
 }
 
 // ── CLASSIFICAÇÃO ──────────────────────────────────────
