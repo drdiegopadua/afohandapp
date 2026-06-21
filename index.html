@@ -864,11 +864,277 @@ Noticias
 </nav>
 
 <script>
-setTimeout(function() { document.getElementById('splashScreen').classList.add('hidden'); }, 2500);
+// ── CONFIG PLANILHA ──────────────────────────────────
+var SHEET_ID = '1CT9nND4HHVakDZHydtDyF6g2ULwuF8iMpyE9OqaMQVU';
+var API_KEY  = 'AIzaSyBzIsc4TKy_he2P8PcOgOzs8Eor3EVHBzw';
+var appData  = { jogos: [], matamata: [] };
+
+var EMOJIS_GRUPO = ['&#x1F985;','&#x1F981;','&#x1F98A;','&#x1F42F;','&#x1F43A;','&#x1F40D;'];
+
+function apiUrl(range) {
+  return 'https://sheets.googleapis.com/v4/spreadsheets/' + SHEET_ID + '/values/' + encodeURIComponent(range) + '?key=' + API_KEY;
+}
+
+function getCell(rows, r, c) {
+  return (rows[r] && rows[r][c]) ? rows[r][c].toString().trim() : '';
+}
+
+// ── CARREGA DADOS DA PLANILHA ──────────────────────────
+function loadSheetData() {
+  Promise.all([
+    fetch(apiUrl("'Fase de Grupos'!A5:S7")).then(function(r){ return r.json(); }),
+    fetch(apiUrl("'Mata-Mata'!A4:M17")).then(function(r){ return r.json(); })
+  ]).then(function(results) {
+    var gruposRows = results[0].values || [];
+    var mmRows     = results[1].values || [];
+
+    appData.jogos = [];
+    var configs = [
+      { grupo:'A', e1:1, g1:3, g2:5, e2:6 },
+      { grupo:'B', e1:11, g1:13, g2:15, e2:16 }
+    ];
+    gruposRows.forEach(function(row, ri) {
+      configs.forEach(function(c) {
+        var ea = row[c.e1] || '', eb = row[c.e2] || '';
+        if (!ea && !eb) return;
+        var g1 = row[c.g1] || '', g2 = row[c.g2] || '';
+        var temGol = g1 !== '' && g2 !== '';
+        appData.jogos.push({
+          id: ri + (c.grupo==='A'?1:4),
+          grupo: c.grupo, rodada: ri+1,
+          casa: ea, visitante: eb,
+          gols_casa: temGol ? parseInt(g1)||0 : null,
+          gols_vis:  temGol ? parseInt(g2)||0 : null,
+          status: temGol ? 'realizado' : 'pendente'
+        });
+      });
+    });
+
+    appData.matamata = [
+      { fase:'Semifinal 1', t1:getCell(mmRows,0,1), t2:getCell(mmRows,0,7), g1:getCell(mmRows,1,1), g2:getCell(mmRows,1,7) },
+      { fase:'Semifinal 2', t1:getCell(mmRows,5,1), t2:getCell(mmRows,5,7), g1:getCell(mmRows,6,1), g2:getCell(mmRows,6,7) },
+      { fase:'Final',       t1:getCell(mmRows,11,1),t2:getCell(mmRows,11,7),g1:getCell(mmRows,12,1),g2:getCell(mmRows,12,7) }
+    ];
+
+    renderAll();
+  }).catch(function(e) {
+    console.warn('Erro ao carregar planilha:', e);
+    showToast('Dados locais — sem conexao com a planilha');
+  });
+}
+
+// ── CLASSIFICAÇÃO ──────────────────────────────────────
+function calcClassif(grupo) {
+  var times = {};
+  appData.jogos.filter(function(j){ return j.grupo===grupo; }).forEach(function(j) {
+    [j.casa, j.visitante].forEach(function(t){ if(t && !times[t]) times[t]={nome:t,j:0,v:0,e:0,d:0,gp:0,gc:0,pts:0}; });
+    if (j.status !== 'realizado' || j.gols_casa === null) return;
+    var ga=j.gols_casa, gb=j.gols_vis;
+    var tA=times[j.casa], tB=times[j.visitante];
+    tA.j++; tB.j++; tA.gp+=ga; tA.gc+=gb; tB.gp+=gb; tB.gc+=ga;
+    if(ga>gb){tA.pts+=3;tA.v++;tB.d++;}
+    else if(ga<gb){tB.pts+=3;tB.v++;tA.d++;}
+    else{tA.pts++;tA.e++;tB.pts++;tB.e++;}
+  });
+  return Object.values(times).sort(function(a,b){ return b.pts-a.pts||(b.gp-b.gc)-(a.gp-a.gc)||b.gp-a.gp; });
+}
+
+// ── RENDER ─────────────────────────────────────────────
+function renderAll() {
+  renderClassification();
+  renderGames();
+  renderKnockout();
+  renderHomeCard();
+}
+
+function renderClassification() {
+  ['A','B'].forEach(function(g, gi) {
+    var cl = calcClassif(g);
+    var badgesClass = ['gold','silver','bronze','normal','normal','normal'];
+    var emojiOffset = gi * 3;
+    var rows = cl.map(function(t, i) {
+      var sg = t.gp - t.gc;
+      return '<div class="class-row">' +
+        '<div><div class="rank-badge '+badgesClass[i]+'" style="width:24px;height:24px;font-size:11px;margin:0 auto;">'+(i+1)+'</div></div>' +
+        '<div class="class-team-name">' +
+          '<div class="class-team-avatar" style="background:linear-gradient(135deg,#DAF1DE,#8EB69B);">'+EMOJIS_GRUPO[emojiOffset+i]+'</div>' +
+          '<span style="font-weight:600;">'+t.nome+'</span>' +
+        '</div>' +
+        '<div>'+t.j+'</div><div>'+t.v+'</div><div>'+t.d+'</div>' +
+        '<div class="class-points">'+t.pts+'</div>' +
+      '</div>';
+    }).join('');
+    var header = '<div class="class-header"><div>#</div><div style="text-align:left;">Equipe</div><div>J</div><div>V</div><div>D</div><div>Pts</div></div>';
+    var tables = document.getElementById('page-classification').querySelectorAll('.class-table');
+    if (tables[gi]) tables[gi].innerHTML = header + rows;
+  });
+}
+
+function renderGames() {
+  var pg = document.getElementById('page-games');
+  var realizados  = appData.jogos.filter(function(j){ return j.status==='realizado'; });
+  var pendentes   = appData.jogos.filter(function(j){ return j.status==='pendente'; });
+
+  var html = '<div class="stats-bar">' +
+    '<div class="stat-pill"><div class="stat-value" style="color:var(--danger);">'+
+      (realizados.length > 0 && pendentes.length > 0 ? 1 : 0) +
+    '</div><div class="stat-label">Ao Vivo</div></div>' +
+    '<div class="stat-pill"><div class="stat-value" style="color:var(--success);">'+realizados.length+'</div><div class="stat-label">Realizados</div></div>' +
+    '<div class="stat-pill"><div class="stat-value">'+appData.jogos.length+'</div><div class="stat-label">Total</div></div>' +
+  '</div>';
+
+  if (pendentes.length) {
+    html += '<div class="section-title">Proximos Jogos</div>';
+    html += pendentes.map(function(j) {
+      return '<div class="game-card">' +
+        '<div class="game-card-header">' +
+          '<span style="font-size:12px;color:var(--text-light);font-weight:500;">Grupo '+j.grupo+' - Jogo '+j.rodada+'</span>' +
+          '<span class="game-status upcoming">&#x23F0; A Jogar</span>' +
+        '</div>' +
+        '<div class="game-teams-row">' +
+          '<div class="game-team"><div class="game-team-logo">&#x1F91C;</div><div class="game-team-name">'+j.casa+'</div></div>' +
+          '<div class="game-score-display" style="color:var(--text-light);">VS</div>' +
+          '<div class="game-team" style="flex-direction:row-reverse;text-align:right;"><div class="game-team-logo">&#x1F91B;</div><div class="game-team-name">'+j.visitante+'</div></div>' +
+        '</div>' +
+        '<div class="game-time">Quadra Eurico Vieira de Resende</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  if (realizados.length) {
+    html += '<div class="section-title" style="margin-top:24px;">Jogos Realizados</div>';
+    html += realizados.slice().reverse().map(function(j) {
+      var vA = j.gols_casa > j.gols_vis, vB = j.gols_vis > j.gols_casa;
+      return '<div class="game-card">' +
+        '<div class="game-card-header">' +
+          '<span style="font-size:12px;color:var(--text-light);font-weight:500;">Grupo '+j.grupo+' - Jogo '+j.rodada+'</span>' +
+          '<span class="game-status finished">&#x2713; Finalizado</span>' +
+        '</div>' +
+        '<div class="game-teams-row">' +
+          '<div class="game-team"><div class="game-team-logo">&#x1F91C;</div>' +
+            '<div class="game-team-name" style="'+(vA?'font-weight:700;color:var(--primary)':'')+'">'+j.casa+'</div></div>' +
+          '<div class="game-score-display">'+j.gols_casa+' - '+j.gols_vis+'</div>' +
+          '<div class="game-team" style="flex-direction:row-reverse;text-align:right;"><div class="game-team-logo">&#x1F91B;</div>' +
+            '<div class="game-team-name" style="'+(vB?'font-weight:700;color:var(--primary)':'')+'">'+j.visitante+'</div></div>' +
+        '</div>' +
+        '<div class="game-time">Quadra Eurico Vieira de Resende</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  if (!html.includes('game-card')) {
+    html += '<div style="text-align:center;padding:40px;color:var(--text-light);">Nenhum jogo cadastrado ainda</div>';
+  }
+
+  pg.innerHTML = html;
+}
+
+function renderKnockout() {
+  var mm = appData.matamata;
+  var html = '<div class="stats-bar">' +
+    '<div class="stat-pill"><div class="stat-value">2</div><div class="stat-label">Semi</div></div>' +
+    '<div class="stat-pill"><div class="stat-value">1</div><div class="stat-label">Final</div></div>' +
+  '</div>';
+
+  // Semifinais
+  html += '<div class="knockout-round"><div class="knockout-title">Semi-Finais</div>';
+  [mm[0], mm[1]].forEach(function(m) {
+    if (!m) return;
+    var g1 = m.g1 !== '' ? parseInt(m.g1)||0 : null;
+    var g2 = m.g2 !== '' ? parseInt(m.g2)||0 : null;
+    var realizado = g1 !== null && g2 !== null;
+    var vA = realizado && g1 > g2, vB = realizado && g2 > g1;
+    html += '<div style="margin-bottom:8px;"><div style="font-size:11px;color:var(--text-muted);padding:4px 0;">'+m.fase+'</div>' +
+    '<div class="knockout-match">' +
+      '<div class="knockout-team '+(vA?'knockout-winner':'')+'">' +
+        '<div class="knockout-team-info"><div class="knockout-team-avatar">&#x1F91C;</div>' +
+        '<div class="knockout-team-name">'+(m.t1||'A definir')+'</div></div>' +
+        '<div class="knockout-score">'+(realizado?g1:'--')+'</div>' +
+      '</div>' +
+      '<div class="knockout-divider"></div>' +
+      '<div class="knockout-team '+(vB?'knockout-winner':'')+'">' +
+        '<div class="knockout-team-info"><div class="knockout-team-avatar">&#x1F91B;</div>' +
+        '<div class="knockout-team-name">'+(m.t2||'A definir')+'</div></div>' +
+        '<div class="knockout-score">'+(realizado?g2:'--')+'</div>' +
+      '</div>' +
+    '</div></div>';
+  });
+  html += '</div>';
+
+  // Final
+  if (mm[2]) {
+    var mf = mm[2];
+    var gf1 = mf.g1 !== '' ? parseInt(mf.g1)||0 : null;
+    var gf2 = mf.g2 !== '' ? parseInt(mf.g2)||0 : null;
+    var rfin = gf1 !== null && gf2 !== null;
+    var vfA = rfin && gf1 > gf2, vfB = rfin && gf2 > gf1;
+    html += '<div class="knockout-round"><div class="knockout-title">&#x1F3C6; Final</div>' +
+    '<div class="knockout-match">' +
+      '<div class="knockout-team '+(vfA?'knockout-winner':'')+'">' +
+        '<div class="knockout-team-info"><div class="knockout-team-avatar">&#x1F91C;</div>' +
+        '<div class="knockout-team-name">'+(mf.t1||'Vencedor SF1')+'</div></div>' +
+        '<div class="knockout-score">'+(rfin?gf1:'--')+'</div>' +
+      '</div><div class="knockout-divider"></div>' +
+      '<div class="knockout-team '+(vfB?'knockout-winner':'')+'">' +
+        '<div class="knockout-team-info"><div class="knockout-team-avatar">&#x1F91B;</div>' +
+        '<div class="knockout-team-name">'+(mf.t2||'Vencedor SF2')+'</div></div>' +
+        '<div class="knockout-score">'+(rfin?gf2:'--')+'</div>' +
+      '</div>' +
+    '</div></div>';
+    if (rfin) {
+      var camp = gf1 > gf2 ? mf.t1 : mf.t2;
+      html += '<div style="background:linear-gradient(135deg,#051F20,#235347);border-radius:20px;padding:24px;text-align:center;color:var(--bg);margin-top:16px;">' +
+        '<div style="font-size:40px;margin-bottom:8px;">&#x1F3C6;</div>' +
+        '<div style="font-size:11px;letter-spacing:3px;color:var(--accent-light);margin-bottom:6px;">CAMPEAO COPA AFOHAND</div>' +
+        '<div style="font-size:24px;font-weight:800;">'+camp+'</div></div>';
+    }
+  }
+
+  document.getElementById('page-knockout').innerHTML = html;
+}
+
+function renderHomeCard() {
+  var realizados = appData.jogos.filter(function(j){ return j.status==='realizado'; });
+  var liveCard = document.querySelector('.live-match-card');
+  if (!liveCard) return;
+
+  if (realizados.length > 0) {
+    var ult = realizados[realizados.length - 1];
+    var vA = ult.gols_casa > ult.gols_vis, vB = ult.gols_vis > ult.gols_casa;
+    liveCard.innerHTML =
+      '<div class="live-badge" style="background:rgba(35,83,71,0.9);">&#x2713; ULTIMO RESULTADO</div>' +
+      '<div class="match-teams">' +
+        '<div class="team"><div class="team-logo">&#x1F91C;</div>' +
+          '<div class="team-name" style="'+(vA?'font-weight:800':'')+'">'+ult.casa+'</div></div>' +
+        '<div class="match-score">'+ult.gols_casa+' – '+ult.gols_vis+'</div>' +
+        '<div class="team"><div class="team-logo">&#x1F91B;</div>' +
+          '<div class="team-name" style="'+(vB?'font-weight:800':'')+'">'+ult.visitante+'</div></div>' +
+      '</div>' +
+      '<div class="match-info"><span>Grupo '+ult.grupo+' · Jogo '+ult.rodada+'</span><span>Quadra Eurico Vieira de Resende</span></div>';
+  } else {
+    var prox = appData.jogos[0];
+    if (prox) {
+      liveCard.innerHTML =
+        '<div class="live-badge" style="background:rgba(35,83,71,0.7);">&#x23F3; PROXIMO JOGO</div>' +
+        '<div class="match-teams">' +
+          '<div class="team"><div class="team-logo">&#x1F91C;</div><div class="team-name">'+prox.casa+'</div></div>' +
+          '<div class="match-score" style="font-size:28px;letter-spacing:2px;">VS</div>' +
+          '<div class="team"><div class="team-logo">&#x1F91B;</div><div class="team-name">'+prox.visitante+'</div></div>' +
+        '</div>' +
+        '<div class="match-info"><span>Grupo '+prox.grupo+'</span><span>Quadra Eurico Vieira de Resende</span></div>';
+    }
+  }
+}
+
+// ── UI ─────────────────────────────────────────────────
+setTimeout(function() {
+  document.getElementById('splashScreen').classList.add('hidden');
+  loadSheetData();
+}, 2000);
+
 function toggleMenu() { var menu = document.getElementById('sideMenu'); var overlay = document.getElementById('sideMenuOverlay'); var btn = document.getElementById('menuBtn'); menu.classList.toggle('open'); overlay.classList.toggle('open'); btn.classList.toggle('active'); }
 function showPage(pageName) { var pages = document.querySelectorAll('.page'); var navItems = document.querySelectorAll('.nav-item'); var titles = { 'home': 'Seja Bem-Vindo', 'games': 'Jogos', 'classification': 'Classificacao', 'knockout': 'Mata-Mata', 'more': 'Mais' }; pages.forEach(function(p) { p.classList.remove('active'); }); navItems.forEach(function(n) { n.classList.remove('active'); }); document.getElementById('page-' + pageName).classList.add('active'); document.getElementById('pageTitle').textContent = titles[pageName]; var activeNav = document.querySelector('.nav-item[data-page="' + pageName + '"]'); if (activeNav) activeNav.classList.add('active'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
 function showToast(message) { var toast = document.getElementById('toast'); toast.textContent = message; toast.classList.add('show'); setTimeout(function() { toast.classList.remove('show'); }, 2500); }
-setInterval(function() { var scoreEl = document.querySelector('.match-score'); if (scoreEl && document.getElementById('page-home').classList.contains('active')) { var scores = scoreEl.textContent.split(' - '); if (Math.random() > 0.7) { scores[0] = parseInt(scores[0]) + 1; scoreEl.textContent = scores[0] + ' - ' + scores[1]; } } }, 8000);
 
 // Regulation Modal
 function openRegulation() { document.getElementById('regulationModal').classList.add('open'); document.body.style.overflow = 'hidden'; }
@@ -881,12 +1147,12 @@ var newsTrack = document.getElementById('newsTrack');
 var newsDots = document.getElementById('newsDots');
 
 function goToSlide(index) {
-currentSlide = index;
-if (currentSlide < 0) currentSlide = totalSlides - 1;
-if (currentSlide >= totalSlides) currentSlide = 0;
-newsTrack.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
-var dots = newsDots.querySelectorAll('.news-dot');
-dots.forEach(function(d, i) { d.classList.toggle('active', i === currentSlide); });
+  currentSlide = index;
+  if (currentSlide < 0) currentSlide = totalSlides - 1;
+  if (currentSlide >= totalSlides) currentSlide = 0;
+  newsTrack.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+  var dots = newsDots.querySelectorAll('.news-dot');
+  dots.forEach(function(d, i) { d.classList.toggle('active', i === currentSlide); });
 }
 
 setInterval(function() { goToSlide(currentSlide + 1); }, 5000);
@@ -895,12 +1161,12 @@ var startX = 0;
 var newsCarousel = document.getElementById('newsCarousel');
 newsCarousel.addEventListener('touchstart', function(e) { startX = e.touches[0].clientX; });
 newsCarousel.addEventListener('touchend', function(e) {
-var endX = e.changedTouches[0].clientX;
-var diff = startX - endX;
-if (Math.abs(diff) > 50) {
-if (diff > 0) goToSlide(currentSlide + 1);
-else goToSlide(currentSlide - 1);
-}
+  var endX = e.changedTouches[0].clientX;
+  var diff = startX - endX;
+  if (Math.abs(diff) > 50) {
+    if (diff > 0) goToSlide(currentSlide + 1);
+    else goToSlide(currentSlide - 1);
+  }
 });
 </script>
 </body>
