@@ -422,17 +422,78 @@ body > * { position:relative; z-index:1; }
 }
 .scene-dot.active { width:24px; background:var(--green); }
 
+/* ── TICKET PRÓXIMO JOGO ── */
+@keyframes ticketGlow {
+  0%,100% { box-shadow: 0 0 0 0 rgba(142,182,155,0); }
+  50%      { box-shadow: 0 0 24px 4px rgba(142,182,155,0.35); }
+}
+@keyframes ticketSlide {
+  0%   { transform: translateY(6px); opacity: .7; }
+  100% { transform: translateY(0);   opacity: 1; }
+}
+@keyframes dash {
+  to { stroke-dashoffset: 0; }
+}
+
+.ticket-next {
+  background: linear-gradient(135deg, rgba(10,46,47,.9), rgba(5,31,32,.95));
+  border: 1px dashed rgba(142,182,155,.45);
+  border-radius: 14px;
+  padding: 14px 20px;
+  display: flex; align-items: center; gap: 16px;
+  animation: ticketGlow 2.5s ease-in-out infinite, ticketSlide .5s ease;
+  position: relative; overflow: hidden;
+}
+.ticket-next::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(142,182,155,.04), transparent);
+  animation: panelShine 3s ease-in-out infinite;
+}
+.ticket-badge {
+  background: rgba(142,182,155,.15);
+  border: 1px solid rgba(142,182,155,.3);
+  border-radius: 8px; padding: 6px 10px;
+  font-size: 10px; font-weight: 700; letter-spacing: 2px;
+  color: var(--gl); text-transform: uppercase;
+  flex-shrink: 0; text-align: center;
+}
+.ticket-teams {
+  flex: 1; display: flex; align-items: center; justify-content: space-between; gap: 10px;
+}
+.ticket-team { font-size: 20px; font-weight: 800; color: var(--txt); }
+.ticket-vs {
+  font-size: 13px; font-weight: 700; letter-spacing: 4px; color: var(--muted);
+  background: rgba(255,255,255,.05); border-radius: 20px; padding: 4px 12px;
+}
+.ticket-hora {
+  font-size: 26px; font-weight: 900; color: var(--acc); flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+  animation: scoreFlash 3s ease-in-out infinite;
+}
+
 /* ── FOOTER ── */
 .tv-footer {
   background:rgba(0,0,0,.3);
   border-top:1px solid rgba(142,182,155,.1);
   padding:7px 28px;
   display:flex; align-items:center; justify-content:space-between;
-  flex-shrink:0;
+  flex-shrink:0; gap: 16px;
 }
 .tv-footer span { font-size:11px; color:var(--muted); }
 .progress-bar { width:120px; height:3px; background:rgba(255,255,255,.1); border-radius:2px; overflow:hidden; display:inline-block; vertical-align:middle; margin-left:8px; }
 .progress-fill { height:100%; background:var(--green); border-radius:2px; transition:width 1s linear; }
+
+.qr-wrap {
+  display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+}
+.qr-wrap img {
+  width: 44px; height: 44px; border-radius: 6px;
+  border: 2px solid rgba(142,182,155,.3);
+  background: #fff;
+}
+.qr-label { font-size: 9px; color: var(--muted); line-height: 1.3; }
+.qr-label strong { display: block; color: var(--acc); font-size: 10px; }
 
 .loading-overlay {
   position:fixed; inset:0; background:var(--bg);
@@ -517,6 +578,10 @@ body > * { position:relative; z-index:1; }
     Próxima atualização em <span id="countdownLabel">30</span>s
     <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:100%"></div></div>
   </span>
+  <div class="qr-wrap">
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=88x88&color=051F20&bgcolor=DAF1DE&data=https://drdiegopadua.github.io/afohandapp/" alt="QR App" />
+    <div class="qr-label"><strong>Acompanhe</strong>pelo celular</div>
+  </div>
 </div>
 
 <script>
@@ -703,19 +768,47 @@ function renderJogosLateral(){
   var pendentes  = appData.jogos.filter(function(j){return j.status==='pendente';});
   document.getElementById('jogosLateralTitle').innerHTML = realizados.length>0 ? '✅ Resultados' : '📅 Próximos Jogos';
 
-  var todos = realizados.slice().reverse().concat(pendentes);
-  var html = todos.map(function(j){
-    var ok=j.status==='realizado';
-    var vA=ok&&j.gols_casa>j.gols_vis, vB=ok&&j.gols_vis>j.gols_casa;
-    return '<div class="jogo-mini '+j.status+'">' +
-      '<div class="jogo-mini-label">Grupo '+j.grupo+' · '+j.horario+(ok?' · Finalizado':' · A Jogar')+'</div>' +
+  var html = '';
+
+  // Próximo jogo como ticket animado (primeiro pendente)
+  if (pendentes.length > 0) {
+    var prox = pendentes[0];
+    html += '<div class="ticket-next">' +
+      '<div class="ticket-badge">Grupo '+prox.grupo+'<br>'+prox.horario+'</div>' +
+      '<div class="ticket-teams">' +
+        '<div class="ticket-team">'+prox.casa+'</div>' +
+        '<div class="ticket-vs">VS</div>' +
+        '<div class="ticket-team">'+prox.visitante+'</div>' +
+      '</div>' +
+      '<div class="ticket-hora">'+prox.horario+'</div>' +
+    '</div>';
+  }
+
+  // Resultados já realizados
+  realizados.slice().reverse().forEach(function(j){
+    var vA=j.gols_casa>j.gols_vis, vB=j.gols_vis>j.gols_casa;
+    html += '<div class="jogo-mini realizado">' +
+      '<div class="jogo-mini-label">Grupo '+j.grupo+' · '+j.horario+' · Finalizado</div>' +
       '<div class="jogo-mini-row">' +
         '<div class="jogo-mini-team'+(vA?' winner':'')+'" style="color:'+(vA?'var(--acc)':'')+'">'+j.casa+'</div>' +
-        '<div class="jogo-mini-score'+(ok?'':' vs')+'">'+(ok?j.gols_casa+' × '+j.gols_vis:'VS')+'</div>' +
+        '<div class="jogo-mini-score">'+(j.gols_casa)+' × '+(j.gols_vis)+'</div>' +
         '<div class="jogo-mini-team right'+(vB?' winner':'')+'" style="color:'+(vB?'var(--acc)':'')+'">'+j.visitante+'</div>' +
       '</div>' +
     '</div>';
-  }).join('');
+  });
+
+  // Demais pendentes (sem ticket)
+  pendentes.slice(1).forEach(function(j){
+    html += '<div class="jogo-mini pendente">' +
+      '<div class="jogo-mini-label">Grupo '+j.grupo+' · '+j.horario+' · A Jogar</div>' +
+      '<div class="jogo-mini-row">' +
+        '<div class="jogo-mini-team">'+j.casa+'</div>' +
+        '<div class="jogo-mini-score vs">VS</div>' +
+        '<div class="jogo-mini-team right">'+j.visitante+'</div>' +
+      '</div>' +
+    '</div>';
+  });
+
   document.getElementById('jogosLateral').innerHTML = html||'<div style="color:var(--muted);text-align:center;padding:20px;">Aguardando...</div>';
 }
 

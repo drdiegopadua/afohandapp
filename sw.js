@@ -1,14 +1,11 @@
 // AfoHand Service Worker
-const CACHE = 'afohand-v1';
+const CACHE = 'afohand-v2';
 const ASSETS = [
   '/',
   '/index.html',
-  '/css/style.css',
-  '/js/app.js',
   '/manifest.json',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png',
-  'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;900&display=swap'
+  '/icon-192.png',
+  '/icon-512.png'
 ];
 
 self.addEventListener('install', e => {
@@ -28,9 +25,7 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
-  // Não faz cache de Google Sheets
-  if (e.request.url.includes('docs.google.com')) return;
-
+  if (e.request.url.includes('googleapis.com')) return;
   e.respondWith(
     caches.match(e.request).then(cached => {
       if (cached) return cached;
@@ -40,6 +35,37 @@ self.addEventListener('fetch', e => {
         caches.open(CACHE).then(c => c.put(e.request, clone));
         return res;
       }).catch(() => caches.match('/index.html'));
+    })
+  );
+});
+
+// ── PUSH NOTIFICATIONS ──────────────────────────────
+self.addEventListener('push', e => {
+  let data = { title: '🤾 AFOHAND', body: 'Nova atualização!', url: '/' };
+  try { data = { ...data, ...e.data.json() }; } catch(_) {}
+
+  e.waitUntil(
+    self.registration.showNotification(data.title, {
+      body: data.body,
+      icon: '/icon-192.png',
+      badge: '/icon-192.png',
+      tag: 'afohand-result',
+      renotify: true,
+      data: { url: data.url || '/' },
+      actions: [{ action: 'open', title: 'Ver resultado' }]
+    })
+  );
+});
+
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  const url = (e.notification.data && e.notification.data.url) || '/';
+  e.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
+      for (const c of list) {
+        if (c.url.includes(self.location.origin)) { c.focus(); return; }
+      }
+      return clients.openWindow(url);
     })
   );
 });
