@@ -565,11 +565,16 @@ function pad(v){ return String(v).padStart(2,'0'); }
 setInterval(updateClock,1000); updateClock();
 
 // ── DETECT MODE ────────────────────────────────────────
-// 6=Sábado(grupos), 0=Domingo(mata-mata), resto=ambos
+// ?modo=matamata força mata-mata; ?modo=grupos força grupos
+// Senão: domingo=matamata, resto=grupos
 function getMode(){
+  var params = new URLSearchParams(window.location.search);
+  var modo = params.get('modo');
+  if(modo === 'matamata') return 'matamata';
+  if(modo === 'grupos')   return 'grupos';
   var day = new Date().getDay();
-  if(day===0) return 'matamata';
-  return 'grupos'; // sábado e outros dias
+  if(day === 0) return 'matamata';
+  return 'grupos';
 }
 
 // ── CENAS ──────────────────────────────────────────────
