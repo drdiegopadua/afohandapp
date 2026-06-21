@@ -91,7 +91,7 @@ body > * { position:relative; z-index:1; }
 .camp-sub   { font-size:16px; color:var(--acc); letter-spacing:3px; margin-top:8px; animation:campSlide .8s .7s ease both; }
 .camp-stars { font-size:36px; letter-spacing:10px; animation:campSlide .8s .9s ease both; }
 
-.confetti-canvas { position:absolute; inset:0; pointer-events:none; z-index:5; }
+.confetti-canvas { position:fixed; inset:0; width:100vw; height:100vh; pointer-events:none; z-index:5; }
 
 /* ── PARTÍCULAS ── */
 .particles { position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
@@ -584,7 +584,7 @@ body > * { position:relative; z-index:1; }
   <div class="scene scene-1col" id="scene-tabela">
     <div class="tv-panel" style="animation:scaleIn .7s ease both">
       <div class="panel-title">📋 Tabela de Jogos — Fase de Grupos</div>
-      <div class="panel-body" id="tabelaJogos" style="padding:14px 20px;overflow:auto;"></div>
+      <div class="panel-body" id="tabelaJogos" style="padding:8px 16px;overflow:hidden;"></div>
     </div>
   </div>
 
@@ -981,8 +981,8 @@ function startConfetti(){
   confettiRunning = true;
   var canvas = document.getElementById('confettiCanvas');
   var ctx = canvas.getContext('2d');
-  canvas.width  = canvas.offsetWidth  || window.innerWidth;
-  canvas.height = canvas.offsetHeight || window.innerHeight;
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
 
   var pieces = [];
   var colors = ['#FFD700','#DAF1DE','#8EB69B','#ffffff','#1a7a3c','#ffe066'];
@@ -1049,10 +1049,12 @@ function renderAll(){
   renderTabelaGrande();
   renderMataMata();
 
-  var camp = checkCampeao();
-  if(camp && camp !== campeaoAtual){
-    campeaoAtual = camp;
-    mostrarCampeao(camp);
+  if(getMode() === 'matamata'){
+    var camp = checkCampeao();
+    if(camp && camp !== campeaoAtual){
+      campeaoAtual = camp;
+      mostrarCampeao(camp);
+    }
   }
 }
 
