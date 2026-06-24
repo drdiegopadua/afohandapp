@@ -419,7 +419,7 @@ Acesso Rapido
 <div class="card-title">Calendario</div>
 <div class="card-count">Todas as datas</div>
 </div>
-<div class="card-item" onclick="showToast('Equipes em breve!')">
+<div class="card-item" onclick="openTeams()">
 <div class="card-icon light3">&#x1F465;</div>
 <div class="card-title">Equipes</div>
 <div class="card-count">6 equipes</div>
@@ -787,7 +787,7 @@ Noticias
 <div class="more-card-title">Calendario</div>
 <div class="more-card-desc">Todas as datas</div>
 </div>
-<div class="more-card" onclick="showToast('Equipes em desenvolvimento')">
+<div class="more-card" onclick="openTeams()">
 <div class="more-card-icon" style="background: linear-gradient(135deg, #235347, #8EB69B);">&#x1F465;</div>
 <div class="more-card-title">Equipes</div>
 <div class="more-card-desc">Elencos completos</div>
@@ -803,6 +803,75 @@ Noticias
 
 <!-- Toast -->
 <div class="toast" id="toast"></div>
+
+<!-- Teams Modal -->
+<div class="regulation-modal" id="teamsModal" onclick="closeTeams(event)">
+<div class="regulation-content" onclick="event.stopPropagation()">
+<div class="regulation-header">
+<h2>Equipes</h2>
+<button class="regulation-close" onclick="closeTeams()">
+<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+</button>
+</div>
+<div class="regulation-text">
+
+<div style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid rgba(5,31,32,0.08);">
+<div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#051F20,#163832);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">&#x1F981;</div>
+<div>
+<div style="font-weight:700;font-size:15px;">Afonso Cláudio</div>
+<div style="font-size:12px;color:var(--text-light);">Afonso Cláudio – ES</div>
+</div>
+<div style="margin-left:auto;background:#d1fae5;color:var(--success);font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">Confirmado</div>
+</div>
+
+<div style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid rgba(5,31,32,0.08);">
+<div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#163832,#235347);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">&#x1F409;</div>
+<div>
+<div style="font-weight:700;font-size:15px;">Dragonhand</div>
+<div style="font-size:12px;color:var(--text-light);">Santa Teresa – ES</div>
+</div>
+<div style="margin-left:auto;background:#d1fae5;color:var(--success);font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">Confirmado</div>
+</div>
+
+<div style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid rgba(5,31,32,0.08);">
+<div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#235347,#8EB69B);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">&#x1F30A;</div>
+<div>
+<div style="font-weight:700;font-size:15px;">HandVNI</div>
+<div style="font-size:12px;color:var(--text-light);">Venda Nova do Imigrante – ES</div>
+</div>
+<div style="margin-left:auto;background:#d1fae5;color:var(--success);font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">Confirmado</div>
+</div>
+
+<div style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid rgba(5,31,32,0.08);">
+<div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#051F20,#235347);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">&#x1F985;</div>
+<div>
+<div style="font-weight:700;font-size:15px;">FAEG Itaguaçu</div>
+<div style="font-size:12px;color:var(--text-light);">Itaguaçu – ES</div>
+</div>
+<div style="margin-left:auto;background:#d1fae5;color:var(--success);font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">Confirmado</div>
+</div>
+
+<div style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid rgba(5,31,32,0.08);">
+<div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#163832,#051F20);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">&#x1F525;</div>
+<div>
+<div style="font-weight:700;font-size:15px;">Hand Iúna</div>
+<div style="font-size:12px;color:var(--text-light);">Iúna – ES</div>
+</div>
+<div style="margin-left:auto;background:#d1fae5;color:var(--success);font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">Confirmado</div>
+</div>
+
+<div style="display:flex;align-items:center;gap:14px;padding:14px 0;">
+<div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#8EB69B,#DAF1DE);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">&#x2753;</div>
+<div>
+<div style="font-weight:700;font-size:15px;">Time6</div>
+<div style="font-size:12px;color:var(--text-light);">A confirmar</div>
+</div>
+<div style="margin-left:auto;background:#fef3c7;color:#92400e;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">Aguardando</div>
+</div>
+
+</div>
+</div>
+</div>
 
 <!-- Regulation Modal -->
 <div class="regulation-modal" id="regulationModal" onclick="closeRegulation(event)">
@@ -1228,6 +1297,8 @@ function showToast(message) { var toast = document.getElementById('toast'); toas
 // Regulation Modal
 function openRegulation() { document.getElementById('regulationModal').classList.add('open'); document.body.style.overflow = 'hidden'; }
 function closeRegulation(e) { if (!e || e.target === document.getElementById('regulationModal') || e.target.closest('.regulation-close')) { document.getElementById('regulationModal').classList.remove('open'); document.body.style.overflow = ''; } }
+function openTeams() { document.getElementById('teamsModal').classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeTeams(e) { if (!e || e.target === document.getElementById('teamsModal') || e.target.closest('.regulation-close')) { document.getElementById('teamsModal').classList.remove('open'); document.body.style.overflow = ''; } }
 
 // News Carousel
 var currentSlide = 0;
