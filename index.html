@@ -797,12 +797,104 @@ Noticias
 <div class="more-card-title">Regulamento</div>
 <div class="more-card-desc">Regras da competicao</div>
 </div>
+<div class="more-card" onclick="openInstall()">
+<div class="more-card-icon" style="background: linear-gradient(135deg, #235347, #8EB69B);">&#x1F4F2;</div>
+<div class="more-card-title">Instalar App</div>
+<div class="more-card-desc">Adicionar à tela inicial</div>
+</div>
 </div>
 </div>
 </main>
 
 <!-- Toast -->
 <div class="toast" id="toast"></div>
+
+<!-- Install Modal -->
+<div class="regulation-modal" id="installModal" onclick="closeInstall(event)">
+<div class="regulation-content" onclick="event.stopPropagation()">
+<div class="regulation-header">
+<h2>&#x1F4F2; Instalar o App</h2>
+<button class="regulation-close" onclick="closeInstall()">
+<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+</button>
+</div>
+<div class="regulation-text">
+
+<p style="background:linear-gradient(135deg,var(--primary),var(--secondary));color:var(--bg);border-radius:16px;padding:16px;text-align:center;margin-bottom:20px;font-weight:600;">
+&#x2B50; Instale o app e acesse a Copa AFOHAND com um toque, sem precisar abrir o navegador!
+</p>
+
+<!-- Botão nativo Android (aparece só quando disponível) -->
+<div id="nativeInstallWrap" style="display:none;margin-bottom:20px;">
+<button id="nativeInstallBtn" onclick="doNativeInstall()" style="width:100%;background:linear-gradient(135deg,#235347,#051F20);color:var(--bg);border:none;border-radius:16px;padding:16px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;">
+<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="22" height="22"><path d="M12 2v13M8 11l4 4 4-4"/><path d="M3 17v2a2 2 0 002 2h14a2 2 0 002-2v-2"/></svg>
+Instalar agora (1 clique)
+</button>
+<p style="text-align:center;font-size:11px;color:var(--text-muted);margin-top:6px;">Disponível para seu navegador &#x1F44D;</p>
+</div>
+
+<!-- Divisor -->
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+<div style="flex:1;height:1px;background:rgba(5,31,32,0.1);"></div>
+<span style="font-size:12px;color:var(--text-muted);font-weight:600;">PASSO A PASSO</span>
+<div style="flex:1;height:1px;background:rgba(5,31,32,0.1);"></div>
+</div>
+
+<!-- Android -->
+<div style="background:var(--card-bg);border-radius:16px;padding:16px;margin-bottom:16px;box-shadow:var(--shadow-sm);">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+<div style="width:36px;height:36px;background:linear-gradient(135deg,#3DDC84,#1a8a45);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;">&#x1F916;</div>
+<div style="font-weight:700;font-size:15px;">Android (Chrome)</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;">
+<div style="display:flex;align-items:flex-start;gap:12px;">
+<div style="width:28px;height:28px;background:var(--primary);color:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;">1</div>
+<div><strong>Abra no Chrome</strong><br><span style="font-size:12px;color:var(--text-light);">Certifique-se de estar usando o navegador Chrome no celular.</span></div>
+</div>
+<div style="display:flex;align-items:flex-start;gap:12px;">
+<div style="width:28px;height:28px;background:var(--primary);color:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;">2</div>
+<div><strong>Toque nos 3 pontinhos ⋮</strong><br><span style="font-size:12px;color:var(--text-light);">No canto superior direito do Chrome, toque no ícone de menu (três pontos).</span></div>
+</div>
+<div style="display:flex;align-items:flex-start;gap:12px;">
+<div style="width:28px;height:28px;background:var(--primary);color:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;">3</div>
+<div><strong>Toque em "Adicionar à tela inicial"</strong><br><span style="font-size:12px;color:var(--text-light);">Ou "Instalar app", dependendo da versão do Chrome.</span></div>
+</div>
+<div style="display:flex;align-items:flex-start;gap:12px;">
+<div style="width:28px;height:28px;background:linear-gradient(135deg,#3DDC84,#1a8a45);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;">&#x2713;</div>
+<div><strong>Pronto!</strong><br><span style="font-size:12px;color:var(--text-light);">O ícone da Copa AFOHAND vai aparecer na sua tela inicial!</span></div>
+</div>
+</div>
+</div>
+
+<!-- iPhone -->
+<div style="background:var(--card-bg);border-radius:16px;padding:16px;box-shadow:var(--shadow-sm);">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+<div style="width:36px;height:36px;background:linear-gradient(135deg,#555,#111);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;">&#x1F34E;</div>
+<div style="font-weight:700;font-size:15px;">iPhone / iPad (Safari)</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;">
+<div style="display:flex;align-items:flex-start;gap:12px;">
+<div style="width:28px;height:28px;background:var(--primary);color:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;">1</div>
+<div><strong>Abra no Safari</strong><br><span style="font-size:12px;color:var(--text-light);">No iPhone, use obrigatoriamente o Safari. Outros navegadores não suportam instalação.</span></div>
+</div>
+<div style="display:flex;align-items:flex-start;gap:12px;">
+<div style="width:28px;height:28px;background:var(--primary);color:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;">2</div>
+<div><strong>Toque no ícone de compartilhar &#x1F4E4;</strong><br><span style="font-size:12px;color:var(--text-light);">Na barra inferior do Safari, toque no ícone de seta pra cima (compartilhar).</span></div>
+</div>
+<div style="display:flex;align-items:flex-start;gap:12px;">
+<div style="width:28px;height:28px;background:var(--primary);color:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;">3</div>
+<div><strong>Toque em "Adicionar à Tela de Início"</strong><br><span style="font-size:12px;color:var(--text-light);">Role o menu para baixo e encontre essa opção. Confirme tocando em "Adicionar".</span></div>
+</div>
+<div style="display:flex;align-items:flex-start;gap:12px;">
+<div style="width:28px;height:28px;background:linear-gradient(135deg,#555,#111);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;">&#x2713;</div>
+<div><strong>Pronto!</strong><br><span style="font-size:12px;color:var(--text-light);">O app da Copa AFOHAND estará na sua tela inicial como qualquer outro app!</span></div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
 
 <!-- Teams Modal -->
 <div class="regulation-modal" id="teamsModal" onclick="closeTeams(event)">
@@ -1299,6 +1391,20 @@ function openRegulation() { document.getElementById('regulationModal').classList
 function closeRegulation(e) { if (!e || e.target === document.getElementById('regulationModal') || e.target.closest('.regulation-close')) { document.getElementById('regulationModal').classList.remove('open'); document.body.style.overflow = ''; } }
 function openTeams() { document.getElementById('teamsModal').classList.add('open'); document.body.style.overflow = 'hidden'; }
 function closeTeams(e) { if (!e || e.target === document.getElementById('teamsModal') || e.target.closest('.regulation-close')) { document.getElementById('teamsModal').classList.remove('open'); document.body.style.overflow = ''; } }
+function openInstall() { document.getElementById('installModal').classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeInstall(e) { if (!e || e.target === document.getElementById('installModal') || e.target.closest('.regulation-close')) { document.getElementById('installModal').classList.remove('open'); document.body.style.overflow = ''; } }
+
+var deferredInstallPrompt = null;
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  document.getElementById('nativeInstallWrap').style.display = 'block';
+});
+function doNativeInstall() {
+  if (!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  deferredInstallPrompt.userChoice.then(function() { deferredInstallPrompt = null; closeInstall(); });
+}
 
 // News Carousel
 var currentSlide = 0;
