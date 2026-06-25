@@ -1,24 +1,30 @@
 {
-  "name": "AfoHand – Handebol de 5",
-  "short_name": "AfoHand",
+  "name": "Copa AFOHAND 2026",
+  "short_name": "AFOHAND",
   "description": "Campeonato de Handebol de 5 de Afonso Cláudio",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0D0D0D",
-  "theme_color": "#C8102E",
+  "background_color": "#051F20",
+  "theme_color": "#051F20",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "icons/icon-192.png",
+      "src": "icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "icons/icon-512.png",
+      "src": "icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    },
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
     }
   ],
   "categories": ["sports", "lifestyle"],
