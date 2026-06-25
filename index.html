@@ -1070,9 +1070,29 @@ Instalar agora (1 clique)
 // ── CONFIG PLANILHA ──────────────────────────────────
 var SHEET_ID = '1CT9nND4HHVakDZHydtDyF6g2ULwuF8iMpyE9OqaMQVU';
 var API_KEY  = 'AIzaSyBzIsc4TKy_he2P8PcOgOzs8Eor3EVHBzw';
-var appData  = { jogos: [], matamata: [] };
+var appData  = {
+  masc: { jogos: [], matamata: [] },
+  fem:  { jogos: [], matamata: [] }
+};
+var currentNaipe = 'masc';
 
 var EMOJIS_GRUPO = ['&#x1F985;','&#x1F981;','&#x1F98A;','&#x1F42F;','&#x1F43A;','&#x1F40D;'];
+
+function naipeToggleHTML() {
+  return '<div style="display:flex;background:rgba(5,31,32,0.08);border-radius:14px;padding:4px;margin-bottom:20px;gap:4px;">' +
+    '<button onclick="setNaipe(\'masc\')" id="btn-masc" style="flex:1;border:none;border-radius:10px;padding:10px;font-family:Poppins,sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;background:'+(currentNaipe==='masc'?'var(--primary)':'transparent')+';color:'+(currentNaipe==='masc'?'var(--bg)':'var(--text-light)')+'">' +
+      '&#x1F3C3; Masculino</button>' +
+    '<button onclick="setNaipe(\'fem\')" id="btn-fem" style="flex:1;border:none;border-radius:10px;padding:10px;font-family:Poppins,sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;background:'+(currentNaipe==='fem'?'#8B0000':'transparent')+';color:'+(currentNaipe==='fem'?'var(--bg)':'var(--text-light)')+'">' +
+      '&#x1F3C3; Feminino</button>' +
+  '</div>';
+}
+
+function setNaipe(n) {
+  currentNaipe = n;
+  renderGames();
+  renderClassification();
+  renderKnockout();
+}
 
 function apiUrl(range) {
   return 'https://sheets.googleapis.com/v4/spreadsheets/' + SHEET_ID + '/values/' + encodeURIComponent(range) + '?key=' + API_KEY;
@@ -1082,12 +1102,8 @@ function getCell(rows, r, c) {
   return (rows[r] && rows[r][c]) ? rows[r][c].toString().trim() : '';
 }
 
-// ── CARREGA DADOS DA PLANILHA ──────────────────────────
-function parseSheetResults(results, isOffline) {
-  var gruposRows = results[0].values || [];
-  var mmRows     = results[1].values || [];
-
-  appData.jogos = [];
+function parseJogos(gruposRows) {
+  var jogos = [];
   var configs = [
     { grupo:'A', e1:1, g1:3, g2:5, e2:6 },
     { grupo:'B', e1:11, g1:13, g2:15, e2:16 }
@@ -1098,7 +1114,7 @@ function parseSheetResults(results, isOffline) {
       if (!ea && !eb) return;
       var g1 = row[c.g1] || '', g2 = row[c.g2] || '';
       var temGol = g1 !== '' && g2 !== '';
-      appData.jogos.push({
+      jogos.push({
         id: ri + (c.grupo==='A'?1:4),
         grupo: c.grupo, rodada: ri+1,
         casa: ea, visitante: eb,
@@ -1108,13 +1124,23 @@ function parseSheetResults(results, isOffline) {
       });
     });
   });
+  return jogos;
+}
 
-  appData.matamata = [
+function parseMM(mmRows) {
+  return [
     { fase:'Semifinal 1', t1:getCell(mmRows,0,1), t2:getCell(mmRows,0,7), g1:getCell(mmRows,1,1), g2:getCell(mmRows,1,7) },
     { fase:'Semifinal 2', t1:getCell(mmRows,5,1), t2:getCell(mmRows,5,7), g1:getCell(mmRows,6,1), g2:getCell(mmRows,6,7) },
     { fase:'Final',       t1:getCell(mmRows,11,1),t2:getCell(mmRows,11,7),g1:getCell(mmRows,12,1),g2:getCell(mmRows,12,7) }
   ];
+}
 
+// ── CARREGA DADOS DA PLANILHA ──────────────────────────
+function parseSheetResults(results, isOffline) {
+  appData.masc.jogos    = parseJogos(results[0].values || []);
+  appData.masc.matamata = parseMM(results[1].values || []);
+  appData.fem.jogos     = parseJogos(results[2].values || []);
+  appData.fem.matamata  = parseMM(results[3].values || []);
   renderAll();
   if (isOffline) showOfflineBanner();
 }
@@ -1135,17 +1161,14 @@ function showOfflineBanner() {
 function loadSheetData() {
   var urls = [
     apiUrl("'Fase de Grupos'!A5:S7"),
-    apiUrl("'Mata-Mata'!A4:M17")
+    apiUrl("'Mata-Mata'!A4:M17"),
+    apiUrl("'Fase de Grupos-Fem'!A5:S7"),
+    apiUrl("'Mata-Mata-Fem'!A4:M17")
   ];
-
   Promise.all(urls.map(function(u){ return fetch(u).then(function(r){ return r.json(); }); }))
     .then(function(results){ parseSheetResults(results, false); })
     .catch(function() {
-      // Sem rede — tenta cache do Service Worker
-      if (!('caches' in window)) {
-        showToast('Sem conexão com a planilha');
-        return;
-      }
+      if (!('caches' in window)) { showToast('Sem conexão com a planilha'); return; }
       Promise.all(urls.map(function(u){
         return caches.match(u).then(function(r){ return r ? r.json() : Promise.reject(); });
       }))
@@ -1157,7 +1180,7 @@ function loadSheetData() {
 // ── CLASSIFICAÇÃO ──────────────────────────────────────
 function calcClassif(grupo) {
   var times = {};
-  appData.jogos.filter(function(j){ return j.grupo===grupo; }).forEach(function(j) {
+  appData[currentNaipe].jogos.filter(function(j){ return j.grupo===grupo; }).forEach(function(j) {
     [j.casa, j.visitante].forEach(function(t){ if(t && !times[t]) times[t]={nome:t,j:0,v:0,e:0,d:0,gp:0,gc:0,pts:0}; });
     if (j.status !== 'realizado' || j.gols_casa === null) return;
     var ga=j.gols_casa, gb=j.gols_vis;
@@ -1172,48 +1195,52 @@ function calcClassif(grupo) {
 
 // ── RENDER ─────────────────────────────────────────────
 function renderAll() {
-  renderClassification();
   renderGames();
+  renderClassification();
   renderKnockout();
   renderHomeCard();
 }
 
 function renderClassification() {
-  ['A','B'].forEach(function(g, gi) {
+  var pg = document.getElementById('page-classification');
+  var badgesClass = ['gold','silver','bronze','normal','normal','normal'];
+  var html = naipeToggleHTML();
+  ['A','B'].forEach(function(g) {
     var cl = calcClassif(g);
-    var badgesClass = ['gold','silver','bronze','normal','normal','normal'];
-    var emojiOffset = gi * 3;
     var rows = cl.map(function(t, i) {
-      var sg = t.gp - t.gc;
       return '<div class="class-row">' +
         '<div><div class="rank-badge '+badgesClass[i]+'" style="width:24px;height:24px;font-size:11px;margin:0 auto;">'+(i+1)+'</div></div>' +
         '<div class="class-team-name">' +
-          '<div class="class-team-avatar" style="background:linear-gradient(135deg,#DAF1DE,#8EB69B);">'+EMOJIS_GRUPO[emojiOffset+i]+'</div>' +
+          '<div class="class-team-avatar" style="background:linear-gradient(135deg,#DAF1DE,#8EB69B);">&#x1F93E;</div>' +
           '<span style="font-weight:600;">'+t.nome+'</span>' +
         '</div>' +
         '<div>'+t.j+'</div><div>'+t.v+'</div><div>'+t.d+'</div>' +
         '<div class="class-points">'+t.pts+'</div>' +
       '</div>';
     }).join('');
-    var header = '<div class="class-header"><div>#</div><div style="text-align:left;">Equipe</div><div>J</div><div>V</div><div>D</div><div>Pts</div></div>';
-    var tables = document.getElementById('page-classification').querySelectorAll('.class-table');
-    if (tables[gi]) tables[gi].innerHTML = header + rows;
+    html += '<div class="section-title">Grupo '+g+'</div>' +
+      '<div class="class-table">' +
+      '<div class="class-header"><div>#</div><div style="text-align:left;">Equipe</div><div>J</div><div>V</div><div>D</div><div>Pts</div></div>' +
+      rows + '</div>';
   });
+  pg.innerHTML = html;
 }
 
 function renderGames() {
   var pg = document.getElementById('page-games');
-  var realizados  = appData.jogos.filter(function(j){ return j.status==='realizado'; });
-  var pendentes   = appData.jogos.filter(function(j){ return j.status==='pendente'; });
+  var jogos = appData[currentNaipe].jogos;
+  var realizados = jogos.filter(function(j){ return j.status==='realizado'; });
+  var pendentes  = jogos.filter(function(j){ return j.status==='pendente'; });
 
-  var html = '<div class="stats-bar">' +
+  var html = naipeToggleHTML() +
+    '<div class="stats-bar">' +
     '<div class="stat-pill"><div class="stat-value">540</div><div class="stat-label">Min de Handebol</div></div>' +
     '<div class="stat-pill"><div class="stat-value" style="color:var(--success);">6</div><div class="stat-label">Times</div></div>' +
     '<div class="stat-pill"><div class="stat-value">9</div><div class="stat-label">Jogos</div></div>' +
-  '</div>';
+    '</div>';
 
   if (pendentes.length) {
-    html += '<div class="section-title">Proximos Jogos</div>';
+    html += '<div class="section-title">Próximos Jogos</div>';
     html += pendentes.map(function(j) {
       return '<div class="game-card">' +
         '<div class="game-card-header">' +
@@ -1251,7 +1278,7 @@ function renderGames() {
     }).join('');
   }
 
-  if (!html.includes('game-card')) {
+  if (!realizados.length && !pendentes.length) {
     html += '<div style="text-align:center;padding:40px;color:var(--text-light);">Nenhum jogo cadastrado ainda</div>';
   }
 
@@ -1259,13 +1286,13 @@ function renderGames() {
 }
 
 function renderKnockout() {
-  var mm = appData.matamata;
-  var html = '<div class="stats-bar">' +
+  var mm = appData[currentNaipe].matamata;
+  var html = naipeToggleHTML() +
+    '<div class="stats-bar">' +
     '<div class="stat-pill"><div class="stat-value">2</div><div class="stat-label">Semi</div></div>' +
     '<div class="stat-pill"><div class="stat-value">1</div><div class="stat-label">Final</div></div>' +
-  '</div>';
+    '</div>';
 
-  // Semifinais
   html += '<div class="knockout-round"><div class="knockout-title">Semi-Finais</div>';
   [mm[0], mm[1]].forEach(function(m) {
     if (!m) return;
@@ -1290,7 +1317,6 @@ function renderKnockout() {
   });
   html += '</div>';
 
-  // Final
   if (mm[2]) {
     var mf = mm[2];
     var gf1 = mf.g1 !== '' ? parseInt(mf.g1)||0 : null;
@@ -1314,7 +1340,7 @@ function renderKnockout() {
       var camp = gf1 > gf2 ? mf.t1 : mf.t2;
       html += '<div style="background:linear-gradient(135deg,#051F20,#235347);border-radius:20px;padding:24px;text-align:center;color:var(--bg);margin-top:16px;">' +
         '<div style="font-size:40px;margin-bottom:8px;">&#x1F3C6;</div>' +
-        '<div style="font-size:11px;letter-spacing:3px;color:var(--accent-light);margin-bottom:6px;">CAMPEAO COPA AFOHAND</div>' +
+        '<div style="font-size:11px;letter-spacing:3px;color:var(--accent-light);margin-bottom:6px;">CAMPEÃO COPA AFOHAND</div>' +
         '<div style="font-size:24px;font-weight:800;">'+camp+'</div></div>';
     }
   }
@@ -1323,7 +1349,7 @@ function renderKnockout() {
 }
 
 function renderHomeCard() {
-  var realizados = appData.jogos.filter(function(j){ return j.status==='realizado'; });
+  var realizados = appData.masc.jogos.filter(function(j){ return j.status==='realizado'; });
   var liveCard = document.querySelector('.live-match-card');
   if (!liveCard) return;
 
@@ -1341,7 +1367,7 @@ function renderHomeCard() {
       '</div>' +
       '<div class="match-info"><span>Grupo '+ult.grupo+' · Jogo '+ult.rodada+'</span><span>Quadra Eurico Vieira de Resende</span></div>';
   } else {
-    var prox = appData.jogos[0];
+    var prox = appData.masc.jogos[0];
     if (prox) {
       liveCard.innerHTML =
         '<div class="live-badge" style="background:rgba(35,83,71,0.7);">&#x23F3; PROXIMO JOGO</div>' +
