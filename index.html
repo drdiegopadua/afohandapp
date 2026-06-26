@@ -286,6 +286,140 @@ body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--t
 .regulation-text li { margin-bottom: 6px; }
 
 @media (min-width: 480px) { body { max-width: 480px; margin: 0 auto; } .bottom-nav { max-width: 480px; left: 50%; transform: translateX(-50%); } .side-menu { max-width: 360px; } }
+
+/* ===== MELHORIAS VISUAIS v2 ===== */
+
+/* Stat pills com gradiente suave */
+.stat-pill {
+    background: linear-gradient(135deg, #ffffff 0%, #f0faf5 100%);
+    border: 1.5px solid rgba(35,83,71,0.08);
+}
+
+/* Section title com barra lateral colorida */
+.section-title {
+    padding-left: 14px;
+    border-left: 4px solid var(--accent-light);
+}
+
+/* Live match card com glow pulsante */
+@keyframes liveGlow {
+    0%, 100% { box-shadow: 0 12px 40px rgba(5,31,32,0.3), var(--shadow-glow), 0 0 0 0 rgba(139,0,0,0.35); }
+    50%       { box-shadow: 0 12px 40px rgba(5,31,32,0.3), var(--shadow-glow), 0 0 0 12px rgba(139,0,0,0); }
+}
+.live-match-card { animation: slideInUp 0.6s ease forwards, liveGlow 2.5s ease 0.7s infinite; }
+
+/* Game card ao vivo com borda e sombra vermelha */
+.game-card.is-live {
+    border-left-color: var(--danger);
+    box-shadow: var(--shadow-sm), -4px 0 18px rgba(139,0,0,0.22);
+}
+
+/* Nav item active melhorado — fundo em vez de linha no topo */
+.nav-item.active {
+    background: rgba(142,182,155,0.18);
+    border-radius: 14px;
+    color: var(--bg);
+}
+.nav-item.active::before { display: none; }
+
+/* FAB com animação de bounce suave */
+@keyframes fabBounce {
+    0%, 100% { transform: translateY(0) scale(1); }
+    40%       { transform: translateY(-5px) scale(1.06); }
+    65%       { transform: translateY(-1px) scale(0.98); }
+}
+.nav-fab { animation: fabBounce 3.5s ease-in-out infinite; }
+.nav-fab:hover, .nav-fab:active { animation: none; }
+
+/* News images com gradiente por slide */
+#newsTrack .news-slide:nth-child(1) .news-image {
+    background: linear-gradient(135deg, #051F20 0%, #163832 60%, #235347 100%);
+}
+#newsTrack .news-slide:nth-child(2) .news-image {
+    background: linear-gradient(135deg, #8B0000 0%, #5a0000 50%, #3a0000 100%);
+}
+#newsTrack .news-slide:nth-child(3) .news-image {
+    background: linear-gradient(135deg, #235347 0%, #163832 60%, #051F20 100%);
+}
+
+/* Card hover com topo colorido */
+.card-item::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-light));
+    border-radius: 20px 20px 0 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.card-item:hover::before { opacity: 1; }
+
+/* More cards com borda */
+.more-card { border: 1.5px solid rgba(35,83,71,0.06); }
+.more-card:hover { border-color: rgba(35,83,71,0.22); }
+
+/* Tabela de classificação - zebra e destaque líder */
+.class-row:nth-child(even) { background: rgba(35,83,71,0.025); }
+.class-table .class-row:first-child .class-points {
+    color: #B8860B;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+/* Knockout - linha divisória com gradiente */
+.knockout-divider {
+    background: linear-gradient(90deg, transparent, rgba(35,83,71,0.15), transparent);
+}
+
+/* Header logo centrado */
+.header-logo-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 12px;
+}
+.header-logo-img {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    object-fit: contain;
+    background: rgba(218,241,222,0.15);
+    border: 1px solid rgba(142,182,155,0.25);
+    padding: 4px;
+}
+.header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(142,182,155,0.12);
+    border: 1px solid rgba(142,182,155,0.22);
+    border-radius: 100px;
+    padding: 3px 10px;
+    font-size: 10px;
+    color: var(--accent-light);
+    font-weight: 600;
+    letter-spacing: 0.8px;
+}
+.header-badge-dot {
+    width: 5px; height: 5px;
+    background: #8EB69B;
+    border-radius: 50%;
+    animation: pulse 1.5s ease infinite;
+}
+
+/* Game status upcoming com cor âmbar */
+.game-status.upcoming {
+    background: #fef9c3;
+    color: #854d0e;
+}
+
+/* Score maior e mais bold */
+.game-score-display { font-weight: 900; }
+
+/* Nav label mais compacto */
+.nav-item span { font-size: 9px; letter-spacing: 0.2px; font-weight: 600; }
 </style>
 </head>
 <body>
@@ -337,8 +471,16 @@ Mais
 <span></span><span></span><span></span>
 </button>
 </div>
-<div class="header-title" id="pageTitle">Seja Bem-Vindo</div>
-<div class="header-subtitle" id="pageSubtitle">COPA AFOHAND 2026</div>
+<div class="header-logo-row">
+<img src="logo-prefeitura-T.jpg" alt="Prefeitura de Afonso Cláudio" class="header-logo-img">
+<div>
+<div class="header-title" id="pageTitle" style="text-align:left;font-size:18px;">Seja Bem-Vindo</div>
+<div class="header-subtitle" id="pageSubtitle" style="text-align:left;">COPA AFOHAND 2026</div>
+</div>
+<div style="margin-left:auto;">
+<div class="header-badge"><span class="header-badge-dot"></span>2026</div>
+</div>
+</div>
 </header>
 
 <!-- Content -->
@@ -347,12 +489,12 @@ Mais
 <div class="page active" id="page-home">
 <div class="stats-bar">
 <div class="stat-pill animate-in">
-<div class="stat-value">12</div>
-<div class="stat-label">Jogos</div>
+<div class="stat-value">18</div>
+<div class="stat-label">Total de Jogos</div>
 </div>
 <div class="stat-pill animate-in delay-1">
-<div class="stat-value">9</div>
-<div class="stat-label">Jogos</div>
+<div class="stat-value">12</div>
+<div class="stat-label">Equipes</div>
 </div>
 <div class="stat-pill animate-in delay-2">
 <div class="stat-value">2</div>
@@ -506,7 +648,7 @@ Noticias
 
 <div class="section-title">Jogos de Hoje</div>
 
-<div class="game-card" onclick="showToast('Abrindo transmissao ao vivo...')">
+<div class="game-card is-live" onclick="showToast('Abrindo transmissao ao vivo...')">
 <div class="game-card-header">
 <span style="font-size: 12px; color: var(--text-light); font-weight: 500;">Grupo A - Rodada 3</span>
 <span class="game-status live">&#x25CF; AO VIVO</span>
@@ -775,7 +917,7 @@ Noticias
 <div class="page" id="page-more">
 <div class="section-title">Mais Opcoes</div>
 <div class="more-grid">
-<div class="more-card" onclick="showToast('Noticias em desenvolvimento')">
+<div class="more-card" onclick="showPage('home'); setTimeout(function(){ document.getElementById('newsCarousel').scrollIntoView({behavior:'smooth', block:'start'}); }, 400);">
 <div class="more-card-icon" style="background: linear-gradient(135deg, #0B2B26, #163832);">&#x1F4F0;</div>
 <div class="more-card-title">Noticias</div>
 <div class="more-card-desc">Ultimas atualizacoes</div>
