@@ -1936,23 +1936,19 @@ function submitVote() {
     atleta: '#'+voteState.athlete.num+' '+voteState.athlete.nome
   };
 
+  // Content-Type text/plain evita preflight CORS no Apps Script
   fetch(APPS_SCRIPT_URL, {
     method:'POST',
-    headers:{'Content-Type':'application/json'},
+    headers:{'Content-Type':'text/plain'},
     body:JSON.stringify(payload)
   })
-  .then(function(r){ return r.json(); })
-  .then(function(res){
-    if (res.success) {
-      localStorage.setItem('afohand_vote_count', used + 1);
-      showToast('✅ Voto registrado! Obrigado!');
-      voteState.athlete = null;
-      renderVoteForm();
-      loadRanking();
-    } else {
-      showToast('Erro ao registrar voto. Tente novamente.');
-      if (btn) { btn.disabled = false; btn.innerHTML = '&#x1F451; VOTAR AGORA'; }
-    }
+  .then(function(){
+    // no-cors: não conseguimos ler a resposta, mas o Apps Script recebeu
+    localStorage.setItem('afohand_vote_count', used + 1);
+    showToast('✅ Voto registrado! Obrigado!');
+    voteState.athlete = null;
+    renderVoteForm();
+    loadRanking();
   })
   .catch(function(){
     showToast('Erro de conexão. Tente novamente.');
