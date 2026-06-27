@@ -508,8 +508,20 @@ setInterval(tick,1000);tick();
 
 // ═══ CENAS ═══
 function buildScenes(){
-  var mm=new URLSearchParams(window.location.search).get('modo')==='matamata';
-  scenes=mm?['s-matamata','s-galera']:['s-masc-class','s-masc-jogos','s-fem-class','s-fem-jogos','s-matamata','s-galera'];
+  var ALL_SCENES=['s-masc-class','s-masc-jogos','s-fem-class','s-fem-jogos','s-matamata','s-galera'];
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('modo')==='matamata'){scenes=['s-matamata','s-galera'];}
+  else if(params.get('scenes')){
+    var req=params.get('scenes').split(',').map(function(s){return s.trim();});
+    scenes=req.filter(function(s){return ALL_SCENES.includes(s);});
+    if(!scenes.length)scenes=ALL_SCENES.slice();
+  }else{
+    try{
+      var saved=localStorage.getItem('afohand_tv_scenes');
+      if(saved){var p=JSON.parse(saved);scenes=p.filter(function(s){return ALL_SCENES.includes(s);});}
+    }catch(e){}
+    if(!scenes.length)scenes=ALL_SCENES.slice();
+  }
   buildDots();
 }
 function buildDots(){
