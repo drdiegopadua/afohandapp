@@ -29,7 +29,7 @@
 --shadow-sm: 0 4px 16px rgba(5, 31, 32, 0.08);
 --shadow-glow: 0 0 40px rgba(142, 182, 155, 0.3);
 }
-body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; min-height: 100vh; padding-bottom: 90px; }
+body { font-family: 'Poppins', sans-serif; background: linear-gradient(160deg, #b8e4c4 0%, #DAF1DE 40%, #c8ead4 70%, #a8d8b8 100%); background-attachment: fixed; color: var(--text); overflow-x: hidden; min-height: 100vh; padding-bottom: 90px; }
 .splash-screen { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 50%, var(--secondary) 100%); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.6s ease, transform 0.6s ease; }
 .splash-screen.hidden { opacity: 0; transform: scale(1.1); pointer-events: none; }
 .splash-logo { width: 120px; height: 120px; background: var(--bg); border-radius: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 20px 60px rgba(0,0,0,0.4), var(--shadow-glow); }
@@ -84,7 +84,7 @@ body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--t
 .card-count { font-size: 11px; color: var(--text-light); margin-top: 4px; }
 .live-match-card { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 50%, var(--secondary) 100%); border-radius: 24px; padding: 24px; color: var(--bg); margin-bottom: 24px; position: relative; overflow: hidden; box-shadow: 0 12px 40px rgba(5,31,32,0.3), var(--shadow-glow); animation: slideInUp 0.6s ease forwards; }
 .live-match-card::before { content: ''; position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; background: rgba(142,182,155,0.08); border-radius: 50%; }
-.live-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(139,0,0,0.9); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; margin-bottom: 16px; }
+.live-badge { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, #8B0000, #C62828); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; margin-bottom: 16px; box-shadow: 0 4px 16px rgba(139,0,0,0.4); letter-spacing:.5px; }
 .live-dot { width: 6px; height: 6px; background: var(--bg); border-radius: 50%; animation: pulse 1.5s ease infinite; }
 @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.2); } }
 .match-teams { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
@@ -138,7 +138,7 @@ body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--t
 .game-time { font-size: 12px; color: var(--text-light); margin-top: 12px; text-align: center; }
 .class-table { background: var(--card-bg); border-radius: 24px; overflow: hidden; box-shadow: var(--shadow-sm); }
 .class-header { display: grid; grid-template-columns: 40px 1fr 40px 40px 40px 50px; padding: 16px 20px; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: var(--bg); font-size: 12px; font-weight: 600; text-align: center; }
-.class-row { display: grid; grid-template-columns: 40px 1fr 40px 40px 40px 50px; padding: 14px 20px; align-items: center; border-bottom: 1px solid rgba(5,31,32,0.06); transition: all 0.2s ease; cursor: pointer; }
+.class-row { display: grid; grid-template-columns: 40px 1fr 40px 40px 40px 50px; padding: 14px 20px; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.5); transition: all 0.2s ease; cursor: pointer; background: rgba(255,255,255,0.45); }
 .class-row:hover { background: rgba(35,83,71,0.04); }
 .class-row:last-child { border-bottom: none; }
 .class-row > div { text-align: center; font-size: 13px; }
@@ -159,7 +159,7 @@ body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--t
 .knockout-winner .knockout-score { color: var(--success); }
 .knockout-divider { height: 1px; background: rgba(5,31,32,0.08); margin: 4px 0; }
 .more-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-.more-card { background: var(--card-bg); border-radius: 20px; padding: 24px 16px; text-align: center; box-shadow: var(--shadow-sm); transition: all 0.3s ease; cursor: pointer; }
+.more-card { background: rgba(255,255,255,0.65); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,0.85); border-radius: 20px; padding: 24px 16px; text-align: center; box-shadow: 0 6px 24px rgba(5,31,32,0.08); transition: all 0.3s ease; cursor: pointer; }
 .more-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
 .more-card-icon { width: 60px; height: 60px; border-radius: 18px; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; font-size: 28px; transition: transform 0.3s ease; }
 .more-card:hover .more-card-icon { transform: scale(1.1) rotate(5deg); }
@@ -488,7 +488,24 @@ body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--t
 #meuTimeBanner.hidden { display:none!important; }
 .meu-time-label { font-size:10px; font-weight:700; color:var(--accent-light); letter-spacing:1.5px; text-transform:uppercase; }
 .meu-time-name { font-size:16px; font-weight:800; color:#fff; margin-top:2px; }
-.meu-time-logo { width:44px; height:44px; border-radius:12px; object-fit:cover; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; }</style>
+.meu-time-logo { width:44px; height:44px; border-radius:12px; object-fit:cover; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; }/* ── Gradient text ── */
+.grad-text {
+  background: linear-gradient(135deg, #C9A227 0%, #F4D03F 40%, #8EB69B 70%, #235347 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.grad-text-green {
+  background: linear-gradient(135deg, #235347 0%, #8EB69B 50%, #DAF1DE 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.section-title { font-size: 18px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.section-title a { font-size: 12px; color: var(--accent); text-decoration: none; font-weight: 600; -webkit-text-fill-color: var(--accent); }/* ── Score count-up animation ── */
+@keyframes scoreCountUp { 0%{transform:scale(1.3);color:var(--success);} 100%{transform:scale(1);} }
+.score-animated { display:inline-block; }
+.score-animated.pop { animation: scoreCountUp 0.4s ease-out; }</style>
 </head>
 <body>
 <!-- Splash Screen -->
@@ -496,7 +513,7 @@ body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--t
 <div class="splash-logo" style="background:transparent;box-shadow:none;">
 <img src="logo-prefeitura-T.jpg" alt="Prefeitura de Afonso Cláudio" style="width:220px;height:220px;object-fit:contain;">
 </div>
-<div class="splash-title">COPA AFOHAND</div>
+<div class="splash-title grad-text">COPA AFOHAND</div>
 <div class="splash-subtitle">O AFOHAND NA PALMA DA SUA MÃO</div>
 <div class="splash-loader"></div>
 </div>
@@ -743,12 +760,12 @@ Noticias
 </div>
 <div class="game-teams-row">
 <div class="game-team">
-<div class="game-team-logo">&#x1F981;</div>
+<div class="game-team-logo" style="background:none;overflow:hidden;"><img src="logo-prefeitura.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" onerror="this.parentElement.textContent='🦁'"></div>
 <div class="game-team-name">Afonso Cláudio</div>
 </div>
-<div class="game-score-display">24 - 22</div>
+<div class="game-score-display"><span class="score-animated" data-score="24">24</span> - <span class="score-animated" data-score="22">22</span></div>
 <div class="game-team" style="flex-direction: row-reverse; text-align: right;">
-<div class="game-team-logo">&#x1F985;</div>
+<div class="game-team-logo" style="background:none;overflow:hidden;"><img src="logo-dragonhand.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" onerror="this.parentElement.textContent='🦅'"></div>
 <div class="game-team-name">Dragonhand</div>
 </div>
 </div>
@@ -770,12 +787,12 @@ Compartilhar
 </div>
 <div class="game-teams-row">
 <div class="game-team">
-<div class="game-team-logo">&#x1F42F;</div>
+<div class="game-team-logo" style="background:linear-gradient(135deg,#051F20,#235347);color:#8EB69B;font-size:18px;">🏐</div>
 <div class="game-team-name">FAEG Itaguaçu</div>
 </div>
 <div class="game-score-display" style="color: var(--text-light);">VS</div>
 <div class="game-team" style="flex-direction: row-reverse; text-align: right;">
-<div class="game-team-logo">&#x1F43A;</div>
+<div class="game-team-logo" style="background:none;overflow:hidden;"><img src="logo-handvni.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" onerror="this.parentElement.textContent='🐺'"></div>
 <div class="game-team-name">HandVNI</div>
 </div>
 </div>
@@ -798,12 +815,12 @@ Compartilhar
 </div>
 <div class="game-teams-row">
 <div class="game-team">
-<div class="game-team-logo">&#x1F985;</div>
+<div class="game-team-logo" style="background:none;overflow:hidden;"><img src="logo-dragonhand.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" onerror="this.parentElement.textContent='🦅'"></div>
 <div class="game-team-name">Dragonhand</div>
 </div>
-<div class="game-score-display">30 - 18</div>
+<div class="game-score-display"><span class="score-animated" data-score="30">30</span> - <span class="score-animated" data-score="18">18</span></div>
 <div class="game-team" style="flex-direction: row-reverse; text-align: right;">
-<div class="game-team-logo">&#x1F42F;</div>
+<div class="game-team-logo" style="background:linear-gradient(135deg,#051F20,#235347);color:#8EB69B;font-size:18px;">🏐</div>
 <div class="game-team-name">FAEG Itaguaçu</div>
 </div>
 </div>
@@ -823,12 +840,12 @@ Compartilhar
 </div>
 <div class="game-teams-row">
 <div class="game-team">
-<div class="game-team-logo">&#x1F981;</div>
+<div class="game-team-logo" style="background:none;overflow:hidden;"><img src="logo-prefeitura.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" onerror="this.parentElement.textContent='🦁'"></div>
 <div class="game-team-name">Afonso Cláudio</div>
 </div>
-<div class="game-score-display">28 - 15</div>
+<div class="game-score-display"><span class="score-animated" data-score="28">28</span> - <span class="score-animated" data-score="15">15</span></div>
 <div class="game-team" style="flex-direction: row-reverse; text-align: right;">
-<div class="game-team-logo">&#x1F43A;</div>
+<div class="game-team-logo" style="background:none;overflow:hidden;"><img src="logo-handvni.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" onerror="this.parentElement.textContent='🐺'"></div>
 <div class="game-team-name">HandVNI</div>
 </div>
 </div>
@@ -2204,7 +2221,38 @@ function resetOnboarding() {
 }
 
 // Init onboarding on load
-document.addEventListener('DOMContentLoaded', function() { initOnboarding(); });</script>
+document.addEventListener('DOMContentLoaded', function() { initOnboarding(); });
+// ── Score count-up ──────────────────────────────────────
+function animateScores(container) {
+  var els = (container || document).querySelectorAll('.score-animated[data-score]');
+  els.forEach(function(el) {
+    var target = parseInt(el.getAttribute('data-score'));
+    var duration = 900;
+    var start = null;
+    el.textContent = '0';
+    function step(ts) {
+      if (!start) start = ts;
+      var progress = Math.min((ts - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(eased * target);
+      if (progress < 1) { requestAnimationFrame(step); }
+      else { el.textContent = target; el.classList.add('pop'); setTimeout(function(){ el.classList.remove('pop'); }, 400); }
+    }
+    requestAnimationFrame(step);
+  });
+}
+
+// Animate when games page is shown
+var _origShowPage = showPage;
+showPage = function(pageName) {
+  _origShowPage(pageName);
+  if (pageName === 'games') { setTimeout(function(){ animateScores(); }, 350); }
+};
+// Also run on initial load if games page is active
+document.addEventListener('DOMContentLoaded', function() {
+  var gamesPage = document.getElementById('page-games');
+  if (gamesPage && gamesPage.classList.contains('active')) { setTimeout(animateScores, 600); }
+});</script>
 </body>
 </html>
 
