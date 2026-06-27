@@ -601,7 +601,7 @@ Acesso Rapido
 <div class="card-title">Mata-Mata</div>
 <div class="card-count">Semi e Final</div>
 </div>
-<div class="card-item" onclick="showToast('Noticias em breve!')">
+<div class="card-item" onclick="showPage('home'); setTimeout(function(){ document.getElementById('newsCarousel').scrollIntoView({behavior:'smooth', block:'start'}); }, 100);">
 <div class="card-icon light1">&#x1F4F0;</div>
 <div class="card-title">Noticias</div>
 <div class="card-count">5 novas</div>
@@ -620,7 +620,7 @@ Acesso Rapido
 
 <div class="section-title">
 Noticias
-<a href="#" onclick="showToast('Todas as noticias'); return false;">Ver todas</a>
+<a href="#" onclick="document.getElementById('newsCarousel').scrollIntoView({behavior:'smooth', block:'start'}); return false;">Ver todas</a>
 </div>
 <div class="news-carousel" id="newsCarousel">
 <div class="news-track" id="newsTrack">
@@ -1610,11 +1610,11 @@ function showPage(pageName) {
   var titles = { 'home': 'Seja Bem-Vindo', 'games': 'Jogos', 'classification': 'Classificação', 'knockout': 'Mata-Mata', 'more': 'Mais' };
   pages.forEach(function(p) { p.classList.remove('active'); });
   navItems.forEach(function(n) { n.classList.remove('active'); });
-  if (fab) fab.style.boxShadow = '';
+  if (fab) { fab.classList.remove('active'); fab.style.boxShadow = ''; }
   document.getElementById('page-' + pageName).classList.add('active');
   document.getElementById('pageTitle').textContent = titles[pageName] || pageName;
   if (pageName === 'home') {
-    if (fab) fab.style.boxShadow = '0 8px 28px rgba(142,182,155,0.8)';
+    if (fab) { fab.classList.add('active'); fab.style.boxShadow = '0 8px 28px rgba(142,182,155,0.8)'; }
   } else {
     var activeNav = document.querySelector('.nav-item[data-page="' + pageName + '"]');
     if (activeNav) activeNav.classList.add('active');
