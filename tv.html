@@ -125,13 +125,14 @@ html,body{
   backdrop-filter:var(--blur);
   border:1px solid var(--border);
   border-radius:18px;
-  overflow:hidden;
+  overflow:visible;
   position:relative;
 }
-.glass-panel::before{
+.glass-panel-inner{border-radius:18px;overflow:hidden;position:relative;}
+.glass-panel-inner::before{
   content:'';position:absolute;top:0;left:-60%;width:40%;height:100%;
   background:linear-gradient(90deg,transparent,rgba(255,255,255,.04),transparent);
-  animation:shine 5s ease-in-out infinite;
+  animation:shine 5s ease-in-out infinite;pointer-events:none;z-index:1;
 }
 @keyframes shine{0%{left:-60%;}60%,100%{left:120%;}}
 
@@ -388,6 +389,35 @@ html,body{
 .ticket-vs{font-size:10px;letter-spacing:3px;color:var(--muted);}
 .ticket-hora{font-size:18px;font-weight:900;color:var(--acc);font-variant-numeric:tabular-nums;}
 
+/* ── DESTAQUE DA GALERA RANKING ── */
+.galera-row{
+  display:flex;align-items:center;gap:10px;
+  padding:7px 10px;border-radius:10px;
+  animation:slideRowIn .4s ease both;
+  border:1px solid transparent;transition:all .3s;
+}
+.galera-row:nth-child(odd){background:rgba(255,255,255,.03);}
+.galera-row.top1{background:rgba(255,215,0,.10);border-color:rgba(255,215,0,.25);}
+.galera-row.top2{background:rgba(192,192,192,.07);border-color:rgba(192,192,192,.2);}
+.galera-row.top3{background:rgba(205,127,50,.07);border-color:rgba(205,127,50,.2);}
+.galera-pos{
+  width:28px;height:28px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:900;flex-shrink:0;
+}
+.galera-pos.p1{background:rgba(255,215,0,.3);color:#FFD700;font-size:14px;}
+.galera-pos.p2{background:rgba(192,192,192,.2);color:#ccc;}
+.galera-pos.p3{background:rgba(205,127,50,.2);color:#cd7f32;}
+.galera-pos.pn{background:rgba(255,255,255,.07);color:var(--muted);}
+.galera-info{flex:1;min-width:0;}
+.galera-atleta{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.galera-time{font-size:9px;color:var(--muted);letter-spacing:.5px;margin-top:1px;}
+.galera-bar-wrap{width:80px;flex-shrink:0;}
+.galera-bar-bg{height:5px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;}
+.galera-bar-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--acc));border-radius:3px;transition:width .8s ease;}
+.galera-votes{font-size:13px;font-weight:800;color:var(--acc);flex-shrink:0;min-width:28px;text-align:right;}
+.galera-empty{color:var(--muted);text-align:center;padding:30px;font-size:11px;}
+
 /* ── LOADING ── */
 .loading-overlay{
   position:fixed;inset:0;background:var(--bg);
@@ -475,32 +505,52 @@ html,body{
     <!-- CENA 1: Classificação -->
     <div class="scene" id="scene-classif">
       <div class="glass-panel" style="animation-delay:.1s">
-        <div class="panel-title"><div class="dot2"></div>📊 GRUPO A</div>
-        <div class="panel-body" id="classA"></div>
+        <div class="glass-panel-inner">
+          <div class="panel-title"><div class="dot2"></div>📊 GRUPO A</div>
+          <div class="panel-body" id="classA"></div>
+        </div>
       </div>
       <div class="glass-panel" style="animation-delay:.25s">
-        <div class="panel-title"><div class="dot2"></div>📊 GRUPO B</div>
-        <div class="panel-body" id="classB"></div>
+        <div class="glass-panel-inner">
+          <div class="panel-title"><div class="dot2"></div>📊 GRUPO B</div>
+          <div class="panel-body" id="classB"></div>
+        </div>
       </div>
       <div class="glass-panel" style="animation-delay:.4s">
-        <div class="panel-title" id="jogosLateralTitle"><div class="dot2"></div>📅 PRÓXIMOS JOGOS</div>
-        <div class="panel-body" id="jogosLateral"></div>
+        <div class="glass-panel-inner">
+          <div class="panel-title" id="jogosLateralTitle"><div class="dot2"></div>📅 PRÓXIMOS JOGOS</div>
+          <div class="panel-body" id="jogosLateral"></div>
+        </div>
       </div>
     </div>
 
     <!-- CENA 2: Tabela de jogos -->
     <div class="scene" id="scene-tabela">
       <div class="glass-panel" style="animation-delay:.1s">
-        <div class="panel-title"><div class="dot2"></div>📋 TABELA DE JOGOS</div>
-        <div class="panel-body" id="tabelaJogos" style="padding:6px;"></div>
+        <div class="glass-panel-inner">
+          <div class="panel-title"><div class="dot2"></div>📋 TABELA DE JOGOS</div>
+          <div class="panel-body" id="tabelaJogos" style="padding:6px;"></div>
+        </div>
       </div>
     </div>
 
     <!-- CENA 3: Mata-mata -->
     <div class="scene" id="scene-matamata">
       <div class="glass-panel" style="animation-delay:.1s">
-        <div class="panel-title"><div class="dot2"></div>🏆 MATA-MATA</div>
-        <div class="panel-body" id="mmPanel"></div>
+        <div class="glass-panel-inner">
+          <div class="panel-title"><div class="dot2"></div>🏆 MATA-MATA</div>
+          <div class="panel-body" id="mmPanel"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CENA 4: Destaque da Galera Top 10 -->
+    <div class="scene" id="scene-galera">
+      <div class="glass-panel" style="animation-delay:.1s">
+        <div class="glass-panel-inner">
+          <div class="panel-title"><div class="dot2"></div>👑 DESTAQUE DA GALERA — TOP 10</div>
+          <div class="panel-body" id="galeraRanking" style="padding:6px;"></div>
+        </div>
       </div>
     </div>
 
@@ -572,8 +622,12 @@ function getMode(){
 }
 
 // ── CENAS ──
+var VOTE_SHEET_ID='1jGuJHUHyY3p-PQHm7HmNjcYry_xPheuOT2RmVFHh_Go';
+
 function buildSceneList(){
-  scenes=getMode()==='matamata'?['scene-matamata']:['scene-classif','scene-tabela'];
+  scenes=getMode()==='matamata'
+    ?['scene-matamata','scene-galera']
+    :['scene-classif','scene-tabela','scene-matamata','scene-galera'];
   buildDots();
 }
 function buildDots(){
@@ -612,7 +666,9 @@ function loadData(){
     gr.forEach(function(row,ri){
       cfgs.forEach(function(c){
         var ea=row[c.e1]||'',eb=row[c.e2]||'';if(!ea&&!eb)return;
-        var g1=row[c.g1]||'',g2=row[c.g2]||'',ok=g1!==''&&g2!=='';
+        var g1=row[c.g1]||'',g2=row[c.g2]||'';
+        // Só considera realizado se ao menos um gol for > 0 (evita 0x0 de células vazias/padrão)
+        var ok=g1!==''&&g2!==''&&((parseInt(g1)||0)+(parseInt(g2)||0))>0;
         var rodKey=c.grupo+'-'+(ri+1);
         appData.jogos.push({grupo:c.grupo,rodada:ri+1,key:rodKey,horario:HORARIOS[rodKey]||'--:--',casa:ea,visitante:eb,gols_casa:ok?parseInt(g1)||0:null,gols_vis:ok?parseInt(g2)||0:null,status:ok?'realizado':'pendente'});
       });
@@ -791,10 +847,58 @@ function mostrarCampeao(nome){
   showScene(0);startConfetti();
 }
 
+// ── DESTAQUE DA GALERA ──
+function loadGalera(){
+  var url='https://sheets.googleapis.com/v4/spreadsheets/'+VOTE_SHEET_ID+'/values/'+encodeURIComponent('Página1!A2:G')+'?key='+API_KEY;
+  fetch(url).then(function(r){return r.json();}).then(function(data){
+    var rows=data.values||[];
+    // Agrupa votos por atleta (col E=time, col F=atleta)
+    var counts={};
+    rows.forEach(function(r){
+      var atleta=(r[5]||'').trim();
+      var time=(r[4]||'').trim();
+      var naipe=(r[3]||'').trim();
+      if(!atleta)return;
+      var key=atleta+'||'+time;
+      if(!counts[key])counts[key]={atleta:atleta,time:time,naipe:naipe,votos:0};
+      counts[key].votos++;
+    });
+    var ranking=Object.values(counts).sort(function(a,b){return b.votos-a.votos;}).slice(0,10);
+    renderGalera(ranking);
+  }).catch(function(){renderGalera([]);});
+}
+
+function renderGalera(ranking){
+  if(!ranking.length){
+    document.getElementById('galeraRanking').innerHTML='<div class="galera-empty">⏳ Aguardando votos...</div>';
+    return;
+  }
+  var maxVotos=ranking[0].votos||1;
+  var posClass=['p1','p2','p3'];
+  var posEmoji=['🥇','🥈','🥉'];
+  var html='';
+  ranking.forEach(function(r,i){
+    var pc=posClass[i]||'pn';
+    var label=i<3?posEmoji[i]:String(i+1);
+    var pct=Math.round((r.votos/maxVotos)*100);
+    html+='<div class="galera-row '+(i===0?'top1':i===1?'top2':i===2?'top3':'')+'" style="animation-delay:'+(i*.06)+'s">'
+      +'<div class="galera-pos '+pc+'">'+label+'</div>'
+      +'<div class="galera-info">'
+        +'<div class="galera-atleta">'+r.atleta+'</div>'
+        +'<div class="galera-time">'+r.time+(r.naipe?' · '+r.naipe:'')+'</div>'
+      +'</div>'
+      +'<div class="galera-bar-wrap"><div class="galera-bar-bg"><div class="galera-bar-fill" style="width:'+pct+'%"></div></div></div>'
+      +'<div class="galera-votes">'+r.votos+'</div>'
+    +'</div>';
+  });
+  document.getElementById('galeraRanking').innerHTML=html;
+}
+
 // ── RENDER ALL ──
 function renderAll(){
   renderClassif('A','classA');renderClassif('B','classB');
   renderJogosLateral();renderTabelaGrande();renderMataMata();
+  loadGalera();
   if(getMode()==='matamata'){
     var camp=checkCampeao();
     if(camp&&camp!==campeaoAtual){campeaoAtual=camp;mostrarCampeao(camp);}
