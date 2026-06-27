@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -420,6 +420,47 @@ body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--t
 
 /* Nav label mais compacto */
 .nav-item span { font-size: 9px; letter-spacing: 0.2px; font-weight: 600; }
+
+/* ===== DESTAQUE DA GALERA COROA ===== */
+.coroa-btn { display:flex; align-items:center; justify-content:center; gap:10px; background:linear-gradient(135deg,#7B5C00,#C9A227,#D4AF37,#C9A227,#7B5C00); background-size:200% auto; color:#3d2f00; border:none; border-radius:16px; padding:16px 24px; font-family:'Poppins',sans-serif; font-size:14px; font-weight:700; cursor:pointer; width:100%; margin-bottom:16px; box-shadow:0 8px 24px rgba(184,134,11,0.35); transition:all .3s; letter-spacing:.5px; animation:coroa-shine 3s linear infinite; }
+@keyframes coroa-shine { 0%{background-position:0% center} 100%{background-position:200% center} }
+.coroa-btn:hover { transform:translateY(-2px); box-shadow:0 12px 32px rgba(184,134,11,0.5); }
+.coroa-btn:active { transform:scale(0.98); }
+.vote-tab-bar { display:flex; background:rgba(5,31,32,0.08); border-radius:14px; padding:4px; margin-bottom:20px; gap:4px; }
+.vote-tab { flex:1; border:none; border-radius:10px; padding:10px; font-family:'Poppins',sans-serif; font-size:13px; font-weight:600; cursor:pointer; transition:all .2s; background:transparent; color:var(--text-light); }
+.vote-tab.active { background:var(--primary); color:var(--bg); }
+.vote-tab-content { display:none; }
+.vote-tab-content.active { display:block; }
+.vote-naipe-bar { display:flex; background:rgba(5,31,32,0.08); border-radius:12px; padding:4px; margin-bottom:14px; gap:4px; }
+.vote-naipe-btn { flex:1; border:none; border-radius:8px; padding:9px; font-family:'Poppins',sans-serif; font-size:12px; font-weight:600; cursor:pointer; transition:all .2s; background:transparent; color:var(--text-light); }
+.vote-naipe-btn.active-masc { background:var(--primary); color:var(--bg); }
+.vote-naipe-btn.active-fem { background:#8B0000; color:var(--bg); }
+.vote-select { width:100%; border:2px solid rgba(5,31,32,0.12); border-radius:14px; padding:14px 16px; font-family:'Poppins',sans-serif; font-size:14px; margin-bottom:14px; outline:none; background:var(--card-bg); cursor:pointer; -webkit-appearance:none; appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23235347' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 16px center; }
+.vote-select:focus { border-color:var(--accent); }
+.vote-athletes-list { max-height:240px; overflow-y:auto; margin-bottom:14px; border-radius:14px; background:rgba(5,31,32,0.03); padding:8px; }
+.vote-athlete-item { display:flex; align-items:center; gap:12px; padding:11px 12px; border-radius:12px; border:2px solid transparent; background:var(--card-bg); margin-bottom:6px; cursor:pointer; transition:all .2s; box-shadow:0 2px 8px rgba(5,31,32,0.06); }
+.vote-athlete-item:last-child { margin-bottom:0; }
+.vote-athlete-item.selected { border-color:var(--accent); background:rgba(35,83,71,0.08); }
+.vote-athlete-item:active { transform:scale(0.98); }
+.vote-athlete-num { width:34px; height:34px; border-radius:9px; background:var(--primary); color:var(--bg); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; flex-shrink:0; }
+.vote-athlete-item.selected .vote-athlete-num { background:var(--accent); }
+.vote-athlete-name { flex:1; font-size:13px; font-weight:600; }
+.vote-check { width:20px; height:20px; border-radius:50%; background:var(--accent); display:none; align-items:center; justify-content:center; }
+.vote-athlete-item.selected .vote-check { display:flex; }
+.vote-input { width:100%; border:2px solid rgba(5,31,32,0.12); border-radius:14px; padding:13px 16px; font-family:'Poppins',sans-serif; font-size:14px; margin-bottom:10px; outline:none; transition:border .2s; background:var(--card-bg); color:var(--text); }
+.vote-input:focus { border-color:var(--accent); }
+.vote-counter { text-align:center; font-size:12px; color:var(--text-light); margin-bottom:14px; background:rgba(5,31,32,0.04); border-radius:10px; padding:8px; }
+.vote-counter strong { color:var(--primary); }
+.vote-submit-btn { width:100%; background:linear-gradient(135deg,#7B5C00,#C9A227,#D4AF37); color:#3d2f00; border:none; border-radius:14px; padding:15px; font-family:'Poppins',sans-serif; font-size:15px; font-weight:700; cursor:pointer; transition:all .3s; box-shadow:0 6px 20px rgba(184,134,11,0.3); letter-spacing:.3px; }
+.vote-submit-btn:hover:not(:disabled) { transform:translateY(-2px); }
+.vote-submit-btn:disabled { opacity:0.45; cursor:not-allowed; }
+.ranking-item { display:flex; align-items:center; gap:12px; padding:12px 14px; background:var(--card-bg); border-radius:14px; margin-bottom:8px; box-shadow:0 2px 8px rgba(5,31,32,0.07); }
+.ranking-pos { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; }
+.ranking-info { flex:1; min-width:0; }
+.ranking-name { font-size:13px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.ranking-team { font-size:11px; color:var(--text-light); }
+.ranking-votes { font-size:17px; font-weight:800; color:var(--primary); }
+.ranking-loading { text-align:center; padding:20px; color:var(--text-light); font-size:13px; }
 </style>
 </head>
 <body>
@@ -505,6 +546,10 @@ Mais
 <button class="regulation-btn" onclick="openRegulation()">
 <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
 Regulamento da Copa
+</button>
+
+<button class="coroa-btn" onclick="openVote()">
+&#x1F451; Destaque da Galera COROA
 </button>
 
 <div class="live-match-card">
@@ -1092,13 +1137,22 @@ Instalar agora (1 clique)
 <div style="margin-left:auto;background:#d1fae5;color:var(--success);font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">Confirmado</div>
 </div>
 
-<div style="display:flex;align-items:center;gap:14px;padding:14px 0;">
+<div style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid rgba(5,31,32,0.08);">
 <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#8EB69B,#DAF1DE);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">&#x2753;</div>
 <div>
 <div style="font-weight:700;font-size:15px;">Time6</div>
 <div style="font-size:12px;color:var(--text-light);">A confirmar</div>
 </div>
 <div style="margin-left:auto;background:#fef3c7;color:#92400e;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">Aguardando</div>
+</div>
+
+<div style="display:flex;align-items:center;gap:14px;padding:14px 0;">
+<div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#051F20,#0B2B26);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">&#x1F30A;</div>
+<div>
+<div style="font-weight:700;font-size:15px;">ACV Vila Velha</div>
+<div style="font-size:12px;color:var(--text-light);">Vila Velha – ES</div>
+</div>
+<div style="margin-left:auto;background:#d1fae5;color:var(--success);font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">Confirmado</div>
 </div>
 
 </div>
@@ -1184,6 +1238,43 @@ Instalar agora (1 clique)
 <p><strong>Art. 14º</strong> Os casos omissos neste regulamento serão analisados e resolvidos pela Comissão Organizadora da Copa AFOHAND Handebol de 5 – 2026, cujas decisões serão soberanas.</p>
 <p><strong>Art. 15º</strong> Ao efetuar a inscrição na competição, atletas, dirigentes e equipes declaram estar cientes e de acordo com todas as disposições deste regulamento.</p>
 </div>
+</div>
+</div>
+
+<!-- Vote Modal -->
+<div class="regulation-modal" id="voteModal" onclick="closeVote(event)">
+<div class="regulation-content" onclick="event.stopPropagation()" style="max-height:92vh;">
+<div class="regulation-header">
+<div style="display:flex;align-items:center;gap:10px;">
+<span style="font-size:22px;">&#x1F451;</span>
+<div>
+<h2 style="font-size:17px;line-height:1.2;">Destaque da Galera</h2>
+<div style="font-size:11px;color:var(--text-light);font-weight:600;letter-spacing:.5px;">PATROCÍNIO GRUPO COROA</div>
+</div>
+</div>
+<button class="regulation-close" onclick="closeVote()">
+<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+</button>
+</div>
+
+<div class="vote-tab-bar">
+<button class="vote-tab active" id="voteTab-votar" onclick="setVoteTab('votar')">&#x1F5F3; Votar</button>
+<button class="vote-tab" id="voteTab-ranking" onclick="setVoteTab('ranking')">&#x1F3C6; Ranking Top 10</button>
+</div>
+
+<!-- TAB VOTAR -->
+<div class="vote-tab-content active" id="voteContent-votar">
+<div id="voteFormContainer"></div>
+</div>
+
+<!-- TAB RANKING -->
+<div class="vote-tab-content" id="voteContent-ranking">
+<div style="text-align:center;margin-bottom:14px;">
+<span style="font-size:11px;color:var(--text-muted);background:rgba(5,31,32,0.05);border-radius:20px;padding:5px 14px;display:inline-block;">&#x1F504; Atualizado automaticamente a cada 1 minuto</span>
+</div>
+<div id="rankingContainer"><div class="ranking-loading">&#x23F3; Carregando ranking...</div></div>
+</div>
+
 </div>
 </div>
 
@@ -1645,6 +1736,253 @@ function subscribePush(reg) {
     .catch(function(){});
 }
 
+// ── DESTAQUE DA GALERA COROA ─────────────────────────────────────────────────
+// Para enviar votos: crie um Apps Script na planilha (Extensões → Apps Script),
+// cole o código abaixo, deploy como web app (Anyone) e cole a URL em APPS_SCRIPT_URL.
+//
+// function doPost(e){
+//   var sheet = SpreadsheetApp.openById('1jGuJHUHyY3p-PQHm7HmNjcYry_xPheuOT2RmVFHh_Go').getActiveSheet();
+//   var d = JSON.parse(e.postData.contents);
+//   sheet.appendRow([new Date(),d.nome,d.telefone,d.modalidade,d.time,d.atleta]);
+//   return ContentService.createTextOutput(JSON.stringify({success:true})).setMimeType(ContentService.MimeType.JSON);
+// }
+
+var VOTE_SHEET_ID  = '1jGuJHUHyY3p-PQHm7HmNjcYry_xPheuOT2RmVFHh_Go';
+var APPS_SCRIPT_URL = ''; // Cole aqui a URL do Apps Script após o deploy
+
+var voteState = { naipe: 'masc', team: '', athlete: null };
+var rankingTimer = null;
+
+var ATLETAS = {
+  masc: {
+    'Afonso Cláudio':  [{num:1,nome:'Carlos Mendes'},{num:4,nome:'Ricardo Souza'},{num:7,nome:'Paulo Oliveira'},{num:8,nome:'Marcos Lima'},{num:9,nome:'Felipe Santos'},{num:11,nome:'André Costa'},{num:14,nome:'Bruno Ferreira'},{num:17,nome:'Thiago Alves'},{num:20,nome:'Rafael Nunes'},{num:23,nome:'Sandro Dias'}],
+    'Dragonhand':      [{num:1,nome:'Leonardo Rossi'},{num:3,nome:'Gabriel Silva'},{num:5,nome:'Renato Pereira'},{num:7,nome:'Matheus Nunes'},{num:10,nome:'Eduardo Gomes'},{num:12,nome:'Victor Hugo'},{num:15,nome:'Rafael Martins'},{num:19,nome:'Diego Carvalho'},{num:22,nome:'Fábio Ramos'},{num:25,nome:'Júnior Mota'}],
+    'HandVNI':         [{num:2,nome:'Anderson Ramos'},{num:5,nome:'Cristiano Pinto'},{num:8,nome:'Leandro Moura'},{num:10,nome:'Alexandre Dias'},{num:13,nome:'Rodrigo Teixeira'},{num:16,nome:'Sérgio Melo'},{num:20,nome:'Gustavo Barbosa'},{num:23,nome:'Henrique Castro'},{num:26,nome:'Ivan Lima'},{num:29,nome:'Jonas Freitas'}],
+    'FAEG Itaguaçu':   [{num:1,nome:'Douglas Vieira'},{num:4,nome:'Fabrício Cunha'},{num:6,nome:'Igor Nascimento'},{num:9,nome:'Júlio Araújo'},{num:11,nome:'Lucas Ribeiro'},{num:14,nome:'Marcelo Freitas'},{num:17,nome:'Nelson Cardoso'},{num:21,nome:'Oscar Azevedo'},{num:24,nome:'Pedro Luz'},{num:27,nome:'Quevedo Torres'}],
+    'Hand Iúna':       [{num:2,nome:'Alan Pacheco'},{num:5,nome:'Breno Torres'},{num:7,nome:'Caio Medeiros'},{num:9,nome:'Denis Rocha'},{num:12,nome:'Evandro Campos'},{num:15,nome:'Fábio Queiroz'},{num:18,nome:'Gilberto Luz'},{num:22,nome:'Humberto Reis'},{num:25,nome:'Ivan Borges'},{num:28,nome:'Jair Sousa'}],
+    'Time6':           [{num:1,nome:'Kleberson Andrade'},{num:3,nome:'Lúcio Borges'},{num:6,nome:'Mário Coelho'},{num:8,nome:'Nilson Pires'},{num:11,nome:'Otávio Leal'},{num:14,nome:'Pedro Xavier'},{num:17,nome:'Quirino Vaz'},{num:20,nome:'Roberto Melo'},{num:23,nome:'Samuel Cruz'},{num:26,nome:'Tadeu Fontes'}],
+    'ACV Vila Velha':  [{num:1,nome:'Alexandre Batista'},{num:4,nome:'Bruno Vasconcelos'},{num:7,nome:'Carlos Neves'},{num:9,nome:'Daniel Guimarães'},{num:11,nome:'Eduardo Moreira'},{num:14,nome:'Fábio Coutinho'},{num:17,nome:'Gustavo Vieira'},{num:20,nome:'Henrique Cunha'},{num:23,nome:'Igor Nascimento'},{num:26,nome:'Jefferson Lima'}]
+  },
+  fem: {
+    'Afonso Cláudio':  [{num:1,nome:'Ana Beatriz'},{num:4,nome:'Bruna Carvalho'},{num:7,nome:'Camila Rocha'},{num:8,nome:'Daniela Lima'},{num:9,nome:'Elaine Ferreira'},{num:11,nome:'Fernanda Souza'},{num:14,nome:'Gabriela Costa'},{num:17,nome:'Helena Martins'},{num:20,nome:'Isabela Dias'},{num:23,nome:'Juliana Pires'}],
+    'Dragonhand':      [{num:1,nome:'Karen Santos'},{num:3,nome:'Larissa Pereira'},{num:5,nome:'Marina Dias'},{num:7,nome:'Natália Gomes'},{num:10,nome:'Olivia Teixeira'},{num:12,nome:'Patrícia Ribeiro'},{num:15,nome:'Queila Mendes'},{num:19,nome:'Roberta Alves'},{num:22,nome:'Sara Mota'},{num:25,nome:'Tânia Ramos'}],
+    'HandVNI':         [{num:2,nome:'Úrsula Castro'},{num:5,nome:'Valentina Cruz'},{num:8,nome:'Wanessa Barbosa'},{num:10,nome:'Xênia Cunha'},{num:13,nome:'Yara Araújo'},{num:16,nome:'Zélia Monteiro'},{num:20,nome:'Alice Freitas'},{num:23,nome:'Beatriz Correia'},{num:26,nome:'Clara Borges'},{num:29,nome:'Diana Torres'}],
+    'FAEG Itaguaçu':   [{num:1,nome:'Eva Campos'},{num:4,nome:'Flora Pacheco'},{num:6,nome:'Giovana Leal'},{num:9,nome:'Hannah Xavier'},{num:11,nome:'Ingrid Moura'},{num:14,nome:'Joana Fontes'},{num:17,nome:'Kátia Sousa'},{num:21,nome:'Lívia Azevedo'},{num:24,nome:'Mônica Batista'},{num:27,nome:'Núbia Vasconcelos'}],
+    'Hand Iúna':       [{num:2,nome:'Olívia Neves'},{num:5,nome:'Priscila Guimarães'},{num:7,nome:'Quésia Moreira'},{num:9,nome:'Renata Coutinho'},{num:12,nome:'Solange Vieira'},{num:15,nome:'Tânia Cunha'},{num:18,nome:'Uma Cardoso'},{num:22,nome:'Vanessa Nascimento'},{num:25,nome:'Wesley Silva'},{num:28,nome:'Xênia Rocha'}],
+    'Time6':           [{num:1,nome:'Yasmin Oliveira'},{num:3,nome:'Zara Carvalho'},{num:6,nome:'Adriana Santos'},{num:8,nome:'Bianca Lima'},{num:11,nome:'Cecília Mendes'},{num:14,nome:'Denise Ferreira'},{num:17,nome:'Elisa Borges'},{num:20,nome:'Flávia Teixeira'},{num:23,nome:'Graziela Pinto'},{num:26,nome:'Heloísa Melo'}],
+    'ACV Vila Velha':  [{num:1,nome:'Iara Batista'},{num:4,nome:'Juliana Vasconcelos'},{num:7,nome:'Karoline Neves'},{num:9,nome:'Letícia Guimarães'},{num:11,nome:'Marina Moreira'},{num:14,nome:'Nadine Coutinho'},{num:17,nome:'Odete Vieira'},{num:20,nome:'Paula Cunha'},{num:23,nome:'Raquel Nascimento'},{num:26,nome:'Sabrina Rocha'}]
+  }
+};
+
+function openVote() {
+  document.getElementById('voteModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  voteState.naipe = 'masc'; voteState.team = ''; voteState.athlete = null;
+  setVoteTab('votar');
+  renderVoteForm();
+  loadRanking();
+  if (rankingTimer) clearInterval(rankingTimer);
+  rankingTimer = setInterval(loadRanking, 60000);
+}
+
+function closeVote(e) {
+  if (!e || e.target === document.getElementById('voteModal') || (e.target && e.target.closest && e.target.closest('.regulation-close'))) {
+    document.getElementById('voteModal').classList.remove('open');
+    document.body.style.overflow = '';
+    if (rankingTimer) { clearInterval(rankingTimer); rankingTimer = null; }
+  }
+}
+
+function setVoteTab(tab) {
+  ['votar','ranking'].forEach(function(t) {
+    document.getElementById('voteTab-'+t).classList.toggle('active', t===tab);
+    document.getElementById('voteContent-'+t).classList.toggle('active', t===tab);
+  });
+}
+
+function setVoteNaipe(n) {
+  voteState.naipe = n; voteState.team = ''; voteState.athlete = null;
+  renderVoteForm();
+}
+
+function setVoteTeam(val) {
+  voteState.team = val; voteState.athlete = null;
+  renderVoteForm();
+  setTimeout(function(){ var el=document.getElementById('athletesList'); if(el) el.scrollIntoView({behavior:'smooth',block:'nearest'}); },100);
+}
+
+function selectAthlete(num, nome) {
+  voteState.athlete = {num:num, nome:nome};
+  renderVoteForm();
+}
+
+function getUsedVotes() { return parseInt(localStorage.getItem('afohand_vote_count')||'0'); }
+
+function renderVoteForm() {
+  var used = getUsedVotes();
+  var remaining = 3 - used;
+  var naipe = voteState.naipe;
+  var teams = Object.keys(ATLETAS[naipe]);
+
+  var naipeBar = '<div class="vote-naipe-bar">' +
+    '<button class="vote-naipe-btn '+(naipe==='masc'?'active-masc':'')+'" onclick="setVoteNaipe(\'masc\')">&#x1F3C3; Masculino</button>' +
+    '<button class="vote-naipe-btn '+(naipe==='fem'?'active-fem':'')+'" onclick="setVoteNaipe(\'fem\')">&#x1F3C3; Feminino</button>' +
+  '</div>';
+
+  var teamSelect = '<select class="vote-select" onchange="setVoteTeam(this.value)">' +
+    '<option value="">-- Selecione a equipe --</option>' +
+    teams.map(function(t){ return '<option value="'+t+'"'+(voteState.team===t?' selected':'')+'>'+t+'</option>'; }).join('') +
+  '</select>';
+
+  var athletesHtml = '';
+  if (voteState.team && ATLETAS[naipe][voteState.team]) {
+    athletesHtml = '<div id="athletesList" class="vote-athletes-list">' +
+      ATLETAS[naipe][voteState.team].map(function(a) {
+        var sel = voteState.athlete && voteState.athlete.num === a.num;
+        return '<div class="vote-athlete-item '+(sel?'selected':'')+'" onclick="selectAthlete('+a.num+',\''+a.nome.replace(/'/g,"\\'")+'\')">' +
+          '<div class="vote-athlete-num">'+a.num+'</div>' +
+          '<div class="vote-athlete-name">'+a.nome+'</div>' +
+          '<div class="vote-check"><svg fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24" width="12" height="12"><path d="M5 13l4 4L19 7"/></svg></div>' +
+        '</div>';
+      }).join('') +
+    '</div>';
+  }
+
+  var selectedBadge = '';
+  if (voteState.athlete) {
+    selectedBadge = '<div style="background:rgba(35,83,71,0.1);border:2px solid var(--accent);border-radius:12px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;">' +
+      '<span style="font-size:18px;">&#x2705;</span>' +
+      '<div><div style="font-size:12px;color:var(--text-light);">Atleta selecionado</div>' +
+      '<div style="font-size:14px;font-weight:700;">#'+voteState.athlete.num+' '+voteState.athlete.nome+'</div></div>' +
+    '</div>';
+  }
+
+  var formFields = '';
+  if (remaining > 0) {
+    formFields = selectedBadge +
+      '<input class="vote-input" id="voteNome" type="text" placeholder="Seu nome completo" autocomplete="name">' +
+      '<input class="vote-input" id="voteTel" type="tel" placeholder="Seu telefone (WhatsApp)" autocomplete="tel">' +
+      '<div class="vote-counter">Você tem <strong>'+remaining+' voto'+(remaining>1?'s':'')+' restante'+(remaining>1?'s':'')+'</strong> (máximo 3 por pessoa)</div>' +
+      '<button class="vote-submit-btn" onclick="submitVote()"'+((!voteState.athlete)?' disabled':'')+'>&#x1F451; VOTAR AGORA</button>';
+  } else {
+    formFields = '<div style="text-align:center;padding:24px;background:linear-gradient(135deg,#051F20,#235347);border-radius:16px;color:var(--bg);">' +
+      '<div style="font-size:36px;margin-bottom:8px;">&#x1F3C6;</div>' +
+      '<div style="font-size:16px;font-weight:700;margin-bottom:6px;">Votos registrados!</div>' +
+      '<div style="font-size:13px;opacity:.8;">Você já usou seus 3 votos. Obrigado por participar!</div>' +
+    '</div>';
+  }
+
+  document.getElementById('voteFormContainer').innerHTML = naipeBar + teamSelect + athletesHtml + formFields;
+}
+
+function submitVote() {
+  var nomeEl = document.getElementById('voteNome');
+  var telEl  = document.getElementById('voteTel');
+  if (!nomeEl || !telEl) return;
+  var nome = nomeEl.value.trim();
+  var tel  = telEl.value.trim();
+
+  if (!voteState.athlete) { showToast('Selecione um atleta para votar'); return; }
+  if (!nome) { showToast('Informe seu nome'); return; }
+  if (!tel || tel.length < 8) { showToast('Informe um telefone válido'); return; }
+
+  var used = getUsedVotes();
+  if (used >= 3) { showToast('Você já usou seus 3 votos!'); return; }
+
+  if (!APPS_SCRIPT_URL) {
+    showToast('⚙️ Servidor de votos não configurado ainda');
+    return;
+  }
+
+  var btn = document.querySelector('.vote-submit-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Enviando...'; }
+
+  var payload = {
+    nome: nome,
+    telefone: tel,
+    modalidade: voteState.naipe === 'masc' ? 'Masculino' : 'Feminino',
+    time: voteState.team,
+    atleta: '#'+voteState.athlete.num+' '+voteState.athlete.nome
+  };
+
+  fetch(APPS_SCRIPT_URL, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(payload)
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(res){
+    if (res.success) {
+      localStorage.setItem('afohand_vote_count', used + 1);
+      showToast('✅ Voto registrado! Obrigado!');
+      voteState.athlete = null;
+      renderVoteForm();
+      loadRanking();
+    } else {
+      showToast('Erro ao registrar voto. Tente novamente.');
+      if (btn) { btn.disabled = false; btn.innerHTML = '&#x1F451; VOTAR AGORA'; }
+    }
+  })
+  .catch(function(){
+    showToast('Erro de conexão. Tente novamente.');
+    if (btn) { btn.disabled = false; btn.innerHTML = '&#x1F451; VOTAR AGORA'; }
+  });
+}
+
+function loadRanking() {
+  var url = 'https://sheets.googleapis.com/v4/spreadsheets/'+VOTE_SHEET_ID+'/values/'+encodeURIComponent('Página1!A2:F')+'?key='+API_KEY;
+  fetch(url)
+    .then(function(r){ return r.json(); })
+    .then(function(data){ renderRanking(data.values || []); })
+    .catch(function(){
+      var c = document.getElementById('rankingContainer');
+      if (c) c.innerHTML = '<div class="ranking-loading">&#x26A0; Erro ao carregar. Verifique a conexão.</div>';
+    });
+}
+
+function renderRanking(rows) {
+  var counts = { masc:{}, fem:{} };
+  rows.forEach(function(row){
+    var naipe = (row[3]||'').toLowerCase().indexOf('fem')>=0 ? 'fem' : 'masc';
+    var time   = row[4]||'';
+    var atleta = row[5]||'';
+    if (!atleta) return;
+    var key = atleta+'|||'+time;
+    if (!counts[naipe][key]) counts[naipe][key] = {atleta:atleta, time:time, votos:0};
+    counts[naipe][key].votos++;
+  });
+
+  var badges = ['gold','silver','bronze'];
+  var naipeLabels = {masc:'&#x1F3C3; Masculino', fem:'&#x1F3C3; Feminino'};
+  var html = '';
+
+  ['masc','fem'].forEach(function(n){
+    var sorted = Object.values(counts[n]).sort(function(a,b){return b.votos-a.votos;}).slice(0,10);
+    html += '<div style="font-size:14px;font-weight:700;color:var(--primary);margin:16px 0 10px;padding-left:12px;border-left:4px solid var(--accent-light);">'+naipeLabels[n]+'</div>';
+    if (!sorted.length) {
+      html += '<div style="text-align:center;padding:16px;color:var(--text-light);font-size:13px;background:rgba(5,31,32,0.03);border-radius:12px;">Nenhum voto ainda</div>';
+    } else {
+      sorted.forEach(function(item, i){
+        var badgeClass = badges[i]||'normal';
+        html += '<div class="ranking-item">' +
+          '<div class="ranking-pos rank-badge '+badgeClass+'">'+(i+1)+'</div>' +
+          '<div class="ranking-info">' +
+            '<div class="ranking-name">'+item.atleta+'</div>' +
+            '<div class="ranking-team">'+item.time+'</div>' +
+          '</div>' +
+          '<div style="text-align:right;">' +
+            '<div class="ranking-votes">'+item.votos+'</div>' +
+            '<div style="font-size:10px;color:var(--text-muted);">voto'+(item.votos>1?'s':'')+'</div>' +
+          '</div>' +
+        '</div>';
+      });
+    }
+  });
+
+  var c = document.getElementById('rankingContainer');
+  if (c) c.innerHTML = html;
+}
+
 function urlBase64ToUint8Array(base64String) {
   var padding = '='.repeat((4 - base64String.length % 4) % 4);
   var base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
@@ -1656,3 +1994,4 @@ function urlBase64ToUint8Array(base64String) {
 </script>
 </body>
 </html>
+
