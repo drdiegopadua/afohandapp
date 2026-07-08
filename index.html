@@ -157,6 +157,7 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(160deg, #
 .knockout-score { font-size: 16px; font-weight: 700; color: var(--primary); }
 .knockout-winner .knockout-team-name { color: var(--primary); }
 .knockout-winner .knockout-score { color: var(--success); }
+.team-logo img, .game-team-logo img, .class-team-avatar img, .knockout-team-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
 .knockout-divider { height: 1px; background: rgba(5,31,32,0.08); margin: 4px 0; }
 .more-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
 .more-card { background: rgba(255,255,255,0.65); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,0.85); border-radius: 20px; padding: 24px 16px; text-align: center; box-shadow: 0 6px 24px rgba(5,31,32,0.08); transition: all 0.3s ease; cursor: pointer; }
@@ -1343,6 +1344,28 @@ var appData  = {
 };
 var currentNaipe = 'masc';
 
+// ── ESCUDOS DOS TIMES ──────────────────────────────────
+var TEAM_LOGOS = {
+  'AFONSOCLAUDIO': 'logo-afonso-claudio.jpg',
+  'DRAGONHAND': 'logo-dragonhand.jpg',
+  'HANDVNI': 'logo-handvni.jpg',
+  'FAEG': 'logo-faeg.jpg',
+  'FAEGITAGUACU': 'logo-faeg.jpg',
+  'HANDIUNA': 'logo-handiuna.jpg',
+  'ACV': 'logo-acv.jpg',
+  'ACVVILAVELHA': 'logo-acv.jpg'
+};
+function normTeam(nome) {
+  return (nome || '').toString().toUpperCase()
+    .replace(/[ÁÀÂÃÄ]/g, 'A').replace(/[ÉÈÊË]/g, 'E').replace(/[ÍÌÎÏ]/g, 'I')
+    .replace(/[ÓÒÔÕÖ]/g, 'O').replace(/[ÚÙÛÜ]/g, 'U').replace(/Ç/g, 'C')
+    .replace(/[^A-Z0-9]/g, '');
+}
+function teamLogoHTML(nome, fallbackEmoji) {
+  var logo = TEAM_LOGOS[normTeam(nome)];
+  return logo ? '<img src="' + logo + '" alt="' + nome + '">' : (fallbackEmoji || '&#x1F91C;');
+}
+
 var EMOJIS_GRUPO = ['&#x1F985;','&#x1F981;','&#x1F98A;','&#x1F42F;','&#x1F43A;','&#x1F40D;'];
 
 function naipeToggleHTML() {
@@ -1478,7 +1501,7 @@ function renderClassification() {
       return '<div class="class-row">' +
         '<div><div class="rank-badge '+badgesClass[i]+'" style="width:24px;height:24px;font-size:11px;margin:0 auto;">'+(i+1)+'</div></div>' +
         '<div class="class-team-name">' +
-          '<div class="class-team-avatar" style="background:linear-gradient(135deg,#DAF1DE,#8EB69B);">&#x1F93E;</div>' +
+          '<div class="class-team-avatar" style="background:linear-gradient(135deg,#DAF1DE,#8EB69B);">'+teamLogoHTML(t.nome,'&#x1F93E;')+'</div>' +
           '<span style="font-weight:600;">'+t.nome+'</span>' +
         '</div>' +
         '<div>'+t.j+'</div><div>'+t.v+'</div><div>'+t.d+'</div>' +
@@ -1515,9 +1538,9 @@ function renderGames() {
           '<span class="game-status upcoming">&#x23F0; A Jogar</span>' +
         '</div>' +
         '<div class="game-teams-row">' +
-          '<div class="game-team"><div class="game-team-logo">&#x1F91C;</div><div class="game-team-name">'+j.casa+'</div></div>' +
+          '<div class="game-team"><div class="game-team-logo">'+teamLogoHTML(j.casa,'&#x1F91C;')+'</div><div class="game-team-name">'+j.casa+'</div></div>' +
           '<div class="game-score-display" style="color:var(--text-light);">VS</div>' +
-          '<div class="game-team" style="flex-direction:row-reverse;text-align:right;"><div class="game-team-logo">&#x1F91B;</div><div class="game-team-name">'+j.visitante+'</div></div>' +
+          '<div class="game-team" style="flex-direction:row-reverse;text-align:right;"><div class="game-team-logo">'+teamLogoHTML(j.visitante,'&#x1F91B;')+'</div><div class="game-team-name">'+j.visitante+'</div></div>' +
         '</div>' +
         '<div class="game-time">Quadra Eurico Vieira de Resende</div>' +
       '</div>';
@@ -1534,10 +1557,10 @@ function renderGames() {
           '<span class="game-status finished">&#x2713; Finalizado</span>' +
         '</div>' +
         '<div class="game-teams-row">' +
-          '<div class="game-team"><div class="game-team-logo">&#x1F91C;</div>' +
+          '<div class="game-team"><div class="game-team-logo">'+teamLogoHTML(j.casa,'&#x1F91C;')+'</div>' +
             '<div class="game-team-name" style="'+(vA?'font-weight:700;color:var(--primary)':'')+'">'+j.casa+'</div></div>' +
           '<div class="game-score-display">'+j.gols_casa+' - '+j.gols_vis+'</div>' +
-          '<div class="game-team" style="flex-direction:row-reverse;text-align:right;"><div class="game-team-logo">&#x1F91B;</div>' +
+          '<div class="game-team" style="flex-direction:row-reverse;text-align:right;"><div class="game-team-logo">'+teamLogoHTML(j.visitante,'&#x1F91B;')+'</div>' +
             '<div class="game-team-name" style="'+(vB?'font-weight:700;color:var(--primary)':'')+'">'+j.visitante+'</div></div>' +
         '</div>' +
         '<div class="game-time">Quadra Eurico Vieira de Resende</div>' +
@@ -1570,13 +1593,13 @@ function renderKnockout() {
     html += '<div style="margin-bottom:8px;"><div style="font-size:11px;color:var(--text-muted);padding:4px 0;">'+m.fase+'</div>' +
     '<div class="knockout-match">' +
       '<div class="knockout-team '+(vA?'knockout-winner':'')+'">' +
-        '<div class="knockout-team-info"><div class="knockout-team-avatar">&#x1F91C;</div>' +
+        '<div class="knockout-team-info"><div class="knockout-team-avatar">'+teamLogoHTML(m.t1,'&#x1F91C;')+'</div>' +
         '<div class="knockout-team-name">'+(m.t1||'A definir')+'</div></div>' +
         '<div class="knockout-score">'+(realizado?g1:'--')+'</div>' +
       '</div>' +
       '<div class="knockout-divider"></div>' +
       '<div class="knockout-team '+(vB?'knockout-winner':'')+'">' +
-        '<div class="knockout-team-info"><div class="knockout-team-avatar">&#x1F91B;</div>' +
+        '<div class="knockout-team-info"><div class="knockout-team-avatar">'+teamLogoHTML(m.t2,'&#x1F91B;')+'</div>' +
         '<div class="knockout-team-name">'+(m.t2||'A definir')+'</div></div>' +
         '<div class="knockout-score">'+(realizado?g2:'--')+'</div>' +
       '</div>' +
@@ -1593,12 +1616,12 @@ function renderKnockout() {
     html += '<div class="knockout-round"><div class="knockout-title">&#x1F3C6; Final</div>' +
     '<div class="knockout-match">' +
       '<div class="knockout-team '+(vfA?'knockout-winner':'')+'">' +
-        '<div class="knockout-team-info"><div class="knockout-team-avatar">&#x1F91C;</div>' +
+        '<div class="knockout-team-info"><div class="knockout-team-avatar">'+teamLogoHTML(mf.t1,'&#x1F91C;')+'</div>' +
         '<div class="knockout-team-name">'+(mf.t1||'Vencedor SF1')+'</div></div>' +
         '<div class="knockout-score">'+(rfin?gf1:'--')+'</div>' +
       '</div><div class="knockout-divider"></div>' +
       '<div class="knockout-team '+(vfB?'knockout-winner':'')+'">' +
-        '<div class="knockout-team-info"><div class="knockout-team-avatar">&#x1F91B;</div>' +
+        '<div class="knockout-team-info"><div class="knockout-team-avatar">'+teamLogoHTML(mf.t2,'&#x1F91B;')+'</div>' +
         '<div class="knockout-team-name">'+(mf.t2||'Vencedor SF2')+'</div></div>' +
         '<div class="knockout-score">'+(rfin?gf2:'--')+'</div>' +
       '</div>' +
@@ -1626,10 +1649,10 @@ function renderHomeCard() {
     liveCard.innerHTML =
       '<div class="live-badge" style="background:rgba(35,83,71,0.9);">&#x2713; ULTIMO RESULTADO</div>' +
       '<div class="match-teams">' +
-        '<div class="team"><div class="team-logo">&#x1F91C;</div>' +
+        '<div class="team"><div class="team-logo">'+teamLogoHTML(ult.casa,'&#x1F91C;')+'</div>' +
           '<div class="team-name" style="'+(vA?'font-weight:800':'')+'">'+ult.casa+'</div></div>' +
         '<div class="match-score">'+ult.gols_casa+' – '+ult.gols_vis+'</div>' +
-        '<div class="team"><div class="team-logo">&#x1F91B;</div>' +
+        '<div class="team"><div class="team-logo">'+teamLogoHTML(ult.visitante,'&#x1F91B;')+'</div>' +
           '<div class="team-name" style="'+(vB?'font-weight:800':'')+'">'+ult.visitante+'</div></div>' +
       '</div>' +
       '<div class="match-info"><span>Grupo '+ult.grupo+' · Jogo '+ult.rodada+'</span><span>Quadra Eurico Vieira de Resende</span></div>';
@@ -1639,9 +1662,9 @@ function renderHomeCard() {
       liveCard.innerHTML =
         '<div class="live-badge" style="background:rgba(35,83,71,0.7);">&#x23F3; PROXIMO JOGO</div>' +
         '<div class="match-teams">' +
-          '<div class="team"><div class="team-logo">&#x1F91C;</div><div class="team-name">'+prox.casa+'</div></div>' +
+          '<div class="team"><div class="team-logo">'+teamLogoHTML(prox.casa,'&#x1F91C;')+'</div><div class="team-name">'+prox.casa+'</div></div>' +
           '<div class="match-score" style="font-size:28px;letter-spacing:2px;">VS</div>' +
-          '<div class="team"><div class="team-logo">&#x1F91B;</div><div class="team-name">'+prox.visitante+'</div></div>' +
+          '<div class="team"><div class="team-logo">'+teamLogoHTML(prox.visitante,'&#x1F91B;')+'</div><div class="team-name">'+prox.visitante+'</div></div>' +
         '</div>' +
         '<div class="match-info"><span>Grupo '+prox.grupo+'</span><span>Quadra Eurico Vieira de Resende</span></div>';
     }
