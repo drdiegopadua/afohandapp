@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -29,7 +29,7 @@
 --shadow-sm: 0 4px 16px rgba(5, 31, 32, 0.08);
 --shadow-glow: 0 0 40px rgba(142, 182, 155, 0.3);
 }
-body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; min-height: 100vh; padding-bottom: 90px; }
+body { font-family: 'Poppins', sans-serif; background: linear-gradient(160deg, #b8e4c4 0%, #DAF1DE 40%, #c8ead4 70%, #a8d8b8 100%); background-attachment: fixed; color: var(--text); overflow-x: hidden; min-height: 100vh; padding-bottom: 90px; }
 .splash-screen { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 50%, var(--secondary) 100%); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.6s ease, transform 0.6s ease; }
 .splash-screen.hidden { opacity: 0; transform: scale(1.1); pointer-events: none; }
 .splash-logo { width: 120px; height: 120px; background: var(--bg); border-radius: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 20px 60px rgba(0,0,0,0.4), var(--shadow-glow); }
@@ -84,7 +84,7 @@ body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--t
 .card-count { font-size: 11px; color: var(--text-light); margin-top: 4px; }
 .live-match-card { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 50%, var(--secondary) 100%); border-radius: 24px; padding: 24px; color: var(--bg); margin-bottom: 24px; position: relative; overflow: hidden; box-shadow: 0 12px 40px rgba(5,31,32,0.3), var(--shadow-glow); animation: slideInUp 0.6s ease forwards; }
 .live-match-card::before { content: ''; position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; background: rgba(142,182,155,0.08); border-radius: 50%; }
-.live-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(139,0,0,0.9); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; margin-bottom: 16px; }
+.live-badge { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, #8B0000, #C62828); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; margin-bottom: 16px; box-shadow: 0 4px 16px rgba(139,0,0,0.4); letter-spacing:.5px; }
 .live-dot { width: 6px; height: 6px; background: var(--bg); border-radius: 50%; animation: pulse 1.5s ease infinite; }
 @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.2); } }
 .match-teams { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
@@ -138,7 +138,7 @@ body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--t
 .game-time { font-size: 12px; color: var(--text-light); margin-top: 12px; text-align: center; }
 .class-table { background: var(--card-bg); border-radius: 24px; overflow: hidden; box-shadow: var(--shadow-sm); }
 .class-header { display: grid; grid-template-columns: 40px 1fr 40px 40px 40px 50px; padding: 16px 20px; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: var(--bg); font-size: 12px; font-weight: 600; text-align: center; }
-.class-row { display: grid; grid-template-columns: 40px 1fr 40px 40px 40px 50px; padding: 14px 20px; align-items: center; border-bottom: 1px solid rgba(5,31,32,0.06); transition: all 0.2s ease; cursor: pointer; }
+.class-row { display: grid; grid-template-columns: 40px 1fr 40px 40px 40px 50px; padding: 14px 20px; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.5); transition: all 0.2s ease; cursor: pointer; background: rgba(255,255,255,0.45); }
 .class-row:hover { background: rgba(35,83,71,0.04); }
 .class-row:last-child { border-bottom: none; }
 .class-row > div { text-align: center; font-size: 13px; }
@@ -159,7 +159,7 @@ body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--t
 .knockout-winner .knockout-score { color: var(--success); }
 .knockout-divider { height: 1px; background: rgba(5,31,32,0.08); margin: 4px 0; }
 .more-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-.more-card { background: var(--card-bg); border-radius: 20px; padding: 24px 16px; text-align: center; box-shadow: var(--shadow-sm); transition: all 0.3s ease; cursor: pointer; }
+.more-card { background: rgba(255,255,255,0.65); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,0.85); border-radius: 20px; padding: 24px 16px; text-align: center; box-shadow: 0 6px 24px rgba(5,31,32,0.08); transition: all 0.3s ease; cursor: pointer; }
 .more-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
 .more-card-icon { width: 60px; height: 60px; border-radius: 18px; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; font-size: 28px; transition: transform 0.3s ease; }
 .more-card:hover .more-card-icon { transform: scale(1.1) rotate(5deg); }
@@ -286,7 +286,226 @@ body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--t
 .regulation-text li { margin-bottom: 6px; }
 
 @media (min-width: 480px) { body { max-width: 480px; margin: 0 auto; } .bottom-nav { max-width: 480px; left: 50%; transform: translateX(-50%); } .side-menu { max-width: 360px; } }
-</style>
+
+/* ===== MELHORIAS VISUAIS v2 ===== */
+
+/* Stat pills com gradiente suave */
+.stat-pill {
+    background: linear-gradient(135deg, #ffffff 0%, #f0faf5 100%);
+    border: 1.5px solid rgba(35,83,71,0.08);
+}
+
+/* Section title com barra lateral colorida */
+.section-title {
+    padding-left: 14px;
+    border-left: 4px solid var(--accent-light);
+}
+
+/* Live match card com glow pulsante */
+@keyframes liveGlow {
+    0%, 100% { box-shadow: 0 12px 40px rgba(5,31,32,0.3), var(--shadow-glow), 0 0 0 0 rgba(139,0,0,0.35); }
+    50%       { box-shadow: 0 12px 40px rgba(5,31,32,0.3), var(--shadow-glow), 0 0 0 12px rgba(139,0,0,0); }
+}
+.live-match-card { animation: slideInUp 0.6s ease forwards, liveGlow 2.5s ease 0.7s infinite; }
+
+/* Game card ao vivo com borda e sombra vermelha */
+.game-card.is-live {
+    border-left-color: var(--danger);
+    box-shadow: var(--shadow-sm), -4px 0 18px rgba(139,0,0,0.22);
+}
+
+/* Nav item active melhorado — fundo em vez de linha no topo */
+.nav-item.active {
+    background: rgba(142,182,155,0.18);
+    border-radius: 14px;
+    color: var(--bg);
+}
+.nav-item.active::before { display: none; }
+
+/* FAB com animação de bounce suave */
+@keyframes fabBounce {
+    0%, 100% { transform: translateY(0) scale(1); }
+    40%       { transform: translateY(-5px) scale(1.06); }
+    65%       { transform: translateY(-1px) scale(0.98); }
+}
+.nav-fab { animation: fabBounce 3.5s ease-in-out infinite; }
+.nav-fab:hover, .nav-fab:active { animation: none; }
+
+/* News images com gradiente por slide */
+#newsTrack .news-slide:nth-child(1) .news-image {
+    background: linear-gradient(135deg, #051F20 0%, #163832 60%, #235347 100%);
+}
+#newsTrack .news-slide:nth-child(2) .news-image {
+    background: linear-gradient(135deg, #8B0000 0%, #5a0000 50%, #3a0000 100%);
+}
+#newsTrack .news-slide:nth-child(3) .news-image {
+    background: linear-gradient(135deg, #235347 0%, #163832 60%, #051F20 100%);
+}
+
+/* Card hover com topo colorido */
+.card-item::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-light));
+    border-radius: 20px 20px 0 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.card-item:hover::before { opacity: 1; }
+
+/* More cards com borda */
+.more-card { border: 1.5px solid rgba(35,83,71,0.06); }
+.more-card:hover { border-color: rgba(35,83,71,0.22); }
+
+/* Tabela de classificação - zebra e destaque líder */
+.class-row:nth-child(even) { background: rgba(35,83,71,0.025); }
+.class-table .class-row:first-child .class-points {
+    color: #B8860B;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+/* Knockout - linha divisória com gradiente */
+.knockout-divider {
+    background: linear-gradient(90deg, transparent, rgba(35,83,71,0.15), transparent);
+}
+
+/* Header logo centrado */
+.header-logo-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 12px;
+}
+.header-logo-img {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    object-fit: contain;
+    background: rgba(218,241,222,0.15);
+    border: 1px solid rgba(142,182,155,0.25);
+    padding: 4px;
+}
+.header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(142,182,155,0.12);
+    border: 1px solid rgba(142,182,155,0.22);
+    border-radius: 100px;
+    padding: 3px 10px;
+    font-size: 10px;
+    color: var(--accent-light);
+    font-weight: 600;
+    letter-spacing: 0.8px;
+}
+.header-badge-dot {
+    width: 5px; height: 5px;
+    background: #8EB69B;
+    border-radius: 50%;
+    animation: pulse 1.5s ease infinite;
+}
+
+/* Game status upcoming com cor âmbar */
+.game-status.upcoming {
+    background: #fef9c3;
+    color: #854d0e;
+}
+
+/* Score maior e mais bold */
+.game-score-display { font-weight: 900; }
+
+/* Nav label mais compacto */
+.nav-item span { font-size: 9px; letter-spacing: 0.2px; font-weight: 600; }
+
+/* ===== DESTAQUE DA GALERA COROA ===== */
+.coroa-btn { display:flex; align-items:center; justify-content:center; gap:10px; background:linear-gradient(135deg,#7B5C00,#C9A227,#D4AF37,#C9A227,#7B5C00); background-size:200% auto; color:#3d2f00; border:none; border-radius:16px; padding:16px 24px; font-family:'Poppins',sans-serif; font-size:14px; font-weight:700; cursor:pointer; width:100%; margin-bottom:16px; box-shadow:0 8px 24px rgba(184,134,11,0.35); transition:all .3s; letter-spacing:.5px; animation:coroa-shine 3s linear infinite; }
+@keyframes coroa-shine { 0%{background-position:0% center} 100%{background-position:200% center} }
+.coroa-btn:hover { transform:translateY(-2px); box-shadow:0 12px 32px rgba(184,134,11,0.5); }
+.coroa-btn:active { transform:scale(0.98); }
+.vote-tab-bar { display:flex; background:rgba(5,31,32,0.08); border-radius:14px; padding:4px; margin-bottom:20px; gap:4px; }
+.vote-tab { flex:1; border:none; border-radius:10px; padding:10px; font-family:'Poppins',sans-serif; font-size:13px; font-weight:600; cursor:pointer; transition:all .2s; background:transparent; color:var(--text-light); }
+.vote-tab.active { background:var(--primary); color:var(--bg); }
+.vote-tab-content { display:none; }
+.vote-tab-content.active { display:block; }
+.vote-naipe-bar { display:flex; background:rgba(5,31,32,0.08); border-radius:12px; padding:4px; margin-bottom:14px; gap:4px; }
+.vote-naipe-btn { flex:1; border:none; border-radius:8px; padding:9px; font-family:'Poppins',sans-serif; font-size:12px; font-weight:600; cursor:pointer; transition:all .2s; background:transparent; color:var(--text-light); }
+.vote-naipe-btn.active-masc { background:var(--primary); color:var(--bg); }
+.vote-naipe-btn.active-fem { background:#8B0000; color:var(--bg); }
+.vote-select { width:100%; border:2px solid rgba(5,31,32,0.12); border-radius:14px; padding:14px 16px; font-family:'Poppins',sans-serif; font-size:14px; margin-bottom:14px; outline:none; background:var(--card-bg); cursor:pointer; -webkit-appearance:none; appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23235347' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 16px center; }
+.vote-select:focus { border-color:var(--accent); }
+.vote-athletes-list { max-height:240px; overflow-y:auto; margin-bottom:14px; border-radius:14px; background:rgba(5,31,32,0.03); padding:8px; }
+.vote-athlete-item { display:flex; align-items:center; gap:12px; padding:11px 12px; border-radius:12px; border:2px solid transparent; background:var(--card-bg); margin-bottom:6px; cursor:pointer; transition:all .2s; box-shadow:0 2px 8px rgba(5,31,32,0.06); }
+.vote-athlete-item:last-child { margin-bottom:0; }
+.vote-athlete-item.selected { border-color:var(--accent); background:rgba(35,83,71,0.08); }
+.vote-athlete-item:active { transform:scale(0.98); }
+.vote-athlete-num { width:34px; height:34px; border-radius:9px; background:var(--primary); color:var(--bg); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; flex-shrink:0; }
+.vote-athlete-item.selected .vote-athlete-num { background:var(--accent); }
+.vote-athlete-name { flex:1; font-size:13px; font-weight:600; }
+.vote-check { width:20px; height:20px; border-radius:50%; background:var(--accent); display:none; align-items:center; justify-content:center; }
+.vote-athlete-item.selected .vote-check { display:flex; }
+.vote-input { width:100%; border:2px solid rgba(5,31,32,0.12); border-radius:14px; padding:13px 16px; font-family:'Poppins',sans-serif; font-size:14px; margin-bottom:10px; outline:none; transition:border .2s; background:var(--card-bg); color:var(--text); }
+.vote-input:focus { border-color:var(--accent); }
+.vote-counter { text-align:center; font-size:12px; color:var(--text-light); margin-bottom:14px; background:rgba(5,31,32,0.04); border-radius:10px; padding:8px; }
+.vote-counter strong { color:var(--primary); }
+.vote-submit-btn { width:100%; background:linear-gradient(135deg,#7B5C00,#C9A227,#D4AF37); color:#3d2f00; border:none; border-radius:14px; padding:15px; font-family:'Poppins',sans-serif; font-size:15px; font-weight:700; cursor:pointer; transition:all .3s; box-shadow:0 6px 20px rgba(184,134,11,0.3); letter-spacing:.3px; }
+.vote-submit-btn:hover:not(:disabled) { transform:translateY(-2px); }
+.vote-submit-btn:disabled { opacity:0.45; cursor:not-allowed; }
+.ranking-item { display:flex; align-items:center; gap:12px; padding:12px 14px; background:var(--card-bg); border-radius:14px; margin-bottom:8px; box-shadow:0 2px 8px rgba(5,31,32,0.07); }
+.ranking-pos { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; }
+.ranking-info { flex:1; min-width:0; }
+.ranking-name { font-size:13px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.ranking-team { font-size:11px; color:var(--text-light); }
+.ranking-votes { font-size:17px; font-weight:800; color:var(--primary); }
+.ranking-loading { text-align:center; padding:20px; color:var(--text-light); font-size:13px; }
+/* ── Share button on game cards ── */
+.game-share-row { display:flex; justify-content:flex-end; margin-top:10px; padding-top:10px; border-top:1px solid rgba(5,31,32,0.07); }
+.game-share-btn { display:flex; align-items:center; gap:6px; background:#25D366; color:#fff; border:none; border-radius:20px; padding:6px 14px; font-size:12px; font-weight:700; cursor:pointer; transition:all 0.2s; }
+.game-share-btn:active { transform:scale(0.95); opacity:.85; }
+.game-share-btn svg { width:16px; height:16px; }
+
+/* ── Onboarding overlay ── */
+#onboarding { position:fixed; inset:0; background:linear-gradient(160deg,var(--primary) 0%,var(--primary-light) 50%,var(--secondary) 100%); z-index:2000; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; padding:48px 24px 32px; overflow-y:auto; }
+.onboarding-logo { width:80px; height:80px; border-radius:24px; background:rgba(255,255,255,0.12); display:flex; align-items:center; justify-content:center; font-size:40px; margin-bottom:20px; }
+.onboarding-title { font-size:26px; font-weight:900; color:#fff; letter-spacing:1px; text-align:center; margin-bottom:6px; }
+.onboarding-sub { font-size:14px; color:var(--accent-light); text-align:center; margin-bottom:32px; line-height:1.5; }
+.onboarding-teams { display:grid; grid-template-columns:1fr 1fr; gap:12px; width:100%; max-width:340px; }
+.onboarding-team-btn { background:rgba(255,255,255,0.1); border:2px solid rgba(255,255,255,0.18); border-radius:16px; padding:16px 12px; display:flex; flex-direction:column; align-items:center; gap:8px; cursor:pointer; transition:all 0.2s; }
+.onboarding-team-btn:active { transform:scale(0.96); }
+.onboarding-team-btn.selected { background:rgba(255,255,255,0.22); border-color:#fff; }
+.onboarding-team-logo { width:52px; height:52px; border-radius:14px; object-fit:cover; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; font-size:26px; }
+.onboarding-team-logo img { width:52px; height:52px; border-radius:14px; object-fit:cover; }
+.onboarding-team-name { font-size:13px; font-weight:700; color:#fff; text-align:center; line-height:1.3; }
+.onboarding-confirm { margin-top:28px; background:#fff; color:var(--primary); border:none; border-radius:14px; padding:14px 40px; font-size:15px; font-weight:800; cursor:pointer; transition:all 0.2s; display:none; }
+.onboarding-confirm:active { transform:scale(0.97); }
+.onboarding-skip { margin-top:14px; background:transparent; border:none; color:rgba(255,255,255,0.5); font-size:13px; cursor:pointer; }
+
+/* ── Meu Time banner na home ── */
+#meuTimeBanner { display:none; margin:0 0 16px; background:linear-gradient(135deg,var(--primary),var(--secondary)); border-radius:16px; padding:14px 16px; display:flex; align-items:center; gap:12px; }
+#meuTimeBanner.hidden { display:none!important; }
+.meu-time-label { font-size:10px; font-weight:700; color:var(--accent-light); letter-spacing:1.5px; text-transform:uppercase; }
+.meu-time-name { font-size:16px; font-weight:800; color:#fff; margin-top:2px; }
+.meu-time-logo { width:44px; height:44px; border-radius:12px; object-fit:cover; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; }/* ── Gradient text ── */
+.grad-text {
+  background: linear-gradient(135deg, #C9A227 0%, #F4D03F 40%, #8EB69B 70%, #235347 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.grad-text-green {
+  background: linear-gradient(135deg, #235347 0%, #8EB69B 50%, #DAF1DE 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.section-title { font-size: 18px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.section-title a { font-size: 12px; color: var(--accent); text-decoration: none; font-weight: 600; -webkit-text-fill-color: var(--accent); }/* ── Score count-up animation ── */
+@keyframes scoreCountUp { 0%{transform:scale(1.3);color:var(--success);} 100%{transform:scale(1);} }
+.score-animated { display:inline-block; }
+.score-animated.pop { animation: scoreCountUp 0.4s ease-out; }@keyframes shimmerLoad { 0%,100%{opacity:.5} 50%{opacity:1} }</style>
 </head>
 <body>
 <!-- Splash Screen -->
@@ -294,7 +513,7 @@ body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--t
 <div class="splash-logo" style="background:transparent;box-shadow:none;">
 <img src="logo-prefeitura-T.jpg" alt="Prefeitura de Afonso Cláudio" style="width:220px;height:220px;object-fit:contain;">
 </div>
-<div class="splash-title">COPA AFOHAND</div>
+<div class="splash-title grad-text">COPA AFOHAND</div>
 <div class="splash-subtitle">O AFOHAND NA PALMA DA SUA MÃO</div>
 <div class="splash-loader"></div>
 </div>
@@ -328,6 +547,13 @@ Mata-Mata
 Mais
 </a>
 </nav>
+<div style="padding:20px 24px 32px;border-top:1px solid rgba(5,31,32,0.08);margin-top:auto;">
+<div style="font-size:10px;color:var(--text-muted);text-align:center;line-height:1.7;">
+<div style="font-size:13px;margin-bottom:4px;">&#x1F4A1; Feito e idealizado por</div>
+<div style="font-weight:800;font-size:15px;color:var(--primary);letter-spacing:.5px;">Diego Padua</div>
+
+</div>
+</div>
 </div>
 
 <!-- Header -->
@@ -337,8 +563,16 @@ Mais
 <span></span><span></span><span></span>
 </button>
 </div>
-<div class="header-title" id="pageTitle">Seja Bem-Vindo</div>
-<div class="header-subtitle" id="pageSubtitle">COPA AFOHAND 2026</div>
+<div class="header-logo-row">
+<img src="logo-prefeitura-T.jpg" alt="Prefeitura de Afonso Cláudio" class="header-logo-img">
+<div>
+<div class="header-title" id="pageTitle" style="text-align:left;font-size:18px;">Seja Bem-Vindo</div>
+<div class="header-subtitle" id="pageSubtitle" style="text-align:left;">COPA AFOHAND 2026</div>
+</div>
+<div style="margin-left:auto;">
+<div class="header-badge"><span class="header-badge-dot"></span>2026</div>
+</div>
+</div>
 </header>
 
 <!-- Content -->
@@ -347,12 +581,12 @@ Mais
 <div class="page active" id="page-home">
 <div class="stats-bar">
 <div class="stat-pill animate-in">
-<div class="stat-value">12</div>
-<div class="stat-label">Jogos</div>
+<div class="stat-value">18</div>
+<div class="stat-label">Total de Jogos</div>
 </div>
 <div class="stat-pill animate-in delay-1">
-<div class="stat-value">9</div>
-<div class="stat-label">Jogos</div>
+<div class="stat-value">12</div>
+<div class="stat-label">Equipes</div>
 </div>
 <div class="stat-pill animate-in delay-2">
 <div class="stat-value">2</div>
@@ -363,6 +597,19 @@ Mais
 <button class="regulation-btn" onclick="openRegulation()">
 <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
 Regulamento da Copa
+</button>
+
+<div id="meuTimeBanner" class="hidden">
+  <div class="meu-time-logo" id="meuTimeLogoEl">🏐</div>
+  <div>
+    <div class="meu-time-label">Meu Time</div>
+    <div class="meu-time-name" id="meuTimeNomeEl">—</div>
+  </div>
+  <div style="margin-left:auto;">
+    <button onclick="resetOnboarding()" style="background:rgba(255,255,255,0.15);border:none;border-radius:10px;padding:6px 10px;color:#fff;font-size:11px;cursor:pointer;">Trocar</button>
+  </div>
+</div><button class="coroa-btn" onclick="openVote()">
+&#x1F451; Destaque da Galera COROA
 </button>
 
 <div class="live-match-card">
@@ -407,7 +654,7 @@ Acesso Rapido
 <div class="card-title">Mata-Mata</div>
 <div class="card-count">Semi e Final</div>
 </div>
-<div class="card-item" onclick="showToast('Noticias em breve!')">
+<div class="card-item" onclick="showPage('home'); setTimeout(function(){ document.getElementById('newsCarousel').scrollIntoView({behavior:'smooth', block:'start'}); }, 100);">
 <div class="card-icon light1">&#x1F4F0;</div>
 <div class="card-title">Noticias</div>
 <div class="card-count">5 novas</div>
@@ -426,7 +673,7 @@ Acesso Rapido
 
 <div class="section-title">
 Noticias
-<a href="#" onclick="showToast('Todas as noticias'); return false;">Ver todas</a>
+<a href="#" onclick="document.getElementById('newsCarousel').scrollIntoView({behavior:'smooth', block:'start'}); return false;">Ver todas</a>
 </div>
 <div class="news-carousel" id="newsCarousel">
 <div class="news-track" id="newsTrack">
@@ -489,123 +736,14 @@ Noticias
 
 <!-- GAMES PAGE -->
 <div class="page" id="page-games">
-<div class="stats-bar">
-<div class="stat-pill">
-<div class="stat-value" style="color: var(--danger);">1</div>
-<div class="stat-label">Ao Vivo</div>
-</div>
-<div class="stat-pill">
-<div class="stat-value" style="color: var(--success);">3</div>
-<div class="stat-label">Hoje</div>
-</div>
-<div class="stat-pill">
-<div class="stat-value">9</div>
-<div class="stat-label">Total</div>
+<div style="display:flex;flex-direction:column;gap:12px;padding:20px 16px;">
+  <div style="height:28px;background:rgba(5,31,32,0.08);border-radius:10px;width:60%;animation:shimmerLoad 1.2s infinite;"></div>
+  <div style="height:90px;background:rgba(5,31,32,0.06);border-radius:20px;animation:shimmerLoad 1.2s infinite 0.1s;"></div>
+  <div style="height:90px;background:rgba(5,31,32,0.06);border-radius:20px;animation:shimmerLoad 1.2s infinite 0.2s;"></div>
+  <div style="height:28px;background:rgba(5,31,32,0.08);border-radius:10px;width:50%;margin-top:8px;animation:shimmerLoad 1.2s infinite 0.15s;"></div>
+  <div style="height:90px;background:rgba(5,31,32,0.06);border-radius:20px;animation:shimmerLoad 1.2s infinite 0.25s;"></div>
 </div>
 </div>
-
-<div class="section-title">Jogos de Hoje</div>
-
-<div class="game-card" onclick="showToast('Abrindo transmissao ao vivo...')">
-<div class="game-card-header">
-<span style="font-size: 12px; color: var(--text-light); font-weight: 500;">Grupo A - Rodada 3</span>
-<span class="game-status live">&#x25CF; AO VIVO</span>
-</div>
-<div class="game-teams-row">
-<div class="game-team">
-<div class="game-team-logo">&#x1F981;</div>
-<div class="game-team-name">Afonso Cláudio</div>
-</div>
-<div class="game-score-display">24 - 22</div>
-<div class="game-team" style="flex-direction: row-reverse; text-align: right;">
-<div class="game-team-logo">&#x1F985;</div>
-<div class="game-team-name">Dragonhand</div>
-</div>
-</div>
-<div class="game-time">2o Tempo - 18:42 | Quadra Principal</div>
-</div>
-
-<div class="section-title" style="margin-top: 24px;">Proximos Jogos</div>
-
-<div class="game-card" onclick="showToast('Alerta de jogo ativado!')">
-<div class="game-card-header">
-<span style="font-size: 12px; color: var(--text-light); font-weight: 500;">Grupo B - Rodada 3</span>
-<span class="game-status upcoming">&#x23F0; 14:00</span>
-</div>
-<div class="game-teams-row">
-<div class="game-team">
-<div class="game-team-logo">&#x1F42F;</div>
-<div class="game-team-name">FAEG Itaguaçu</div>
-</div>
-<div class="game-score-display" style="color: var(--text-light);">VS</div>
-<div class="game-team" style="flex-direction: row-reverse; text-align: right;">
-<div class="game-team-logo">&#x1F43A;</div>
-<div class="game-team-name">HandVNI</div>
-</div>
-</div>
-<div class="game-time">Hoje as 14:00 | Quadra Principal</div>
-</div>
-
-<div class="game-card" onclick="showToast('Alerta de jogo ativado!')">
-<div class="game-card-header">
-<span style="font-size: 12px; color: var(--text-light); font-weight: 500;">Grupo A - Rodada 4</span>
-<span class="game-status upcoming">&#x23F0; 16:00</span>
-</div>
-<div class="game-teams-row">
-<div class="game-team">
-<div class="game-team-logo">&#x1F98A;</div>
-<div class="game-team-name">Hand Iúna</div>
-</div>
-<div class="game-score-display" style="color: var(--text-light);">VS</div>
-<div class="game-team" style="flex-direction: row-reverse; text-align: right;">
-<div class="game-team-logo">&#x1F40D;</div>
-<div class="game-team-name">Time6</div>
-</div>
-</div>
-<div class="game-time">Hoje as 16:00 | Quadra 2</div>
-</div>
-
-<div class="section-title" style="margin-top: 24px;">Jogos Anteriores</div>
-
-<div class="game-card">
-<div class="game-card-header">
-<span style="font-size: 12px; color: var(--text-light); font-weight: 500;">Grupo B - Rodada 2</span>
-<span class="game-status finished">&#x2713; Finalizado</span>
-</div>
-<div class="game-teams-row">
-<div class="game-team">
-<div class="game-team-logo">&#x1F985;</div>
-<div class="game-team-name">Dragonhand</div>
-</div>
-<div class="game-score-display">30 - 18</div>
-<div class="game-team" style="flex-direction: row-reverse; text-align: right;">
-<div class="game-team-logo">&#x1F42F;</div>
-<div class="game-team-name">FAEG Itaguaçu</div>
-</div>
-</div>
-<div class="game-time">Ontem | Quadra Principal</div>
-</div>
-
-<div class="game-card">
-<div class="game-card-header">
-<span style="font-size: 12px; color: var(--text-light); font-weight: 500;">Grupo A - Rodada 1</span>
-<span class="game-status finished">&#x2713; Finalizado</span>
-</div>
-<div class="game-teams-row">
-<div class="game-team">
-<div class="game-team-logo">&#x1F981;</div>
-<div class="game-team-name">Afonso Cláudio</div>
-</div>
-<div class="game-score-display">28 - 15</div>
-<div class="game-team" style="flex-direction: row-reverse; text-align: right;">
-<div class="game-team-logo">&#x1F43A;</div>
-<div class="game-team-name">HandVNI</div>
-</div>
-</div>
-<div class="game-time">2 dias atras | Quadra Principal</div>
-</div>
-</div>
-
 <!-- CLASSIFICATION PAGE -->
 <div class="page" id="page-classification">
 <div class="stats-bar">
@@ -685,15 +823,6 @@ Noticias
 </div>
 <div>2</div><div>1</div><div>1</div>
 <div class="class-points">3</div>
-</div>
-<div class="class-row">
-<div><div class="rank-badge normal" style="width: 24px; height: 24px; font-size: 11px; margin: 0 auto;">3</div></div>
-<div class="class-team-name">
-<div class="class-team-avatar" style="background: linear-gradient(135deg, #235347, #163832);">&#x1F40D;</div>
-<span style="font-weight: 600;">Time6</span>
-</div>
-<div>2</div><div>0</div><div>2</div>
-<div class="class-points">0</div>
 </div>
 </div>
 </div>
@@ -775,7 +904,7 @@ Noticias
 <div class="page" id="page-more">
 <div class="section-title">Mais Opcoes</div>
 <div class="more-grid">
-<div class="more-card" onclick="showToast('Noticias em desenvolvimento')">
+<div class="more-card" onclick="showPage('home'); setTimeout(function(){ document.getElementById('newsCarousel').scrollIntoView({behavior:'smooth', block:'start'}); }, 400);">
 <div class="more-card-icon" style="background: linear-gradient(135deg, #0B2B26, #163832);">&#x1F4F0;</div>
 <div class="more-card-title">Noticias</div>
 <div class="more-card-desc">Ultimas atualizacoes</div>
@@ -795,14 +924,113 @@ Noticias
 <div class="more-card-title">Regulamento</div>
 <div class="more-card-desc">Regras da competicao</div>
 </div>
-<div class="more-card" onclick="openInstall()">
+<div class="more-card" onclick="openMapa()">
+<div class="more-card-icon" style="background: linear-gradient(135deg, #1565C0, #1976D2);">&#x1F5FA;&#xFE0F;</div>
+<div class="more-card-title">Mapa do Ginásio</div>
+<div class="more-card-desc">Como chegar ao local</div>
+</div><div class="more-card" onclick="openInstall()">
 <div class="more-card-icon" style="background: linear-gradient(135deg, #235347, #8EB69B);">&#x1F4F2;</div>
 <div class="more-card-title">Instalar App</div>
 <div class="more-card-desc">Adicionar à tela inicial</div>
 </div>
 </div>
+
+<div style="margin-top:28px;background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:20px;padding:24px;text-align:center;color:var(--bg);">
+<div style="font-size:28px;margin-bottom:10px;">&#x1F4A1;</div>
+<div style="font-size:11px;letter-spacing:2px;color:var(--accent-light);margin-bottom:6px;">FEITO E IDEALIZADO POR</div>
+<div style="font-size:20px;font-weight:800;letter-spacing:.5px;">Diego Padua</div>
+
+<div style="height:1px;background:rgba(142,182,155,0.2);margin:14px 0;"></div>
+<div style="font-size:11px;color:var(--accent-light);opacity:.7;">Copa AFOHAND 2026 · Afonso Cláudio – ES</div>
 </div>
-</main>
+</div>
+
+<!-- Mapa Modal -->
+<div class="regulation-modal" id="mapaModal" onclick="closeMapa(event)">
+<div class="regulation-content" onclick="event.stopPropagation()" style="max-height:90vh;overflow-y:auto;">
+<div class="regulation-header">
+<h2>🗺️ Ginásio de Handebol</h2>
+<button class="regulation-close" onclick="closeMapa()">
+<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+</button>
+</div>
+<div class="regulation-text">
+<div style="background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:16px;padding:20px;margin-bottom:20px;text-align:center;color:#fff;">
+<div style="font-size:36px;margin-bottom:8px;">🏟️</div>
+<div style="font-size:17px;font-weight:800;margin-bottom:4px;">Ginásio Municipal</div>
+<div style="font-size:13px;opacity:.85;">Afonso Cláudio – ES</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px;">
+<div style="display:flex;align-items:center;gap:12px;background:rgba(5,31,32,0.04);border-radius:12px;padding:14px;">
+<span style="font-size:22px;">📍</span>
+<div>
+<div style="font-weight:700;font-size:14px;">Endereço</div>
+<div style="font-size:13px;color:var(--text-light);margin-top:2px;">Afonso Cláudio, ES – Brasil</div>
+</div>
+</div>
+<div style="display:flex;align-items:center;gap:12px;background:rgba(5,31,32,0.04);border-radius:12px;padding:14px;">
+<span style="font-size:22px;">🕐</span>
+<div>
+<div style="font-weight:700;font-size:14px;">Horário dos Jogos</div>
+<div style="font-size:13px;color:var(--text-light);margin-top:2px;">A partir das 08h00 nos dias do evento</div>
+</div>
+</div>
+<div style="display:flex;align-items:center;gap:12px;background:rgba(5,31,32,0.04);border-radius:12px;padding:14px;">
+<span style="font-size:22px;">🅿️</span>
+<div>
+<div style="font-weight:700;font-size:14px;">Estacionamento</div>
+<div style="font-size:13px;color:var(--text-light);margin-top:2px;">Disponível nas proximidades</div>
+</div>
+</div>
+</div>
+<a href="https://www.google.com/maps/search/Ginásio+Municipal+Afonso+Cláudio+ES" target="_blank" rel="noopener"
+   style="display:flex;align-items:center;justify-content:center;gap:10px;background:#1565C0;color:#fff;text-decoration:none;border-radius:14px;padding:16px;font-size:15px;font-weight:800;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+Abrir no Google Maps
+</a>
+<a href="https://waze.com/ul?q=Ginásio+Municipal+Afonso+Cláudio+ES" target="_blank" rel="noopener"
+   style="display:flex;align-items:center;justify-content:center;gap:10px;background:#05C8F7;color:#fff;text-decoration:none;border-radius:14px;padding:14px;font-size:14px;font-weight:700;margin-top:10px;">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+Abrir no Waze
+</a>
+</div>
+</div>
+</div>
+
+<!-- Onboarding -->
+<div id="onboarding" style="display:none;">
+<div class="onboarding-logo">🤾</div>
+<div class="onboarding-title">Copa AFOHAND 2026</div>
+<div class="onboarding-sub">Bem-vindo! Qual time<br>você vai torcer? 🏆</div>
+<div class="onboarding-teams" id="onboardingTeams">
+  <button class="onboarding-team-btn" onclick="selectOnboardingTeam(this,'Afonso Cláudio','logo-prefeitura.jpg')">
+    <span class="onboarding-team-logo"><img src="logo-prefeitura.jpg" onerror="this.parentElement.textContent='🦁'"></span>
+    <span class="onboarding-team-name">Afonso Cláudio</span>
+  </button>
+  <button class="onboarding-team-btn" onclick="selectOnboardingTeam(this,'Dragonhand','logo-dragonhand.jpg')">
+    <span class="onboarding-team-logo"><img src="logo-dragonhand.jpg" onerror="this.parentElement.textContent='🦅'"></span>
+    <span class="onboarding-team-name">Dragonhand</span>
+  </button>
+  <button class="onboarding-team-btn" onclick="selectOnboardingTeam(this,'HandVNI','logo-handvni.jpg')">
+    <span class="onboarding-team-logo"><img src="logo-handvni.jpg" onerror="this.parentElement.textContent='🐺'"></span>
+    <span class="onboarding-team-name">HandVNI</span>
+  </button>
+  <button class="onboarding-team-btn" onclick="selectOnboardingTeam(this,'FAEG Itaguaçu','')">
+    <span class="onboarding-team-logo">🦅</span>
+    <span class="onboarding-team-name">FAEG Itaguaçu</span>
+  </button>
+  <button class="onboarding-team-btn" onclick="selectOnboardingTeam(this,'Handiuna','logo-handiuna.jpg')">
+    <span class="onboarding-team-logo"><img src="logo-handiuna.jpg" onerror="this.parentElement.textContent='🏐'"></span>
+    <span class="onboarding-team-name">Handiuna</span>
+  </button>
+  <button class="onboarding-team-btn" onclick="selectOnboardingTeam(this,'ACV Vila Velha','logo-acv.jpg')">
+    <span class="onboarding-team-logo"><img src="logo-acv.jpg" onerror="this.parentElement.textContent='🛡️'"></span>
+    <span class="onboarding-team-name">ACV Vila Velha</span>
+  </button>
+</div>
+<button class="onboarding-confirm" id="onboardingConfirm" onclick="confirmOnboarding()">Entrar no app ➜</button>
+<button class="onboarding-skip" onclick="skipOnboarding()">Pular por enquanto</button>
+</div></main>
 
 <!-- Toast -->
 <div class="toast" id="toast"></div>
@@ -951,12 +1179,12 @@ Instalar agora (1 clique)
 </div>
 
 <div style="display:flex;align-items:center;gap:14px;padding:14px 0;">
-<div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#8EB69B,#DAF1DE);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">&#x2753;</div>
+<img src="logo-acv.jpg" alt="ACV Vila Velha" style="width:48px;height:48px;border-radius:14px;object-fit:cover;flex-shrink:0;background:#0A1B4A;">
 <div>
-<div style="font-weight:700;font-size:15px;">Time6</div>
-<div style="font-size:12px;color:var(--text-light);">A confirmar</div>
+<div style="font-weight:700;font-size:15px;">ACV Vila Velha</div>
+<div style="font-size:12px;color:var(--text-light);">Associação Campeões da Vila – Vila Velha – ES</div>
 </div>
-<div style="margin-left:auto;background:#fef3c7;color:#92400e;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">Aguardando</div>
+<div style="margin-left:auto;background:#d1fae5;color:var(--success);font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">Confirmado</div>
 </div>
 
 </div>
@@ -1042,6 +1270,43 @@ Instalar agora (1 clique)
 <p><strong>Art. 14º</strong> Os casos omissos neste regulamento serão analisados e resolvidos pela Comissão Organizadora da Copa AFOHAND Handebol de 5 – 2026, cujas decisões serão soberanas.</p>
 <p><strong>Art. 15º</strong> Ao efetuar a inscrição na competição, atletas, dirigentes e equipes declaram estar cientes e de acordo com todas as disposições deste regulamento.</p>
 </div>
+</div>
+</div>
+
+<!-- Vote Modal -->
+<div class="regulation-modal" id="voteModal" onclick="closeVote(event)">
+<div class="regulation-content" onclick="event.stopPropagation()" style="max-height:92vh;">
+<div class="regulation-header">
+<div style="display:flex;align-items:center;gap:10px;">
+<span style="font-size:22px;">&#x1F451;</span>
+<div>
+<h2 style="font-size:17px;line-height:1.2;">Destaque da Galera</h2>
+<div style="font-size:11px;color:var(--text-light);font-weight:600;letter-spacing:.5px;">PATROCÍNIO GRUPO COROA</div>
+</div>
+</div>
+<button class="regulation-close" onclick="closeVote()">
+<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+</button>
+</div>
+
+<div class="vote-tab-bar">
+<button class="vote-tab active" id="voteTab-votar" onclick="setVoteTab('votar')">&#x1F5F3; Votar</button>
+<button class="vote-tab" id="voteTab-ranking" onclick="setVoteTab('ranking')">&#x1F3C6; Ranking Top 10</button>
+</div>
+
+<!-- TAB VOTAR -->
+<div class="vote-tab-content active" id="voteContent-votar">
+<div id="voteFormContainer"></div>
+</div>
+
+<!-- TAB RANKING -->
+<div class="vote-tab-content" id="voteContent-ranking">
+<div style="text-align:center;margin-bottom:14px;">
+<span style="font-size:11px;color:var(--text-muted);background:rgba(5,31,32,0.05);border-radius:20px;padding:5px 14px;display:inline-block;">&#x1F504; Atualizado automaticamente a cada 1 minuto</span>
+</div>
+<div id="rankingContainer"><div class="ranking-loading">&#x23F3; Carregando ranking...</div></div>
+</div>
+
 </div>
 </div>
 
@@ -1397,11 +1662,11 @@ function showPage(pageName) {
   var titles = { 'home': 'Seja Bem-Vindo', 'games': 'Jogos', 'classification': 'Classificação', 'knockout': 'Mata-Mata', 'more': 'Mais' };
   pages.forEach(function(p) { p.classList.remove('active'); });
   navItems.forEach(function(n) { n.classList.remove('active'); });
-  if (fab) fab.style.boxShadow = '';
+  if (fab) { fab.classList.remove('active'); fab.style.boxShadow = ''; }
   document.getElementById('page-' + pageName).classList.add('active');
   document.getElementById('pageTitle').textContent = titles[pageName] || pageName;
   if (pageName === 'home') {
-    if (fab) fab.style.boxShadow = '0 8px 28px rgba(142,182,155,0.8)';
+    if (fab) { fab.classList.add('active'); fab.style.boxShadow = '0 8px 28px rgba(142,182,155,0.8)'; }
   } else {
     var activeNav = document.querySelector('.nav-item[data-page="' + pageName + '"]');
     if (activeNav) activeNav.classList.add('active');
@@ -1503,6 +1768,248 @@ function subscribePush(reg) {
     .catch(function(){});
 }
 
+// ── DESTAQUE DA GALERA COROA ─────────────────────────────────────────────────
+// Para enviar votos: crie um Apps Script na planilha (Extensões → Apps Script),
+// cole o código abaixo, deploy como web app (Anyone) e cole a URL em APPS_SCRIPT_URL.
+//
+// function doPost(e){
+//   var sheet = SpreadsheetApp.openById('1jGuJHUHyY3p-PQHm7HmNjcYry_xPheuOT2RmVFHh_Go').getActiveSheet();
+//   var d = JSON.parse(e.postData.contents);
+//   sheet.appendRow([new Date(),d.nome,d.telefone,d.modalidade,d.time,d.atleta]);
+//   return ContentService.createTextOutput(JSON.stringify({success:true})).setMimeType(ContentService.MimeType.JSON);
+// }
+
+var VOTE_SHEET_ID  = '1jGuJHUHyY3p-PQHm7HmNjcYry_xPheuOT2RmVFHh_Go';
+var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzkh_F_gOhJhLLktT7veOqGs6rDQslfRyzkbqbKNMnNMvTScRdXVkB_y715Q-Jb4_kk/exec';
+
+var voteState = { naipe: 'masc', team: '', athlete: null };
+var rankingTimer = null;
+
+var ATLETAS = {
+  masc: {
+    'Afonso Cláudio':  [{num:1,nome:'Carlos Mendes'},{num:4,nome:'Ricardo Souza'},{num:7,nome:'Paulo Oliveira'},{num:8,nome:'Marcos Lima'},{num:9,nome:'Felipe Santos'},{num:11,nome:'André Costa'},{num:14,nome:'Bruno Ferreira'},{num:17,nome:'Thiago Alves'},{num:20,nome:'Rafael Nunes'},{num:23,nome:'Sandro Dias'}],
+    'Dragonhand':      [{num:1,nome:'Leonardo Rossi'},{num:3,nome:'Gabriel Silva'},{num:5,nome:'Renato Pereira'},{num:7,nome:'Matheus Nunes'},{num:10,nome:'Eduardo Gomes'},{num:12,nome:'Victor Hugo'},{num:15,nome:'Rafael Martins'},{num:19,nome:'Diego Carvalho'},{num:22,nome:'Fábio Ramos'},{num:25,nome:'Júnior Mota'}],
+    'HandVNI':         [{num:2,nome:'Anderson Ramos'},{num:5,nome:'Cristiano Pinto'},{num:8,nome:'Leandro Moura'},{num:10,nome:'Alexandre Dias'},{num:13,nome:'Rodrigo Teixeira'},{num:16,nome:'Sérgio Melo'},{num:20,nome:'Gustavo Barbosa'},{num:23,nome:'Henrique Castro'},{num:26,nome:'Ivan Lima'},{num:29,nome:'Jonas Freitas'}],
+    'FAEG Itaguaçu':   [{num:1,nome:'Douglas Vieira'},{num:4,nome:'Fabrício Cunha'},{num:6,nome:'Igor Nascimento'},{num:9,nome:'Júlio Araújo'},{num:11,nome:'Lucas Ribeiro'},{num:14,nome:'Marcelo Freitas'},{num:17,nome:'Nelson Cardoso'},{num:21,nome:'Oscar Azevedo'},{num:24,nome:'Pedro Luz'},{num:27,nome:'Quevedo Torres'}],
+    'Hand Iúna':       [{num:2,nome:'Alan Pacheco'},{num:5,nome:'Breno Torres'},{num:7,nome:'Caio Medeiros'},{num:9,nome:'Denis Rocha'},{num:12,nome:'Evandro Campos'},{num:15,nome:'Fábio Queiroz'},{num:18,nome:'Gilberto Luz'},{num:22,nome:'Humberto Reis'},{num:25,nome:'Ivan Borges'},{num:28,nome:'Jair Sousa'}],
+    'ACV Vila Velha':  [{num:1,nome:'Alexandre Batista'},{num:4,nome:'Bruno Vasconcelos'},{num:7,nome:'Carlos Neves'},{num:9,nome:'Daniel Guimarães'},{num:11,nome:'Eduardo Moreira'},{num:14,nome:'Fábio Coutinho'},{num:17,nome:'Gustavo Vieira'},{num:20,nome:'Henrique Cunha'},{num:23,nome:'Igor Nascimento'},{num:26,nome:'Jefferson Lima'}]
+  },
+  fem: {
+    'Afonso Cláudio':  [{num:1,nome:'Ana Beatriz'},{num:4,nome:'Bruna Carvalho'},{num:7,nome:'Camila Rocha'},{num:8,nome:'Daniela Lima'},{num:9,nome:'Elaine Ferreira'},{num:11,nome:'Fernanda Souza'},{num:14,nome:'Gabriela Costa'},{num:17,nome:'Helena Martins'},{num:20,nome:'Isabela Dias'},{num:23,nome:'Juliana Pires'}],
+    'Dragonhand':      [{num:1,nome:'Karen Santos'},{num:3,nome:'Larissa Pereira'},{num:5,nome:'Marina Dias'},{num:7,nome:'Natália Gomes'},{num:10,nome:'Olivia Teixeira'},{num:12,nome:'Patrícia Ribeiro'},{num:15,nome:'Queila Mendes'},{num:19,nome:'Roberta Alves'},{num:22,nome:'Sara Mota'},{num:25,nome:'Tânia Ramos'}],
+    'HandVNI':         [{num:2,nome:'Úrsula Castro'},{num:5,nome:'Valentina Cruz'},{num:8,nome:'Wanessa Barbosa'},{num:10,nome:'Xênia Cunha'},{num:13,nome:'Yara Araújo'},{num:16,nome:'Zélia Monteiro'},{num:20,nome:'Alice Freitas'},{num:23,nome:'Beatriz Correia'},{num:26,nome:'Clara Borges'},{num:29,nome:'Diana Torres'}],
+    'FAEG Itaguaçu':   [{num:1,nome:'Eva Campos'},{num:4,nome:'Flora Pacheco'},{num:6,nome:'Giovana Leal'},{num:9,nome:'Hannah Xavier'},{num:11,nome:'Ingrid Moura'},{num:14,nome:'Joana Fontes'},{num:17,nome:'Kátia Sousa'},{num:21,nome:'Lívia Azevedo'},{num:24,nome:'Mônica Batista'},{num:27,nome:'Núbia Vasconcelos'}],
+    'Hand Iúna':       [{num:2,nome:'Olívia Neves'},{num:5,nome:'Priscila Guimarães'},{num:7,nome:'Quésia Moreira'},{num:9,nome:'Renata Coutinho'},{num:12,nome:'Solange Vieira'},{num:15,nome:'Tânia Cunha'},{num:18,nome:'Uma Cardoso'},{num:22,nome:'Vanessa Nascimento'},{num:25,nome:'Wesley Silva'},{num:28,nome:'Xênia Rocha'}],
+    'ACV Vila Velha':  [{num:1,nome:'Iara Batista'},{num:4,nome:'Juliana Vasconcelos'},{num:7,nome:'Karoline Neves'},{num:9,nome:'Letícia Guimarães'},{num:11,nome:'Marina Moreira'},{num:14,nome:'Nadine Coutinho'},{num:17,nome:'Odete Vieira'},{num:20,nome:'Paula Cunha'},{num:23,nome:'Raquel Nascimento'},{num:26,nome:'Sabrina Rocha'}]
+  }
+};
+
+function openVote() {
+  document.getElementById('voteModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  voteState.naipe = 'masc'; voteState.team = ''; voteState.athlete = null;
+  setVoteTab('votar');
+  renderVoteForm();
+  loadRanking();
+  if (rankingTimer) clearInterval(rankingTimer);
+  rankingTimer = setInterval(loadRanking, 60000);
+}
+
+function closeVote(e) {
+  if (!e || e.target === document.getElementById('voteModal') || (e.target && e.target.closest && e.target.closest('.regulation-close'))) {
+    document.getElementById('voteModal').classList.remove('open');
+    document.body.style.overflow = '';
+    if (rankingTimer) { clearInterval(rankingTimer); rankingTimer = null; }
+  }
+}
+
+function setVoteTab(tab) {
+  ['votar','ranking'].forEach(function(t) {
+    document.getElementById('voteTab-'+t).classList.toggle('active', t===tab);
+    document.getElementById('voteContent-'+t).classList.toggle('active', t===tab);
+  });
+}
+
+function setVoteNaipe(n) {
+  voteState.naipe = n; voteState.team = ''; voteState.athlete = null;
+  renderVoteForm();
+}
+
+function setVoteTeam(val) {
+  voteState.team = val; voteState.athlete = null;
+  renderVoteForm();
+  setTimeout(function(){ var el=document.getElementById('athletesList'); if(el) el.scrollIntoView({behavior:'smooth',block:'nearest'}); },100);
+}
+
+function selectAthlete(num, nome) {
+  voteState.athlete = {num:num, nome:nome};
+  renderVoteForm();
+}
+
+function getUsedVotes() { return parseInt(localStorage.getItem('afohand_vote_count')||'0'); }
+
+function renderVoteForm() {
+  var used = getUsedVotes();
+  var remaining = 3 - used;
+  var naipe = voteState.naipe;
+  var teams = Object.keys(ATLETAS[naipe]);
+
+  var naipeBar = '<div class="vote-naipe-bar">' +
+    '<button class="vote-naipe-btn '+(naipe==='masc'?'active-masc':'')+'" onclick="setVoteNaipe(\'masc\')">&#x1F3C3; Masculino</button>' +
+    '<button class="vote-naipe-btn '+(naipe==='fem'?'active-fem':'')+'" onclick="setVoteNaipe(\'fem\')">&#x1F3C3; Feminino</button>' +
+  '</div>';
+
+  var teamSelect = '<select class="vote-select" onchange="setVoteTeam(this.value)">' +
+    '<option value="">-- Selecione a equipe --</option>' +
+    teams.map(function(t){ return '<option value="'+t+'"'+(voteState.team===t?' selected':'')+'>'+t+'</option>'; }).join('') +
+  '</select>';
+
+  var athletesHtml = '';
+  if (voteState.team && ATLETAS[naipe][voteState.team]) {
+    athletesHtml = '<div id="athletesList" class="vote-athletes-list">' +
+      ATLETAS[naipe][voteState.team].map(function(a) {
+        var sel = voteState.athlete && voteState.athlete.num === a.num;
+        return '<div class="vote-athlete-item '+(sel?'selected':'')+'" onclick="selectAthlete('+a.num+',\''+a.nome.replace(/'/g,"\\'")+'\')">' +
+          '<div class="vote-athlete-num">'+a.num+'</div>' +
+          '<div class="vote-athlete-name">'+a.nome+'</div>' +
+          '<div class="vote-check"><svg fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24" width="12" height="12"><path d="M5 13l4 4L19 7"/></svg></div>' +
+        '</div>';
+      }).join('') +
+    '</div>';
+  }
+
+  var selectedBadge = '';
+  if (voteState.athlete) {
+    selectedBadge = '<div style="background:rgba(35,83,71,0.1);border:2px solid var(--accent);border-radius:12px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;">' +
+      '<span style="font-size:18px;">&#x2705;</span>' +
+      '<div><div style="font-size:12px;color:var(--text-light);">Atleta selecionado</div>' +
+      '<div style="font-size:14px;font-weight:700;">#'+voteState.athlete.num+' '+voteState.athlete.nome+'</div></div>' +
+    '</div>';
+  }
+
+  var formFields = '';
+  if (remaining > 0) {
+    formFields = selectedBadge +
+      '<input class="vote-input" id="voteNome" type="text" placeholder="Seu nome completo" autocomplete="name">' +
+      '<input class="vote-input" id="voteTel" type="tel" placeholder="Seu telefone (WhatsApp)" autocomplete="tel">' +
+      '<div class="vote-counter">Você tem <strong>'+remaining+' voto'+(remaining>1?'s':'')+' restante'+(remaining>1?'s':'')+'</strong> (máximo 3 por pessoa)</div>' +
+      '<button class="vote-submit-btn" onclick="submitVote()"'+((!voteState.athlete)?' disabled':'')+'>&#x1F451; VOTAR AGORA</button>';
+  } else {
+    formFields = '<div style="text-align:center;padding:24px;background:linear-gradient(135deg,#051F20,#235347);border-radius:16px;color:var(--bg);">' +
+      '<div style="font-size:36px;margin-bottom:8px;">&#x1F3C6;</div>' +
+      '<div style="font-size:16px;font-weight:700;margin-bottom:6px;">Votos registrados!</div>' +
+      '<div style="font-size:13px;opacity:.8;">Você já usou seus 3 votos. Obrigado por participar!</div>' +
+    '</div>';
+  }
+
+  document.getElementById('voteFormContainer').innerHTML = naipeBar + teamSelect + athletesHtml + formFields;
+}
+
+function submitVote() {
+  var nomeEl = document.getElementById('voteNome');
+  var telEl  = document.getElementById('voteTel');
+  if (!nomeEl || !telEl) return;
+  var nome = nomeEl.value.trim();
+  var tel  = telEl.value.trim();
+
+  if (!voteState.athlete) { showToast('Selecione um atleta para votar'); return; }
+  if (!nome) { showToast('Informe seu nome'); return; }
+  if (!tel || tel.length < 8) { showToast('Informe um telefone válido'); return; }
+
+  var used = getUsedVotes();
+  if (used >= 3) { showToast('Você já usou seus 3 votos!'); return; }
+
+  if (!APPS_SCRIPT_URL) {
+    showToast('⚙️ Servidor de votos não configurado ainda');
+    return;
+  }
+
+  var btn = document.querySelector('.vote-submit-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Enviando...'; }
+
+  var payload = {
+    tipo: 'voto_destaque',
+    nome: nome,
+    telefone: tel,
+    modalidade: voteState.naipe === 'masc' ? 'Masculino' : 'Feminino',
+    time: voteState.team,
+    atleta: '#'+voteState.athlete.num+' '+voteState.athlete.nome
+  };
+
+  // Content-Type text/plain evita preflight CORS no Apps Script
+  fetch(APPS_SCRIPT_URL, {
+    method:'POST',
+    headers:{'Content-Type':'text/plain'},
+    body:JSON.stringify(payload)
+  })
+  .then(function(){
+    // no-cors: não conseguimos ler a resposta, mas o Apps Script recebeu
+    localStorage.setItem('afohand_vote_count', used + 1);
+    showToast('✅ Voto registrado! Obrigado!');
+    voteState.athlete = null;
+    renderVoteForm();
+    loadRanking();
+  })
+  .catch(function(){
+    showToast('Erro de conexão. Tente novamente.');
+    if (btn) { btn.disabled = false; btn.innerHTML = '&#x1F451; VOTAR AGORA'; }
+  });
+}
+
+function loadRanking() {
+  var url = 'https://sheets.googleapis.com/v4/spreadsheets/'+VOTE_SHEET_ID+'/values/'+encodeURIComponent('Página1!A2:F')+'?key='+API_KEY;
+  fetch(url)
+    .then(function(r){ return r.json(); })
+    .then(function(data){ renderRanking(data.values || []); })
+    .catch(function(){
+      var c = document.getElementById('rankingContainer');
+      if (c) c.innerHTML = '<div class="ranking-loading">&#x26A0; Erro ao carregar. Verifique a conexão.</div>';
+    });
+}
+
+function renderRanking(rows) {
+  var counts = { masc:{}, fem:{} };
+  rows.forEach(function(row){
+    var naipe = (row[3]||'').toLowerCase().indexOf('fem')>=0 ? 'fem' : 'masc';
+    var time   = row[4]||'';
+    var atleta = row[5]||'';
+    if (!atleta) return;
+    var key = atleta+'|||'+time;
+    if (!counts[naipe][key]) counts[naipe][key] = {atleta:atleta, time:time, votos:0};
+    counts[naipe][key].votos++;
+  });
+
+  var badges = ['gold','silver','bronze'];
+  var naipeLabels = {masc:'&#x1F3C3; Masculino', fem:'&#x1F3C3; Feminino'};
+  var html = '';
+
+  ['masc','fem'].forEach(function(n){
+    var sorted = Object.values(counts[n]).sort(function(a,b){return b.votos-a.votos;}).slice(0,10);
+    html += '<div style="font-size:14px;font-weight:700;color:var(--primary);margin:16px 0 10px;padding-left:12px;border-left:4px solid var(--accent-light);">'+naipeLabels[n]+'</div>';
+    if (!sorted.length) {
+      html += '<div style="text-align:center;padding:16px;color:var(--text-light);font-size:13px;background:rgba(5,31,32,0.03);border-radius:12px;">Nenhum voto ainda</div>';
+    } else {
+      sorted.forEach(function(item, i){
+        var badgeClass = badges[i]||'normal';
+        html += '<div class="ranking-item">' +
+          '<div class="ranking-pos rank-badge '+badgeClass+'">'+(i+1)+'</div>' +
+          '<div class="ranking-info">' +
+            '<div class="ranking-name">'+item.atleta+'</div>' +
+            '<div class="ranking-team">'+item.time+'</div>' +
+          '</div>' +
+          '<div style="text-align:right;">' +
+            '<div class="ranking-votes">'+item.votos+'</div>' +
+            '<div style="font-size:10px;color:var(--text-muted);">voto'+(item.votos>1?'s':'')+'</div>' +
+          '</div>' +
+        '</div>';
+      });
+    }
+  });
+
+  var c = document.getElementById('rankingContainer');
+  if (c) c.innerHTML = html;
+}
+
 function urlBase64ToUint8Array(base64String) {
   var padding = '='.repeat((4 - base64String.length % 4) % 4);
   var base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
@@ -1511,6 +2018,122 @@ function urlBase64ToUint8Array(base64String) {
   for (var i = 0; i < raw.length; i++) arr[i] = raw.charCodeAt(i);
   return arr;
 }
-</script>
+
+// ── WhatsApp Share ──────────────────────────────────────
+function shareGame(timeA, timeB, placar, status, rodada) {
+  var msg = '🤾 *Copa AFOHAND 2026*\n' +
+    '━━━━━━━━━━━━━━━\n' +
+    rodada + '\n' +
+    '*' + timeA + '* ' + placar + ' *' + timeB + '*\n' +
+    status + '\n' +
+    '━━━━━━━━━━━━━━━\n' +
+    '📲 Acompanhe pelo app: https://drdiegopadua.github.io/afohandapp/';
+  var url = 'https://wa.me/?text=' + encodeURIComponent(msg);
+  window.open(url, '_blank');
+}
+
+// ── Mapa ────────────────────────────────────────────────
+function openMapa() { document.getElementById('mapaModal').classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeMapa(e) { if (!e || e.target === document.getElementById('mapaModal') || e.target.closest('.regulation-close')) { document.getElementById('mapaModal').classList.remove('open'); document.body.style.overflow = ''; } }
+
+// ── Onboarding ──────────────────────────────────────────
+var _onboardingTeam = null;
+var _onboardingLogo = null;
+
+function initOnboarding() {
+  var saved = localStorage.getItem('afohand_meu_time');
+  if (!saved) {
+    document.getElementById('onboarding').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  } else {
+    applyMeuTime(JSON.parse(saved));
+  }
+}
+
+function selectOnboardingTeam(btn, nome, logo) {
+  document.querySelectorAll('.onboarding-team-btn').forEach(function(b) { b.classList.remove('selected'); });
+  btn.classList.add('selected');
+  _onboardingTeam = nome;
+  _onboardingLogo = logo;
+  document.getElementById('onboardingConfirm').style.display = 'block';
+}
+
+function confirmOnboarding() {
+  if (!_onboardingTeam) return;
+  var data = { nome: _onboardingTeam, logo: _onboardingLogo };
+  localStorage.setItem('afohand_meu_time', JSON.stringify(data));
+  closeOnboarding();
+  applyMeuTime(data);
+}
+
+function skipOnboarding() {
+  localStorage.setItem('afohand_meu_time', JSON.stringify({ nome: null, logo: null }));
+  closeOnboarding();
+}
+
+function closeOnboarding() {
+  document.getElementById('onboarding').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function applyMeuTime(data) {
+  var banner = document.getElementById('meuTimeBanner');
+  if (!data || !data.nome) { banner.classList.add('hidden'); return; }
+  banner.classList.remove('hidden');
+  banner.style.display = 'flex';
+  document.getElementById('meuTimeNomeEl').textContent = data.nome;
+  var logoEl = document.getElementById('meuTimeLogoEl');
+  if (data.logo) {
+    logoEl.innerHTML = '<img src="' + data.logo + '" style="width:44px;height:44px;border-radius:12px;object-fit:cover;" onerror="this.parentElement.textContent=\'🏐\'">';
+  } else {
+    logoEl.textContent = '🏐';
+  }
+}
+
+function resetOnboarding() {
+  localStorage.removeItem('afohand_meu_time');
+  document.getElementById('meuTimeBanner').classList.add('hidden');
+  _onboardingTeam = null;
+  _onboardingLogo = null;
+  document.querySelectorAll('.onboarding-team-btn').forEach(function(b) { b.classList.remove('selected'); });
+  document.getElementById('onboardingConfirm').style.display = 'none';
+  document.getElementById('onboarding').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+// Init onboarding on load
+document.addEventListener('DOMContentLoaded', function() { initOnboarding(); });
+// ── Score count-up ──────────────────────────────────────
+function animateScores(container) {
+  var els = (container || document).querySelectorAll('.score-animated[data-score]');
+  els.forEach(function(el) {
+    var target = parseInt(el.getAttribute('data-score'));
+    var duration = 900;
+    var start = null;
+    el.textContent = '0';
+    function step(ts) {
+      if (!start) start = ts;
+      var progress = Math.min((ts - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(eased * target);
+      if (progress < 1) { requestAnimationFrame(step); }
+      else { el.textContent = target; el.classList.add('pop'); setTimeout(function(){ el.classList.remove('pop'); }, 400); }
+    }
+    requestAnimationFrame(step);
+  });
+}
+
+// Animate when games page is shown
+var _origShowPage = showPage;
+showPage = function(pageName) {
+  _origShowPage(pageName);
+  if (pageName === 'games') { setTimeout(function(){ animateScores(); }, 350); }
+};
+// Also run on initial load if games page is active
+document.addEventListener('DOMContentLoaded', function() {
+  var gamesPage = document.getElementById('page-games');
+  if (gamesPage && gamesPage.classList.contains('active')) { setTimeout(animateScores, 600); }
+});</script>
 </body>
 </html>
+
