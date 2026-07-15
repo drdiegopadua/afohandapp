@@ -668,7 +668,7 @@ Acesso Rapido
 <div class="card-item" onclick="openTeams()">
 <div class="card-icon light3">&#x1F465;</div>
 <div class="card-title">Equipes</div>
-<div class="card-count">6 equipes</div>
+<div class="card-count">7 equipes</div>
 </div>
 </div>
 
@@ -1028,6 +1028,10 @@ Abrir no Waze
     <span class="onboarding-team-logo"><img src="logo-acv.jpg" onerror="this.parentElement.textContent='🛡️'"></span>
     <span class="onboarding-team-name">ACV Vila Velha</span>
   </button>
+  <button class="onboarding-team-btn" onclick="selectOnboardingTeam(this,'CBH','logo-cbh.jpg')">
+    <span class="onboarding-team-logo"><img src="logo-cbh.jpg" onerror="this.parentElement.textContent='🐆'"></span>
+    <span class="onboarding-team-name">CBH</span>
+  </button>
 </div>
 <button class="onboarding-confirm" id="onboardingConfirm" onclick="confirmOnboarding()">Entrar no app ➜</button>
 <button class="onboarding-skip" onclick="skipOnboarding()">Pular por enquanto</button>
@@ -1179,11 +1183,20 @@ Instalar agora (1 clique)
 <div style="margin-left:auto;background:#d1fae5;color:var(--success);font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">Confirmado</div>
 </div>
 
-<div style="display:flex;align-items:center;gap:14px;padding:14px 0;">
+<div style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid rgba(5,31,32,0.08);">
 <img src="logo-acv.jpg" alt="ACV Vila Velha" style="width:48px;height:48px;border-radius:14px;object-fit:cover;flex-shrink:0;background:#0A1B4A;">
 <div>
 <div style="font-weight:700;font-size:15px;">ACV Vila Velha</div>
 <div style="font-size:12px;color:var(--text-light);">Associação Campeões da Vila – Vila Velha – ES</div>
+</div>
+<div style="margin-left:auto;background:#d1fae5;color:var(--success);font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">Confirmado</div>
+</div>
+
+<div style="display:flex;align-items:center;gap:14px;padding:14px 0;">
+<img src="logo-cbh.jpg" alt="CBH" style="width:48px;height:48px;border-radius:14px;object-fit:cover;flex-shrink:0;">
+<div>
+<div style="font-weight:700;font-size:15px;">CBH</div>
+<div style="font-size:12px;color:var(--text-light);">Equipe Feminina</div>
 </div>
 <div style="margin-left:auto;background:#d1fae5;color:var(--success);font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">Confirmado</div>
 </div>
@@ -1353,7 +1366,9 @@ var TEAM_LOGOS = {
   'FAEGITAGUACU': 'logo-faeg.jpg',
   'HANDIUNA': 'logo-handiuna.jpg',
   'ACV': 'logo-acv.jpg',
-  'ACVVILAVELHA': 'logo-acv.jpg'
+  'ACVVILAVELHA': 'logo-acv.jpg',
+  'CBH': 'logo-cbh.jpg',
+  'CHB': 'logo-cbh.jpg'
 };
 function normTeam(nome) {
   return (nome || '').toString().toUpperCase()
@@ -1818,7 +1833,7 @@ var ATLETAS = {
     'ACV Vila Velha':  [{num:1,nome:'Alexandre Batista'},{num:4,nome:'Bruno Vasconcelos'},{num:7,nome:'Carlos Neves'},{num:9,nome:'Daniel Guimarães'},{num:11,nome:'Eduardo Moreira'},{num:14,nome:'Fábio Coutinho'},{num:17,nome:'Gustavo Vieira'},{num:20,nome:'Henrique Cunha'},{num:23,nome:'Igor Nascimento'},{num:26,nome:'Jefferson Lima'}]
   },
   fem: {
-    'Afonso Cláudio':  [{num:1,nome:'Ana Beatriz'},{num:4,nome:'Bruna Carvalho'},{num:7,nome:'Camila Rocha'},{num:8,nome:'Daniela Lima'},{num:9,nome:'Elaine Ferreira'},{num:11,nome:'Fernanda Souza'},{num:14,nome:'Gabriela Costa'},{num:17,nome:'Helena Martins'},{num:20,nome:'Isabela Dias'},{num:23,nome:'Juliana Pires'}],
+    'CBH':             [{num:1,nome:'Ana Beatriz'},{num:4,nome:'Bruna Carvalho'},{num:7,nome:'Camila Rocha'},{num:8,nome:'Daniela Lima'},{num:9,nome:'Elaine Ferreira'},{num:11,nome:'Fernanda Souza'},{num:14,nome:'Gabriela Costa'},{num:17,nome:'Helena Martins'},{num:20,nome:'Isabela Dias'},{num:23,nome:'Juliana Pires'}],
     'Dragonhand':      [{num:1,nome:'Karen Santos'},{num:3,nome:'Larissa Pereira'},{num:5,nome:'Marina Dias'},{num:7,nome:'Natália Gomes'},{num:10,nome:'Olivia Teixeira'},{num:12,nome:'Patrícia Ribeiro'},{num:15,nome:'Queila Mendes'},{num:19,nome:'Roberta Alves'},{num:22,nome:'Sara Mota'},{num:25,nome:'Tânia Ramos'}],
     'HandVNI':         [{num:2,nome:'Úrsula Castro'},{num:5,nome:'Valentina Cruz'},{num:8,nome:'Wanessa Barbosa'},{num:10,nome:'Xênia Cunha'},{num:13,nome:'Yara Araújo'},{num:16,nome:'Zélia Monteiro'},{num:20,nome:'Alice Freitas'},{num:23,nome:'Beatriz Correia'},{num:26,nome:'Clara Borges'},{num:29,nome:'Diana Torres'}],
     'FAEG Itaguaçu':   [{num:1,nome:'Eva Campos'},{num:4,nome:'Flora Pacheco'},{num:6,nome:'Giovana Leal'},{num:9,nome:'Hannah Xavier'},{num:11,nome:'Ingrid Moura'},{num:14,nome:'Joana Fontes'},{num:17,nome:'Kátia Sousa'},{num:21,nome:'Lívia Azevedo'},{num:24,nome:'Mônica Batista'},{num:27,nome:'Núbia Vasconcelos'}],
