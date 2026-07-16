@@ -150,6 +150,13 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'Segoe U
 .cv{font-size:10px;text-align:center;color:var(--muted);}
 .cp{font-size:11px;font-weight:800;text-align:center;color:var(--acc);}
 
+/* ═══ ESCUDOS ═══ */
+.tlogo{width:15px;height:15px;border-radius:4px;object-fit:cover;vertical-align:-3px;margin-right:2px;background:rgba(255,255,255,.06);}
+.jt.r .tlogo{margin-right:0;margin-left:2px;}
+.bkt .tlogo{flex-shrink:0;}
+.camp-escudo{width:110px;height:110px;border-radius:26px;object-fit:cover;margin:0 auto 12px;box-shadow:0 0 45px rgba(255,215,0,.45);display:none;animation:campPop .6s ease both;}
+@keyframes campPop{from{opacity:0;transform:scale(.6);}to{opacity:1;transform:scale(1);}}
+
 /* ═══ JOGOS ═══ */
 .jrow{
   display:flex;align-items:center;gap:5px;padding:5px 10px;
@@ -422,6 +429,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'Segoe U
         <div class="camp-trophy">🏆</div>
         <div class="camp-naipe-badge m">⚽ MASCULINO</div>
         <div class="camp-titulo">🥇 Campeão Copa AFOHAND 2026</div>
+        <img class="camp-escudo" id="campMEsc" src="" alt="">
         <div class="camp-nome m" id="campM">—</div>
         <div class="camp-sub">AFONSO CLÁUDIO · ESPÍRITO SANTO</div>
         <div class="camp-stars">⭐⭐⭐</div>
@@ -436,6 +444,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'Segoe U
         <div class="camp-trophy">🏆</div>
         <div class="camp-naipe-badge f">🌸 FEMININO</div>
         <div class="camp-titulo">🥇 Campeã Copa AFOHAND 2026</div>
+        <img class="camp-escudo" id="campFEsc" src="" alt="">
         <div class="camp-nome f" id="campF">—</div>
         <div class="camp-sub">AFONSO CLÁUDIO · ESPÍRITO SANTO</div>
         <div class="camp-stars">⭐⭐⭐</div>
@@ -496,6 +505,33 @@ var SCENE_LABELS = {
 function au(range,sid){sid=sid||SHEET_ID;return'https://sheets.googleapis.com/v4/spreadsheets/'+sid+'/values/'+encodeURIComponent(range)+'?key='+API_KEY;}
 function gc(rows,r,c){return(rows[r]&&rows[r][c])?rows[r][c].toString().trim():'';}
 function pad(v){return String(v).padStart(2,'0');}
+
+// ═══ ESCUDOS + NOMES ═══
+var TEAM_LOGOS={
+  'AFONSOCLAUDIO':'logo-afonso-claudio.jpg',
+  'DRAGONHAND':'logo-dragonhand.jpg',
+  'HANDVNI':'logo-handvni.jpg',
+  'FAEG':'logo-faeg.jpg',
+  'FAEGITAGUACU':'logo-faeg.jpg',
+  'HANDIUNA':'logo-handiuna.jpg',
+  'ACV':'logo-acv.jpg',
+  'ACVVILAVELHA':'logo-acv.jpg',
+  'CBH':'logo-cbh.jpg',
+  'CHB':'logo-cbh.jpg'
+};
+function normTeam(n){
+  return(n||'').toString().toUpperCase()
+    .replace(/[ÁÀÂÃÄ]/g,'A').replace(/[ÉÈÊË]/g,'E').replace(/[ÍÌÎÏ]/g,'I')
+    .replace(/[ÓÒÔÕÖ]/g,'O').replace(/[ÚÙÛÜ]/g,'U').replace(/Ç/g,'C')
+    .replace(/[^A-Z0-9]/g,'');
+}
+function tvLogo(nome,cls){
+  var l=TEAM_LOGOS[normTeam(nome)];
+  return l?'<img class="'+(cls||'tlogo')+'" src="'+l+'" alt="">':'';
+}
+// Feminino: Afonso Cláudio deu lugar à CBH (traduz caso a planilha traga o nome antigo)
+var FEM_RENAME={'AFONSOCLAUDIO':'CBH'};
+function femName(n){return FEM_RENAME[normTeam(n)]||n;}
 
 // ═══ CLOCK ═══
 function tick(){
@@ -597,6 +633,8 @@ function loadAll(){
     appData.m.mm = parseMM(res[1].values||[]);
     appData.f.j  = parseJogos(res[2].values||[],H_F);
     appData.f.mm = parseMM(res[3].values||[]);
+    appData.f.j.forEach(function(j){j.casa=femName(j.casa);j.vis=femName(j.vis);});
+    appData.f.mm.forEach(function(m){m.t1=femName(m.t1);m.t2=femName(m.t2);});
     renderAll(res[4].values||[]);
     document.getElementById('loading').classList.add('hidden');
   }).catch(function(e){console.warn(e);});
@@ -622,7 +660,7 @@ function renderClass(jogos,grupo,elId){
   cl.forEach(function(t,i){
     html+='<div class="crow '+rc[i]+'" style="animation-delay:'+(i*.05)+'s">'
       +'<div><div class="rn '+rk[i]+'">'+(i+1)+'</div></div>'
-      +'<div class="cn">'+t.nome+'</div>'
+      +'<div class="cn">'+tvLogo(t.nome)+t.nome+'</div>'
       +'<div class="cv">'+t.j+'</div><div class="cv">'+t.v+'</div><div class="cv">'+t.d+'</div>'
       +'<div class="cp">'+t.pts+'</div>'
     +'</div>';
@@ -638,8 +676,8 @@ function renderProx(jogos,elId){
   pend.slice(0,3).forEach(function(j,i){
     html+='<div class="jrow" style="animation-delay:'+(i*.06)+'s">'
       +'<span class="jtime">'+j.hora+'</span><span class="jgrp">'+j.g+'</span>'
-      +'<span class="jt">'+j.casa+'</span><span class="jsc vs">VS</span>'
-      +'<span class="jt r">'+j.vis+'</span>'
+      +'<span class="jt">'+tvLogo(j.casa)+j.casa+'</span><span class="jsc vs">VS</span>'
+      +'<span class="jt r">'+j.vis+tvLogo(j.vis)+'</span>'
       +'<span class="jst wt">⏳ A jogar</span>'
     +'</div>';
   });
@@ -654,9 +692,9 @@ function renderTab(jogos,elId){
     var vA=j.ok&&j.ga>j.gb,vB=j.ok&&j.gb>j.ga;
     html+='<div class="jrow '+(j.ok?'done':'')+'" style="animation-delay:'+(i*.05)+'s">'
       +'<span class="jtime">'+j.hora+'</span><span class="jgrp">'+j.g+'</span>'
-      +'<span class="jt'+(vA?' w':'')+'">'+j.casa+'</span>'
+      +'<span class="jt'+(vA?' w':'')+'">'+tvLogo(j.casa)+j.casa+'</span>'
       +'<span class="jsc'+(j.ok?'':' vs')+'">'+(j.ok?j.ga+' × '+j.gb:'VS')+'</span>'
-      +'<span class="jt r'+(vB?' w':'')+'">'+j.vis+'</span>'
+      +'<span class="jt r'+(vB?' w':'')+'">'+j.vis+tvLogo(j.vis)+'</span>'
       +'<span class="jst '+(j.ok?'ok':'wt')+'">'+(j.ok?'✓ Fim':'⏳ Aguarda')+'</span>'
     +'</div>';
   });
@@ -674,6 +712,7 @@ function renderMM(mm,elId,naipe){
 
   function bt(name,sc,win,d){
     return'<div class="bkt'+(win?' '+wc:'')+'" style="animation-delay:'+d+'s">'
+      +tvLogo(name)
       +'<span style="flex:1;font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+(name||'A definir')+'</span>'
       +'<span class="bks">'+(sc!==null?sc:'–')+'</span>'
     +'</div>';
@@ -685,13 +724,13 @@ function renderMM(mm,elId,naipe){
     +'<div class="finalbox">'
       +'<div class="finallbl">⚡ FINAL</div>'
       +'<div class="finalrow">'
-        +'<div class="ft2'+(vfa?' w':'')+'">'+(fin.t1||'Venc. SF1')+'</div>'
+        +'<div class="ft2'+(vfa?' w':'')+'">'+tvLogo(fin.t1)+(fin.t1||'Venc. SF1')+'</div>'
         +'<div class="fsc">'+(fa!==null?fa:'–')+'</div>'
         +'<div class="fxs">×</div>'
         +'<div class="fsc">'+(fb!==null?fb:'–')+'</div>'
-        +'<div class="ft2 r'+(vfb?' w':'')+'">'+(fin.t2||'Venc. SF2')+'</div>'
+        +'<div class="ft2 r'+(vfb?' w':'')+'">'+(fin.t2||'Venc. SF2')+tvLogo(fin.t2)+'</div>'
       +'</div>'
-      +(fa!==null&&fb!==null?'<div class="finalcamp '+(naipe==='m'?'m':'f')+'">🥇 '+(fa>fb?fin.t1:fin.t2)+'</div>':'')
+      +(fa!==null&&fb!==null?'<div class="finalcamp '+(naipe==='m'?'m':'f')+'">🥇 '+tvLogo(fa>fb?fin.t1:fin.t2)+(fa>fb?fin.t1:fin.t2)+'</div>':'')
     +'</div>';
   document.getElementById(elId).innerHTML=html;
 }
@@ -749,6 +788,7 @@ function ativarCampeoes(){
   if(cm&&cm!==campAtualM){
     campAtualM=cm;
     document.getElementById('campM').textContent=cm;
+    setCampEscudo('campMEsc',cm);
     addCampScene('s-camp-m');
     startConfetti('cvM',['#4fc3f7','#FFD700','#fff','#1a7a3c','#ffe066'],flagM);
   }
@@ -756,9 +796,16 @@ function ativarCampeoes(){
   if(cf&&cf!==campAtualF){
     campAtualF=cf;
     document.getElementById('campF').textContent=cf;
+    setCampEscudo('campFEsc',cf);
     addCampScene('s-camp-f');
     startConfetti('cvF',['#f48fb1','#FFD700','#fff','#c94fa0','#ffd1e8'],flagF);
   }
+}
+function setCampEscudo(elId,nome){
+  var el=document.getElementById(elId);
+  var l=TEAM_LOGOS[normTeam(nome)];
+  if(el&&l){el.src=l;el.style.display='block';}
+  else if(el){el.style.display='none';}
 }
 
 // ═══ RENDER ALL ═══

@@ -1,5 +1,5 @@
 // AfoHand Service Worker
-const CACHE      = 'afohand-v4';
+const CACHE      = 'afohand-v5';
 const DATA_CACHE = 'afohand-data-v1';
 // Caminhos relativos ao escopo do SW (funciona na raiz e em /afohandapp/)
 const ASSETS = [
@@ -48,9 +48,10 @@ self.addEventListener('fetch', e => {
   if (!e.request.url.startsWith(self.location.origin)) return;
 
   // HTML / navegação — network first, para atualizações chegarem imediatamente
+  // cache:'no-cache' força revalidação com o servidor (evita HTML velho do cache HTTP)
   if (e.request.mode === 'navigate' || e.request.destination === 'document') {
     e.respondWith(
-      fetch(e.request)
+      fetch(e.request.url, { cache: 'no-cache', credentials: 'same-origin' })
         .then(res => {
           if (res && res.status === 200) {
             const clone = res.clone();
