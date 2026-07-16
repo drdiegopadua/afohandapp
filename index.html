@@ -309,6 +309,14 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(160deg, #
 }
 .live-match-card { animation: slideInUp 0.6s ease forwards, liveGlow 2.5s ease 0.7s infinite; }
 
+/* ── TRANSMISSÃO AO VIVO (YouTube) ── */
+.yt-live-banner { display:flex; align-items:center; gap:14px; border-radius:20px; padding:16px 18px; margin-bottom:24px; cursor:pointer; background:linear-gradient(135deg,#1c1c1c,#33110d); color:#fff; box-shadow:0 10px 30px rgba(0,0,0,0.25); position:relative; overflow:hidden; animation: slideInUp 0.6s ease forwards; }
+.yt-live-banner.on { background:linear-gradient(135deg,#8a0000,#CC0000); box-shadow:0 10px 34px rgba(204,0,0,0.45); }
+.yt-live-icon { width:46px; height:46px; border-radius:14px; background:#FF0000; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:20px; }
+.yt-live-title { font-weight:800; font-size:15px; letter-spacing:.3px; }
+.yt-live-sub { font-size:12px; opacity:.88; margin-top:2px; }
+.yt-live-dot { width:10px; height:10px; border-radius:50%; background:#fff; margin-left:auto; flex-shrink:0; animation:pulse 1.2s infinite; }
+
 /* Game card ao vivo com borda e sombra vermelha */
 .game-card.is-live {
     border-left-color: var(--danger);
@@ -612,6 +620,8 @@ Regulamento da Copa
 </div><button class="coroa-btn" onclick="openVote()">
 &#x1F451; Destaque da Galera COROA
 </button>
+
+<div class="yt-live-banner" id="liveYtBanner" onclick="openLiveYt()" style="display:none;"></div>
 
 <div class="live-match-card">
 <div class="live-badge">
@@ -1205,6 +1215,26 @@ Instalar agora (1 clique)
 </div>
 </div>
 
+<!-- Live YouTube Modal -->
+<div class="regulation-modal" id="liveYtModal" onclick="closeLiveYt(event)">
+<div class="regulation-content" onclick="event.stopPropagation()">
+<div class="regulation-header">
+<h2>&#x1F4FA; Transmissão ao Vivo</h2>
+<button class="regulation-close" onclick="closeLiveYt()">
+<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+</button>
+</div>
+<div class="regulation-text">
+<div id="ytPlayerWrap" style="position:relative;padding-top:56.25%;border-radius:16px;overflow:hidden;background:#000;"></div>
+<a id="ytOpenLink" href="#" target="_blank" rel="noopener"
+   style="display:flex;align-items:center;justify-content:center;gap:10px;background:#FF0000;color:#fff;text-decoration:none;border-radius:14px;padding:15px;font-size:15px;font-weight:800;margin-top:14px;">
+&#x25B6; Abrir no YouTube
+</a>
+<p style="font-size:12px;color:var(--text-light);text-align:center;margin-top:10px;">Se o vídeo não carregar, toque em "Abrir no YouTube"</p>
+</div>
+</div>
+</div>
+
 <!-- Regulation Modal -->
 <div class="regulation-modal" id="regulationModal" onclick="closeRegulation(event)">
 <div class="regulation-content" onclick="event.stopPropagation()">
@@ -1356,6 +1386,8 @@ var appData  = {
   fem:  { jogos: [], matamata: [] }
 };
 var currentNaipe = 'masc';
+// Link da transmissão ao vivo — lido da célula B11 da aba "Configuracao" da planilha
+var liveYtUrl = '';
 
 // ── ESCUDOS DOS TIMES ──────────────────────────────────
 var TEAM_LOGOS = {
@@ -1455,8 +1487,56 @@ function parseSheetResults(results, isOffline) {
   appData.fem.matamata  = parseMM(results[3].values || []);
   appData.fem.jogos.forEach(function(j){ j.casa = femName(j.casa); j.visitante = femName(j.visitante); });
   appData.fem.matamata.forEach(function(m){ m.t1 = femName(m.t1); m.t2 = femName(m.t2); });
+  liveYtUrl = ((((results[4] || {}).values || [[]])[0]) || [])[0] || '';
+  renderLiveBanner();
   renderAll();
   if (isOffline) showOfflineBanner(); else hideOfflineBanner();
+}
+
+// ── TRANSMISSÃO AO VIVO (YouTube) ──────────────────────
+function ytEmbedUrl(url) {
+  var m = (url || '').match(/(?:youtu\.be\/|[?&]v=|\/live\/|\/embed\/|\/shorts\/)([A-Za-z0-9_-]{11})/);
+  return m ? 'https://www.youtube.com/embed/' + m[1] + '?autoplay=1' : '';
+}
+
+function renderLiveBanner() {
+  var b = document.getElementById('liveYtBanner');
+  if (!b) return;
+  b.style.display = 'flex';
+  var url = (liveYtUrl || '').trim();
+  if (url) {
+    b.classList.add('on');
+    b.innerHTML =
+      '<div class="yt-live-icon">&#x25B6;</div>' +
+      '<div><div class="yt-live-title">AO VIVO NO YOUTUBE</div>' +
+      '<div class="yt-live-sub">Toque para assistir à transmissão</div></div>' +
+      '<div class="yt-live-dot"></div>';
+  } else {
+    b.classList.remove('on');
+    b.innerHTML =
+      '<div class="yt-live-icon" style="background:rgba(255,255,255,0.14);">&#x1F4FA;</div>' +
+      '<div><div class="yt-live-title">Transmissão ao Vivo</div>' +
+      '<div class="yt-live-sub">Os jogos serão transmitidos no YouTube — em breve</div></div>';
+  }
+}
+
+function openLiveYt() {
+  var url = (liveYtUrl || '').trim();
+  if (!url) { showToast('📺 A transmissão ainda não começou. Fique ligado!'); return; }
+  var emb = ytEmbedUrl(url);
+  if (!emb) { window.open(url, '_blank', 'noopener'); return; }
+  document.getElementById('ytPlayerWrap').innerHTML =
+    '<iframe src="' + emb + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" ' +
+    'allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
+  document.getElementById('ytOpenLink').href = url;
+  document.getElementById('liveYtModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLiveYt() {
+  document.getElementById('liveYtModal').classList.remove('open');
+  document.getElementById('ytPlayerWrap').innerHTML = ''; // para o vídeo
+  document.body.style.overflow = '';
 }
 
 function showOfflineBanner() {
@@ -1483,7 +1563,8 @@ function loadSheetData(silent) {
     apiUrl("'Fase de Grupos'!A5:S7"),
     apiUrl("'Mata-Mata'!A4:M17"),
     apiUrl("'Fase de Grupos-Fem'!A5:S7"),
-    apiUrl("'Mata-Mata-Fem'!A4:M17")
+    apiUrl("'Mata-Mata-Fem'!A4:M17"),
+    apiUrl("'Configuracao'!B11")
   ];
   Promise.all(urls.map(function(u){ return fetch(u).then(function(r){ return r.json(); }); }))
     .then(function(results){
