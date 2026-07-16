@@ -1766,7 +1766,18 @@ newsCarousel.addEventListener('touchend', function(e) {
 var PUSH_SERVER = 'https://supercopa-push-server.onrender.com';
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js').then(function(reg) {
+  // Caminho relativo: no GitHub Pages o app vive em /afohandapp/, não na raiz
+  navigator.serviceWorker.register('sw.js').then(function(reg) {
+    // Avisa quando uma nova versão do app foi baixada
+    reg.addEventListener('updatefound', function() {
+      var nw = reg.installing;
+      if (!nw) return;
+      nw.addEventListener('statechange', function() {
+        if (nw.state === 'activated' && navigator.serviceWorker.controller) {
+          showToast('🔄 App atualizado com as últimas novidades!');
+        }
+      });
+    });
     // Pede permissão de notificação automaticamente
     if (Notification.permission === 'default') {
       setTimeout(function() {
