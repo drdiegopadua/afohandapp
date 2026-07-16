@@ -1441,13 +1441,22 @@ function parseMM(mmRows) {
 }
 
 // ── CARREGA DADOS DA PLANILHA ──────────────────────────
+// No feminino a equipe Afonso Cláudio foi substituída pela CBH;
+// traduz o nome caso a planilha ainda traga o antigo
+var FEM_RENAME = { 'AFONSOCLAUDIO': 'CBH' };
+function femName(nome) {
+  return FEM_RENAME[normTeam(nome)] || nome;
+}
+
 function parseSheetResults(results, isOffline) {
   appData.masc.jogos    = parseJogos(results[0].values || []);
   appData.masc.matamata = parseMM(results[1].values || []);
   appData.fem.jogos     = parseJogos(results[2].values || []);
   appData.fem.matamata  = parseMM(results[3].values || []);
+  appData.fem.jogos.forEach(function(j){ j.casa = femName(j.casa); j.visitante = femName(j.visitante); });
+  appData.fem.matamata.forEach(function(m){ m.t1 = femName(m.t1); m.t2 = femName(m.t2); });
   renderAll();
-  if (isOffline) showOfflineBanner();
+  if (isOffline) showOfflineBanner(); else hideOfflineBanner();
 }
 
 function showOfflineBanner() {
@@ -1463,7 +1472,13 @@ function showOfflineBanner() {
   }
 }
 
-function loadSheetData() {
+function hideOfflineBanner() {
+  var b = document.getElementById('_offlineBanner');
+  if (b) b.remove();
+}
+
+var _lastDataSnapshot = '';
+function loadSheetData(silent) {
   var urls = [
     apiUrl("'Fase de Grupos'!A5:S7"),
     apiUrl("'Mata-Mata'!A4:M17"),
@@ -1471,8 +1486,14 @@ function loadSheetData() {
     apiUrl("'Mata-Mata-Fem'!A4:M17")
   ];
   Promise.all(urls.map(function(u){ return fetch(u).then(function(r){ return r.json(); }); }))
-    .then(function(results){ parseSheetResults(results, false); })
+    .then(function(results){
+      var snap = JSON.stringify(results.map(function(r){ return r.values || []; }));
+      if (snap === _lastDataSnapshot) { hideOfflineBanner(); return; } // nada mudou — evita re-render
+      _lastDataSnapshot = snap;
+      parseSheetResults(results, false);
+    })
     .catch(function() {
+      if (silent) return; // refresh em segundo plano falhou — mantém os dados atuais na tela
       if (!('caches' in window)) { showToast('Sem conexão com a planilha'); return; }
       Promise.all(urls.map(function(u){
         return caches.match(u).then(function(r){ return r ? r.json() : Promise.reject(); });
@@ -1481,6 +1502,13 @@ function loadSheetData() {
       .catch(function(){ showToast('Sem conexão — sem dados em cache'); });
     });
 }
+
+// ── AUTO-REFRESH DOS PLACARES ──────────────────────────
+// Atualiza a cada 45s com o app visível e sempre que o torcedor volta pro app
+setInterval(function(){ if (!document.hidden) loadSheetData(true); }, 45000);
+document.addEventListener('visibilitychange', function(){
+  if (!document.hidden) loadSheetData(true);
+});
 
 // ── CLASSIFICAÇÃO ──────────────────────────────────────
 function calcClassif(grupo) {
