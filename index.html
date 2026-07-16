@@ -1231,6 +1231,7 @@ Instalar agora (1 clique)
 &#x25B6; Abrir no YouTube
 </a>
 <p style="font-size:12px;color:var(--text-light);text-align:center;margin-top:10px;">Se o vídeo não carregar, toque em "Abrir no YouTube"</p>
+<div id="ytLiveList"></div>
 </div>
 </div>
 </div>
@@ -1386,7 +1387,10 @@ var appData  = {
   fem:  { jogos: [], matamata: [] }
 };
 var currentNaipe = 'masc';
-// Link da transmissão ao vivo — lido da célula B11 da aba "Configuracao" da planilha
+// Transmissões ao vivo — lidas de 'Configuracao'!A11:B30 da planilha
+// (coluna A = nome do jogo, coluna B = link do YouTube; uma linha por live;
+//  a última linha preenchida é considerada a transmissão AO VIVO)
+var liveList = [];
 var liveYtUrl = '';
 
 // ── ESCUDOS DOS TIMES ──────────────────────────────────
@@ -1487,7 +1491,16 @@ function parseSheetResults(results, isOffline) {
   appData.fem.matamata  = parseMM(results[3].values || []);
   appData.fem.jogos.forEach(function(j){ j.casa = femName(j.casa); j.visitante = femName(j.visitante); });
   appData.fem.matamata.forEach(function(m){ m.t1 = femName(m.t1); m.t2 = femName(m.t2); });
-  liveYtUrl = ((((results[4] || {}).values || [[]])[0]) || [])[0] || '';
+  liveList = [];
+  (((results[4] || {}).values) || []).forEach(function(row) {
+    var a = (row[0] || '').toString().trim(), b = (row[1] || '').toString().trim();
+    var isUrl = function(s){ return /^https?:\/\//i.test(s) || /youtu/i.test(s); };
+    var url = isUrl(b) ? b : (isUrl(a) ? a : '');
+    if (!url) return;
+    var titulo = (url === b ? a : b) || ('Transmissão ' + (liveList.length + 1));
+    liveList.push({ titulo: titulo, url: url });
+  });
+  liveYtUrl = liveList.length ? liveList[liveList.length - 1].url : '';
   renderLiveBanner();
   renderAll();
   if (isOffline) showOfflineBanner(); else hideOfflineBanner();
@@ -1503,13 +1516,14 @@ function renderLiveBanner() {
   var b = document.getElementById('liveYtBanner');
   if (!b) return;
   b.style.display = 'flex';
-  var url = (liveYtUrl || '').trim();
-  if (url) {
+  if (liveList.length) {
     b.classList.add('on');
     b.innerHTML =
       '<div class="yt-live-icon">&#x25B6;</div>' +
       '<div><div class="yt-live-title">AO VIVO NO YOUTUBE</div>' +
-      '<div class="yt-live-sub">Toque para assistir à transmissão</div></div>' +
+      '<div class="yt-live-sub">' + (liveList.length > 1
+        ? 'Toque para assistir · ' + liveList.length + ' transmissões'
+        : 'Toque para assistir à transmissão') + '</div></div>' +
       '<div class="yt-live-dot"></div>';
   } else {
     b.classList.remove('on');
@@ -1521,16 +1535,43 @@ function renderLiveBanner() {
 }
 
 function openLiveYt() {
-  var url = (liveYtUrl || '').trim();
-  if (!url) { showToast('📺 A transmissão ainda não começou. Fique ligado!'); return; }
-  var emb = ytEmbedUrl(url);
-  if (!emb) { window.open(url, '_blank', 'noopener'); return; }
+  if (!liveList.length) { showToast('📺 A transmissão ainda não começou. Fique ligado!'); return; }
+  document.getElementById('liveYtModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  loadLiveVideo(liveList.length - 1);
+}
+
+function loadLiveVideo(i) {
+  var item = liveList[i];
+  if (!item) return;
+  var emb = ytEmbedUrl(item.url);
+  if (!emb) { window.open(item.url, '_blank', 'noopener'); return; }
   document.getElementById('ytPlayerWrap').innerHTML =
     '<iframe src="' + emb + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" ' +
     'allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
-  document.getElementById('ytOpenLink').href = url;
-  document.getElementById('liveYtModal').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  document.getElementById('ytOpenLink').href = item.url;
+  renderLiveList(i);
+}
+
+function renderLiveList(activeIdx) {
+  var el = document.getElementById('ytLiveList');
+  if (!el) return;
+  if (liveList.length <= 1) { el.innerHTML = ''; return; }
+  var html = '<div style="font-weight:700;font-size:13px;margin:16px 0 8px;">Transmissões da Copa</div>';
+  for (var i = liveList.length - 1; i >= 0; i--) {
+    var it = liveList[i];
+    var aoVivo = i === liveList.length - 1;
+    html += '<div onclick="loadLiveVideo(' + i + ')" style="display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;margin-bottom:6px;cursor:pointer;' +
+      (i === activeIdx
+        ? 'background:rgba(204,0,0,0.08);border:1px solid rgba(204,0,0,0.35);'
+        : 'background:rgba(5,31,32,0.05);border:1px solid transparent;') + '">' +
+      '<span style="font-size:15px;">' + (aoVivo ? '&#x1F534;' : '&#x25B6;') + '</span>' +
+      '<span style="flex:1;font-size:13px;font-weight:600;">' + it.titulo + '</span>' +
+      (aoVivo ? '<span style="background:#CC0000;color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;">AO VIVO</span>'
+              : '<span style="font-size:11px;color:var(--text-light);">Reveja</span>') +
+    '</div>';
+  }
+  el.innerHTML = html;
 }
 
 function closeLiveYt() {
@@ -1564,7 +1605,7 @@ function loadSheetData(silent) {
     apiUrl("'Mata-Mata'!A4:M17"),
     apiUrl("'Fase de Grupos-Fem'!A5:S7"),
     apiUrl("'Mata-Mata-Fem'!A4:M17"),
-    apiUrl("'Configuracao'!B11")
+    apiUrl("'Configuracao'!A11:B30")
   ];
   Promise.all(urls.map(function(u){ return fetch(u).then(function(r){ return r.json(); }); }))
     .then(function(results){
