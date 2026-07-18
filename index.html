@@ -1510,7 +1510,11 @@ function parseSheetResults(results, isOffline) {
 // ── TRANSMISSÃO AO VIVO (YouTube) ──────────────────────
 function ytEmbedUrl(url) {
   var m = (url || '').match(/(?:youtu\.be\/|[?&]v=|\/live\/|\/embed\/|\/shorts\/)([A-Za-z0-9_-]{11})/);
-  return m ? 'https://www.youtube.com/embed/' + m[1] + '?autoplay=1' : '';
+  if (m) return 'https://www.youtube.com/embed/' + m[1] + '?autoplay=1';
+  var chan = (url || '').match(/youtube\.com\/channel\/(UC[A-Za-z0-9_-]{10,})/);
+  if (chan) return 'https://www.youtube.com/embed/live_stream?channel=' + chan[1] + '&autoplay=1';
+  if (/^UC[A-Za-z0-9_-]{10,}$/.test((url || '').trim())) return 'https://www.youtube.com/embed/live_stream?channel=' + url.trim() + '&autoplay=1';
+  return '';
 }
 
 function renderLiveBanner() {
