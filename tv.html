@@ -509,6 +509,7 @@ function pad(v){return String(v).padStart(2,'0');}
 // ═══ ESCUDOS + NOMES ═══
 var TEAM_LOGOS={
   'AFONSOCLAUDIO':'logo-afonso-claudio.jpg',
+  'AFOHAND':'logo-afonso-claudio.jpg',
   'DRAGONHAND':'logo-dragonhand.jpg',
   'HANDVNI':'logo-handvni.jpg',
   'FAEG':'logo-faeg.jpg',
@@ -530,7 +531,7 @@ function tvLogo(nome,cls){
   return l?'<img class="'+(cls||'tlogo')+'" src="'+l+'" alt="">':'';
 }
 // Feminino: Afonso Cláudio deu lugar à CBH (traduz caso a planilha traga o nome antigo)
-var FEM_RENAME={'AFONSOCLAUDIO':'CBH'};
+var FEM_RENAME={'AFONSOCLAUDIO':'CBH','AFOHAND':'CBH'};
 function femName(n){return FEM_RENAME[normTeam(n)]||n;}
 
 // ═══ CLOCK ═══
