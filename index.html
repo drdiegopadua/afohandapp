@@ -651,7 +651,7 @@ Acesso Rapido
 </div>
 <div class="cards-grid">
 <div class="card-item" onclick="showPage('games')">
-<div class="card-icon dark1">&#x26BD;</div>
+<div class="card-icon dark1">&#x1F93E;</div>
 <div class="card-title">Jogos</div>
 <div class="card-count">9 jogos no total</div>
 </div>
@@ -670,7 +670,7 @@ Acesso Rapido
 <div class="card-title">Noticias</div>
 <div class="card-count">5 novas</div>
 </div>
-<div class="card-item" onclick="showToast('Calendario em breve!')">
+<div class="card-item" onclick="openCalendario()">
 <div class="card-icon light2">&#x1F4C5;</div>
 <div class="card-title">Calendario</div>
 <div class="card-count">Todas as datas</div>
@@ -679,6 +679,11 @@ Acesso Rapido
 <div class="card-icon light3">&#x1F465;</div>
 <div class="card-title">Equipes</div>
 <div class="card-count">7 equipes</div>
+</div>
+<div class="card-item" onclick="openLocais()">
+<div class="card-icon dark1">&#x1F4CD;</div>
+<div class="card-title">Locais Uteis</div>
+<div class="card-count">Saude, comida e hospedagem</div>
 </div>
 </div>
 
@@ -920,7 +925,7 @@ Noticias
 <div class="more-card-title">Noticias</div>
 <div class="more-card-desc">Ultimas atualizacoes</div>
 </div>
-<div class="more-card" onclick="showToast('Calendario em desenvolvimento')">
+<div class="more-card" onclick="openCalendario()">
 <div class="more-card-icon" style="background: linear-gradient(135deg, #163832, #235347);">&#x1F4C5;</div>
 <div class="more-card-title">Calendario</div>
 <div class="more-card-desc">Todas as datas</div>
@@ -939,7 +944,13 @@ Noticias
 <div class="more-card-icon" style="background: linear-gradient(135deg, #1565C0, #1976D2);">&#x1F5FA;&#xFE0F;</div>
 <div class="more-card-title">Mapa do Ginásio</div>
 <div class="more-card-desc">Como chegar ao local</div>
-</div><div class="more-card" onclick="openInstall()">
+</div>
+<div class="more-card" onclick="openLocais()">
+<div class="more-card-icon" style="background: linear-gradient(135deg, #051F20, #0B2B26);">&#x1F4CD;</div>
+<div class="more-card-title">Locais Uteis</div>
+<div class="more-card-desc">Saude, comida e hospedagem</div>
+</div>
+<div class="more-card" onclick="openInstall()">
 <div class="more-card-icon" style="background: linear-gradient(135deg, #235347, #8EB69B);">&#x1F4F2;</div>
 <div class="more-card-title">Instalar App</div>
 <div class="more-card-desc">Adicionar à tela inicial</div>
@@ -1004,6 +1015,138 @@ Abrir no Google Maps
 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
 Abrir no Waze
 </a>
+</div>
+</div>
+</div>
+
+<!-- Locais Uteis Modal -->
+<div class="regulation-modal" id="locaisModal" onclick="closeLocais(event)">
+<div class="regulation-content" onclick="event.stopPropagation()" style="max-height:90vh;overflow-y:auto;">
+<div class="regulation-header">
+<h2>📍 Locais Úteis</h2>
+<button class="regulation-close" onclick="closeLocais()">
+<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+</button>
+</div>
+<div class="regulation-text">
+<div style="font-size:12px;color:var(--text-light);margin-bottom:18px;">Hospital, farmácia, alimentação e hospedagem perto do evento · Afonso Cláudio, ES</div>
+
+<div style="font-size:11px;font-weight:800;color:var(--primary);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Saúde</div>
+<div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;">
+<a href="https://www.google.com/maps/search/?api=1&query=Hospital+S%C3%A3o+Vicente+de+Paulo%2C+Afonso+Cl%C3%A1udio+-+ES" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;background:rgba(5,31,32,0.04);border-radius:14px;padding:13px 14px;text-decoration:none;color:inherit;">
+<div style="width:42px;height:42px;border-radius:11px;background:rgba(255,90,90,.14);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#ff5a5a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div>
+<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:700;">Hospital São Vicente de Paulo</div><div style="font-size:11px;color:var(--text-light);margin-top:2px;">Hospital · Emergências</div></div>
+<div style="font-size:11px;color:var(--primary);font-weight:700;flex-shrink:0;">Maps &#8594;</div>
+</a>
+<a href="https://www.google.com/maps/search/?api=1&query=Farm%C3%A1cia+S%C3%A3o+Tom%C3%A9%2C+Afonso+Cl%C3%A1udio+-+ES" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;background:rgba(5,31,32,0.04);border-radius:14px;padding:13px 14px;text-decoration:none;color:inherit;">
+<div style="width:42px;height:42px;border-radius:11px;background:rgba(80,200,120,.14);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#3fb06f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div>
+<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:700;">Farmácia São Tomé</div><div style="font-size:11px;color:var(--text-light);margin-top:2px;">Farmácia</div></div>
+<div style="font-size:11px;color:var(--primary);font-weight:700;flex-shrink:0;">Maps &#8594;</div>
+</a>
+</div>
+
+<div style="font-size:11px;font-weight:800;color:var(--primary);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Alimentação</div>
+<div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;">
+<a href="https://www.google.com/maps/search/?api=1&query=Restaurante+do+Marc%C3%A3o%2C+Afonso+Cl%C3%A1udio+-+ES" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;background:rgba(5,31,32,0.04);border-radius:14px;padding:13px 14px;text-decoration:none;color:inherit;">
+<div style="width:42px;height:42px;border-radius:11px;background:rgba(244,197,66,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#c8960c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="2" x2="6" y2="22"/><path d="M3 2v6a3 3 0 0 0 6 0V2"/><line x1="17" y1="2" x2="17" y2="22"/><path d="M20 2c0 3-3 4-3 7s3 3 3 3"/></svg></div>
+<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:700;">Restaurante do Marcão</div><div style="font-size:11px;color:var(--text-light);margin-top:2px;">Restaurante · Aberto aos sábados</div></div>
+<div style="font-size:11px;color:var(--primary);font-weight:700;flex-shrink:0;">Maps &#8594;</div>
+</a>
+<a href="https://www.google.com/maps/search/?api=1&query=Restaurante+Prato+Fino%2C+Afonso+Cl%C3%A1udio+-+ES" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;background:rgba(5,31,32,0.04);border-radius:14px;padding:13px 14px;text-decoration:none;color:inherit;">
+<div style="width:42px;height:42px;border-radius:11px;background:rgba(244,197,66,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#c8960c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="2" x2="6" y2="22"/><path d="M3 2v6a3 3 0 0 0 6 0V2"/><line x1="17" y1="2" x2="17" y2="22"/><path d="M20 2c0 3-3 4-3 7s3 3 3 3"/></svg></div>
+<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:700;">Restaurante Prato Fino</div><div style="font-size:11px;color:var(--text-light);margin-top:2px;">Restaurante · Aberto aos domingos</div></div>
+<div style="font-size:11px;color:var(--primary);font-weight:700;flex-shrink:0;">Maps &#8594;</div>
+</a>
+<a href="https://www.google.com/maps/search/?api=1&query=Pizzaria+Express%2C+Afonso+Cl%C3%A1udio+-+ES" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;background:rgba(5,31,32,0.04);border-radius:14px;padding:13px 14px;text-decoration:none;color:inherit;">
+<div style="width:42px;height:42px;border-radius:11px;background:rgba(244,197,66,.15);display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0;">🍕</div>
+<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:700;">Pizzaria Express</div><div style="font-size:11px;color:var(--text-light);margin-top:2px;">Pizzaria</div></div>
+<div style="font-size:11px;color:var(--primary);font-weight:700;flex-shrink:0;">Maps &#8594;</div>
+</a>
+</div>
+
+<div style="font-size:11px;font-weight:800;color:var(--primary);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Hospedagem</div>
+<div style="display:flex;flex-direction:column;gap:10px;">
+<a href="https://www.google.com/maps/search/?api=1&query=Hotel+3+Pont%C3%B5es%2C+Afonso+Cl%C3%A1udio+-+ES" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;background:rgba(5,31,32,0.04);border-radius:14px;padding:13px 14px;text-decoration:none;color:inherit;">
+<div style="width:42px;height:42px;border-radius:11px;background:rgba(100,160,255,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#5a8fef" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 17h20"/><path d="M6 8v9"/></svg></div>
+<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:700;">Hotel 3 Pontões</div><div style="font-size:11px;color:var(--text-light);margin-top:2px;">Hotel</div></div>
+<div style="font-size:11px;color:var(--primary);font-weight:700;flex-shrink:0;">Maps &#8594;</div>
+</a>
+<a href="https://www.google.com/maps/search/?api=1&query=Pousada+Afonso+Cl%C3%A1udio%2C+Afonso+Cl%C3%A1udio+-+ES" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;background:rgba(5,31,32,0.04);border-radius:14px;padding:13px 14px;text-decoration:none;color:inherit;">
+<div style="width:42px;height:42px;border-radius:11px;background:rgba(100,160,255,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#5a8fef" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 17h20"/><path d="M6 8v9"/></svg></div>
+<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:700;">Pousada Afonso Cláudio</div><div style="font-size:11px;color:var(--text-light);margin-top:2px;">Pousada</div></div>
+<div style="font-size:11px;color:var(--primary);font-weight:700;flex-shrink:0;">Maps &#8594;</div>
+</a>
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- Calendario Modal -->
+<div class="regulation-modal" id="calendarioModal" onclick="closeCalendario(event)">
+<div class="regulation-content" onclick="event.stopPropagation()" style="max-height:90vh;overflow-y:auto;">
+<div class="regulation-header">
+<h2>📅 Calendário do Evento</h2>
+<button class="regulation-close" onclick="closeCalendario()">
+<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+</button>
+</div>
+<div class="regulation-text">
+
+<div style="background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:16px;padding:20px;margin-bottom:20px;text-align:center;color:#fff;">
+<div style="font-size:36px;margin-bottom:8px;">🏨</div>
+<div style="font-size:17px;font-weight:800;margin-bottom:4px;">Alojamento das Equipes</div>
+<div style="font-size:13px;opacity:.85;">Aberto das 08h às 23h nos dias do evento</div>
+</div>
+
+<div style="font-weight:800;font-size:15px;margin:4px 0 10px;">Sábado · 01/08/2026</div>
+<div style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px;">
+<div style="display:flex;align-items:center;gap:12px;background:rgba(5,31,32,0.04);border-radius:12px;padding:14px;">
+<span style="font-size:22px;">🏨</span>
+<div><div style="font-weight:700;font-size:14px;">Abertura do Alojamento</div>
+<div style="font-size:13px;color:var(--text-light);margin-top:2px;">08h00</div></div>
+</div>
+<div style="display:flex;align-items:center;gap:12px;background:rgba(5,31,32,0.04);border-radius:12px;padding:14px;">
+<span style="font-size:22px;">🤾</span>
+<div><div style="font-weight:700;font-size:14px;">Início dos Jogos</div>
+<div style="font-size:13px;color:var(--text-light);margin-top:2px;">08h00 — Fase de Grupos</div></div>
+</div>
+<div style="display:flex;align-items:center;gap:12px;background:rgba(5,31,32,0.04);border-radius:12px;padding:14px;">
+<span style="font-size:22px;">🍽️</span>
+<div><div style="font-weight:700;font-size:14px;">Parada para Almoço</div>
+<div style="font-size:13px;color:var(--text-light);margin-top:2px;">13h00 às 15h00</div></div>
+</div>
+<div style="display:flex;align-items:center;gap:12px;background:rgba(5,31,32,0.04);border-radius:12px;padding:14px;">
+<span style="font-size:22px;">🔒</span>
+<div><div style="font-weight:700;font-size:14px;">Fechamento do Alojamento</div>
+<div style="font-size:13px;color:var(--text-light);margin-top:2px;">23h00</div></div>
+</div>
+</div>
+
+<div style="font-weight:800;font-size:15px;margin:4px 0 10px;">Domingo · 02/08/2026</div>
+<div style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px;">
+<div style="display:flex;align-items:center;gap:12px;background:rgba(5,31,32,0.04);border-radius:12px;padding:14px;">
+<span style="font-size:22px;">🤾</span>
+<div><div style="font-weight:700;font-size:14px;">Início dos Jogos</div>
+<div style="font-size:13px;color:var(--text-light);margin-top:2px;">09h00 — Semifinais e Final</div></div>
+</div>
+<div style="display:flex;align-items:center;gap:12px;background:rgba(5,31,32,0.04);border-radius:12px;padding:14px;">
+<span style="font-size:22px;">🍽️</span>
+<div><div style="font-weight:700;font-size:14px;">Parada para Almoço</div>
+<div style="font-size:13px;color:var(--text-light);margin-top:2px;">12h20 às 14h20</div></div>
+</div>
+<div style="display:flex;align-items:center;gap:12px;background:rgba(5,31,32,0.04);border-radius:12px;padding:14px;">
+<span style="font-size:22px;">🔒</span>
+<div><div style="font-weight:700;font-size:14px;">Fechamento do Alojamento</div>
+<div style="font-size:13px;color:var(--text-light);margin-top:2px;">23h00</div></div>
+</div>
+</div>
+
+<div style="background:rgba(139,0,0,0.08);border:1px solid rgba(139,0,0,0.25);border-radius:14px;padding:16px;display:flex;gap:12px;align-items:flex-start;">
+<span style="font-size:20px;">⚠️</span>
+<div style="font-size:13px;color:var(--text-light);"><strong style="color:var(--text);">Observação:</strong> as equipes devem manter o alojamento em perfeitas condições durante toda a permanência.</div>
+</div>
+
 </div>
 </div>
 </div>
@@ -1444,7 +1587,51 @@ function getCell(rows, r, c) {
   return (rows[r] && rows[r][c]) ? rows[r][c].toString().trim() : '';
 }
 
-function parseJogos(gruposRows) {
+// Programação oficial (sábado 01/08/2026 - fase de grupos; domingo 02/08/2026 - mata-mata)
+var HORARIOS_GRUPOS = {
+  masc: {
+    A: [
+      { teams:['DRAGONHAND','HANDIUNA'], hora:'08:00' },
+      { teams:['DRAGONHAND','ACV'],      hora:'11:20' },
+      { teams:['ACV','HANDIUNA'],        hora:'16:40' }
+    ],
+    B: [
+      { teams:['AFOHAND','HANDVNI'], hora:'09:40' },
+      { teams:['HANDVNI','FAEG'],    hora:'15:00' },
+      { teams:['AFOHAND','FAEG'],    hora:'18:20' }
+    ]
+  },
+  fem: {
+    A: [
+      { teams:['DRAGONHAND','HANDIUNA'], hora:'08:50' },
+      { teams:['DRAGONHAND','ACV'],      hora:'12:10' },
+      { teams:['ACV','HANDIUNA'],        hora:'17:30' }
+    ],
+    B: [
+      { teams:['CBH','HANDVNI'], hora:'10:30' },
+      { teams:['HANDVNI','FAEG'], hora:'15:50' },
+      { teams:['CBH','FAEG'],    hora:'19:10' }
+    ]
+  }
+};
+var HORARIOS_MM = {
+  masc: { 'Semifinal 1':'09:00', 'Semifinal 2':'10:40', 'Final':'15:10' },
+  fem:  { 'Semifinal 1':'09:50', 'Semifinal 2':'11:30', 'Final':'14:20' }
+};
+var DATA_GRUPOS = '01/08/2026';
+var DATA_MM     = '02/08/2026';
+
+function achaHorario(naipe, grupo, casa, visitante) {
+  var lista = ((HORARIOS_GRUPOS[naipe] || {})[grupo]) || [];
+  var a = normTeam(casa), b = normTeam(visitante);
+  for (var i = 0; i < lista.length; i++) {
+    var t = lista[i].teams;
+    if ((t[0]===a && t[1]===b) || (t[0]===b && t[1]===a)) return { hora: lista[i].hora, ordem: i };
+  }
+  return { hora: '', ordem: 999 };
+}
+
+function parseJogos(gruposRows, naipe) {
   var jogos = [];
   var configs = [
     { grupo:'A', e1:1, g1:3, g2:5, e2:6 },
@@ -1456,24 +1643,33 @@ function parseJogos(gruposRows) {
       if (!ea && !eb) return;
       var g1 = row[c.g1] || '', g2 = row[c.g2] || '';
       var temGol = g1 !== '' && g2 !== '';
+      var casaFinal = naipe === 'fem' ? femName(ea) : ea;
+      var visFinal  = naipe === 'fem' ? femName(eb) : eb;
+      var hm = achaHorario(naipe, c.grupo, casaFinal, visFinal);
       jogos.push({
         id: ri + (c.grupo==='A'?1:4),
         grupo: c.grupo, rodada: ri+1,
-        casa: ea, visitante: eb,
+        casa: casaFinal, visitante: visFinal,
         gols_casa: temGol ? parseInt(g1)||0 : null,
         gols_vis:  temGol ? parseInt(g2)||0 : null,
-        status: temGol ? 'realizado' : 'pendente'
+        status: temGol ? 'realizado' : 'pendente',
+        data: DATA_GRUPOS, hora: hm.hora, ordem: hm.ordem
       });
     });
+  });
+  jogos.sort(function(a, b) {
+    if (a.grupo !== b.grupo) return a.grupo < b.grupo ? -1 : 1;
+    return a.ordem - b.ordem;
   });
   return jogos;
 }
 
-function parseMM(mmRows) {
+function parseMM(mmRows, naipe) {
+  var horas = HORARIOS_MM[naipe] || {};
   return [
-    { fase:'Semifinal 1', t1:getCell(mmRows,0,1), t2:getCell(mmRows,0,7), g1:getCell(mmRows,1,1), g2:getCell(mmRows,1,7) },
-    { fase:'Semifinal 2', t1:getCell(mmRows,5,1), t2:getCell(mmRows,5,7), g1:getCell(mmRows,6,1), g2:getCell(mmRows,6,7) },
-    { fase:'Final',       t1:getCell(mmRows,11,1),t2:getCell(mmRows,11,7),g1:getCell(mmRows,12,1),g2:getCell(mmRows,12,7) }
+    { fase:'Semifinal 1', t1:getCell(mmRows,0,1), t2:getCell(mmRows,0,7), g1:getCell(mmRows,1,1), g2:getCell(mmRows,1,7), data:DATA_MM, hora:horas['Semifinal 1'] },
+    { fase:'Semifinal 2', t1:getCell(mmRows,5,1), t2:getCell(mmRows,5,7), g1:getCell(mmRows,6,1), g2:getCell(mmRows,6,7), data:DATA_MM, hora:horas['Semifinal 2'] },
+    { fase:'Final',       t1:getCell(mmRows,11,1),t2:getCell(mmRows,11,7),g1:getCell(mmRows,12,1),g2:getCell(mmRows,12,7), data:DATA_MM, hora:horas['Final'] }
   ];
 }
 
@@ -1486,11 +1682,10 @@ function femName(nome) {
 }
 
 function parseSheetResults(results, isOffline) {
-  appData.masc.jogos    = parseJogos(results[0].values || []);
-  appData.masc.matamata = parseMM(results[1].values || []);
-  appData.fem.jogos     = parseJogos(results[2].values || []);
-  appData.fem.matamata  = parseMM(results[3].values || []);
-  appData.fem.jogos.forEach(function(j){ j.casa = femName(j.casa); j.visitante = femName(j.visitante); });
+  appData.masc.jogos    = parseJogos(results[0].values || [], 'masc');
+  appData.masc.matamata = parseMM(results[1].values || [], 'masc');
+  appData.fem.jogos     = parseJogos(results[2].values || [], 'fem');
+  appData.fem.matamata  = parseMM(results[3].values || [], 'fem');
   appData.fem.matamata.forEach(function(m){ m.t1 = femName(m.t1); m.t2 = femName(m.t2); });
   liveList = [];
   (((results[4] || {}).values) || []).forEach(function(row) {
@@ -1712,7 +1907,7 @@ function renderGames() {
           '<div class="game-score-display" style="color:var(--text-light);">VS</div>' +
           '<div class="game-team" style="flex-direction:row-reverse;text-align:right;"><div class="game-team-logo">'+teamLogoHTML(j.visitante,'&#x1F91B;')+'</div><div class="game-team-name">'+j.visitante+'</div></div>' +
         '</div>' +
-        '<div class="game-time">Quadra Eurico Vieira de Resende</div>' +
+        '<div class="game-time">&#x1F4C5; '+(j.data||'')+(j.hora?' &#183; &#x23F0; '+j.hora:'')+' &#183; Quadra Eurico Vieira de Resende</div>' +
       '</div>';
     }).join('');
   }
@@ -1733,7 +1928,7 @@ function renderGames() {
           '<div class="game-team" style="flex-direction:row-reverse;text-align:right;"><div class="game-team-logo">'+teamLogoHTML(j.visitante,'&#x1F91B;')+'</div>' +
             '<div class="game-team-name" style="'+(vB?'font-weight:700;color:var(--primary)':'')+'">'+j.visitante+'</div></div>' +
         '</div>' +
-        '<div class="game-time">Quadra Eurico Vieira de Resende</div>' +
+        '<div class="game-time">&#x1F4C5; '+(j.data||'')+(j.hora?' &#183; &#x23F0; '+j.hora:'')+' &#183; Quadra Eurico Vieira de Resende</div>' +
       '</div>';
     }).join('');
   }
@@ -1760,7 +1955,7 @@ function renderKnockout() {
     var g2 = m.g2 !== '' ? parseInt(m.g2)||0 : null;
     var realizado = g1 !== null && g2 !== null;
     var vA = realizado && g1 > g2, vB = realizado && g2 > g1;
-    html += '<div style="margin-bottom:8px;"><div style="font-size:11px;color:var(--text-muted);padding:4px 0;">'+m.fase+'</div>' +
+    html += '<div style="margin-bottom:8px;"><div style="font-size:11px;color:var(--text-muted);padding:4px 0;">'+m.fase+(m.hora?' &#183; &#x1F4C5; '+m.data+' &#183; &#x23F0; '+m.hora:'')+'</div>' +
     '<div class="knockout-match">' +
       '<div class="knockout-team '+(vA?'knockout-winner':'')+'">' +
         '<div class="knockout-team-info"><div class="knockout-team-avatar">'+teamLogoHTML(m.t1,'&#x1F91C;')+'</div>' +
@@ -1783,7 +1978,7 @@ function renderKnockout() {
     var gf2 = mf.g2 !== '' ? parseInt(mf.g2)||0 : null;
     var rfin = gf1 !== null && gf2 !== null;
     var vfA = rfin && gf1 > gf2, vfB = rfin && gf2 > gf1;
-    html += '<div class="knockout-round"><div class="knockout-title">&#x1F3C6; Final</div>' +
+    html += '<div class="knockout-round"><div class="knockout-title">&#x1F3C6; Final'+(mf.hora?' <span style="font-size:11px;font-weight:500;color:var(--text-muted);">&#183; &#x1F4C5; '+mf.data+' &#183; &#x23F0; '+mf.hora+'</span>':'')+'</div>' +
     '<div class="knockout-match">' +
       '<div class="knockout-team '+(vfA?'knockout-winner':'')+'">' +
         '<div class="knockout-team-info"><div class="knockout-team-avatar">'+teamLogoHTML(mf.t1,'&#x1F91C;')+'</div>' +
@@ -2239,6 +2434,12 @@ function shareGame(timeA, timeB, placar, status, rodada) {
 // ── Mapa ────────────────────────────────────────────────
 function openMapa() { document.getElementById('mapaModal').classList.add('open'); document.body.style.overflow = 'hidden'; }
 function closeMapa(e) { if (!e || e.target === document.getElementById('mapaModal') || e.target.closest('.regulation-close')) { document.getElementById('mapaModal').classList.remove('open'); document.body.style.overflow = ''; } }
+
+function openCalendario() { document.getElementById('calendarioModal').classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeCalendario(e) { if (!e || e.target === document.getElementById('calendarioModal') || e.target.closest('.regulation-close')) { document.getElementById('calendarioModal').classList.remove('open'); document.body.style.overflow = ''; } }
+
+function openLocais() { document.getElementById('locaisModal').classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeLocais(e) { if (!e || e.target === document.getElementById('locaisModal') || e.target.closest('.regulation-close')) { document.getElementById('locaisModal').classList.remove('open'); document.body.style.overflow = ''; } }
 
 // ── Onboarding ──────────────────────────────────────────
 var _onboardingTeam = null;
