@@ -2179,7 +2179,9 @@ function subscribePush(reg) {
 //   return ContentService.createTextOutput(JSON.stringify({success:true})).setMimeType(ContentService.MimeType.JSON);
 // }
 
-var VOTE_SHEET_ID  = '1jGuJHUHyY3p-PQHm7HmNjcYry_xPheuOT2RmVFHh_Go';
+// Aba propria "Destaque" na planilha do AFOHAND (antes usava a planilha
+// compartilhada com a Supercopa, o que misturava votos de outros esportes)
+var VOTE_SHEET_ID  = SHEET_ID;
 var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzkh_F_gOhJhLLktT7veOqGs6rDQslfRyzkbqbKNMnNMvTScRdXVkB_y715Q-Jb4_kk/exec';
 
 var voteState = { naipe: 'masc', team: '', athlete: null };
@@ -2336,9 +2338,12 @@ function submitVote() {
     atleta: '#'+voteState.athlete.num+' '+voteState.athlete.nome
   };
 
-  // Content-Type text/plain evita preflight CORS no Apps Script
+  // no-cors: nao conseguimos ler a resposta, mas o Apps Script recebe o POST
+  // (sem isso, a falta de header CORS na resposta do Apps Script faz o
+  // fetch rejeitar mesmo quando o voto foi salvo)
   fetch(APPS_SCRIPT_URL, {
     method:'POST',
+    mode:'no-cors',
     headers:{'Content-Type':'text/plain'},
     body:JSON.stringify(payload)
   })
@@ -2357,7 +2362,7 @@ function submitVote() {
 }
 
 function loadRanking() {
-  var url = 'https://sheets.googleapis.com/v4/spreadsheets/'+VOTE_SHEET_ID+'/values/'+encodeURIComponent('Página1!A2:F')+'?key='+API_KEY;
+  var url = 'https://sheets.googleapis.com/v4/spreadsheets/'+VOTE_SHEET_ID+'/values/'+encodeURIComponent("'Destaque'!A2:F")+'?key='+API_KEY;
   fetch(url)
     .then(function(r){ return r.json(); })
     .then(function(data){ renderRanking(data.values || []); })
