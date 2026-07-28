@@ -685,6 +685,11 @@ Acesso Rapido
 <div class="card-title">Locais Uteis</div>
 <div class="card-count">Saude, comida e hospedagem</div>
 </div>
+<div class="card-item" onclick="openWallpaper()">
+<div class="card-icon light1">&#x1F5BC;&#xFE0F;</div>
+<div class="card-title">Plano de Fundo</div>
+<div class="card-count">Papeis de parede oficiais</div>
+</div>
 </div>
 
 <div class="section-title">
@@ -950,6 +955,11 @@ Noticias
 <div class="more-card-title">Locais Uteis</div>
 <div class="more-card-desc">Saude, comida e hospedagem</div>
 </div>
+<div class="more-card" onclick="openWallpaper()">
+<div class="more-card-icon" style="background: linear-gradient(135deg, #163832, #8EB69B);">&#x1F5BC;&#xFE0F;</div>
+<div class="more-card-title">Plano de Fundo</div>
+<div class="more-card-desc">Papeis de parede oficiais</div>
+</div>
 <div class="more-card" onclick="openInstall()">
 <div class="more-card-icon" style="background: linear-gradient(135deg, #235347, #8EB69B);">&#x1F4F2;</div>
 <div class="more-card-title">Instalar App</div>
@@ -1078,6 +1088,43 @@ Abrir no Waze
 </a>
 </div>
 
+</div>
+</div>
+</div>
+
+<!-- Plano de Fundo Modal -->
+<div class="regulation-modal" id="wallpaperModal" onclick="closeWallpaper(event)">
+<div class="regulation-content" onclick="event.stopPropagation()" style="max-height:90vh;overflow-y:auto;">
+<div class="regulation-header">
+<h2>🖼️ Plano de Fundo</h2>
+<button class="regulation-close" onclick="closeWallpaper()">
+<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+</button>
+</div>
+<div class="regulation-text">
+<div style="font-size:12px;color:var(--text-light);margin-bottom:16px;">Papéis de parede oficiais da Copa AFOHAND 2026. Toque em baixar para salvar em alta qualidade no seu celular.</div>
+<div style="display:flex;flex-direction:column;gap:16px;">
+
+<div style="border-radius:16px;overflow:hidden;background:rgba(5,31,32,0.04);">
+<img src="wallpapers/wallpaper-afohand-1.png" alt="Plano de fundo Copa AFOHAND 1" style="width:100%;display:block;">
+<a href="wallpapers/wallpaper-afohand-1.png" download="copa-afohand-wallpaper-1.png" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:var(--primary);color:var(--bg);text-decoration:none;font-weight:800;font-size:14px;">
+&#x2B07;&#xFE0F; Baixar em alta qualidade</a>
+</div>
+
+<div style="border-radius:16px;overflow:hidden;background:rgba(5,31,32,0.04);">
+<img src="wallpapers/wallpaper-afohand-2.png" alt="Plano de fundo Copa AFOHAND 2" style="width:100%;display:block;">
+<a href="wallpapers/wallpaper-afohand-2.png" download="copa-afohand-wallpaper-2.png" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:var(--primary);color:var(--bg);text-decoration:none;font-weight:800;font-size:14px;">
+&#x2B07;&#xFE0F; Baixar em alta qualidade</a>
+</div>
+
+<div style="border-radius:16px;overflow:hidden;background:rgba(5,31,32,0.04);">
+<img src="wallpapers/wallpaper-afohand-3.png" alt="Plano de fundo Copa AFOHAND 3" style="width:100%;display:block;">
+<a href="wallpapers/wallpaper-afohand-3.png" download="copa-afohand-wallpaper-3.png" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:var(--primary);color:var(--bg);text-decoration:none;font-weight:800;font-size:14px;">
+&#x2B07;&#xFE0F; Baixar em alta qualidade</a>
+</div>
+
+</div>
+<div style="font-size:11px;color:var(--text-light);margin-top:14px;text-align:center;">Se o botão não baixar direto no seu navegador, toque e segure a imagem e escolha "Salvar imagem".</div>
 </div>
 </div>
 </div>
@@ -2446,6 +2493,9 @@ function closeCalendario(e) { if (!e || e.target === document.getElementById('ca
 
 function openLocais() { document.getElementById('locaisModal').classList.add('open'); document.body.style.overflow = 'hidden'; }
 function closeLocais(e) { if (!e || e.target === document.getElementById('locaisModal') || e.target.closest('.regulation-close')) { document.getElementById('locaisModal').classList.remove('open'); document.body.style.overflow = ''; } }
+
+function openWallpaper() { document.getElementById('wallpaperModal').classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeWallpaper(e) { if (!e || e.target === document.getElementById('wallpaperModal') || e.target.closest('.regulation-close')) { document.getElementById('wallpaperModal').classList.remove('open'); document.body.style.overflow = ''; } }
 
 // ── Onboarding ──────────────────────────────────────────
 var _onboardingTeam = null;
