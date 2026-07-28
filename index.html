@@ -1658,6 +1658,7 @@ function parseJogos(gruposRows, naipe) {
     });
   });
   jogos.sort(function(a, b) {
+    if (a.hora && b.hora && a.hora !== b.hora) return a.hora < b.hora ? -1 : 1;
     if (a.grupo !== b.grupo) return a.grupo < b.grupo ? -1 : 1;
     return a.ordem - b.ordem;
   });
