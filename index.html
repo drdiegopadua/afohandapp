@@ -653,7 +653,7 @@ Acesso Rapido
 <div class="card-item" onclick="showPage('games')">
 <div class="card-icon dark1">&#x1F93E;</div>
 <div class="card-title">Jogos</div>
-<div class="card-count">9 jogos no total</div>
+<div class="card-count">18 jogos no total</div>
 </div>
 <div class="card-item" onclick="showPage('classification')">
 <div class="card-icon dark2">&#x1F4CA;</div>
@@ -2001,7 +2001,10 @@ function renderKnockout() {
     if (!m) return;
     var g1 = m.g1 !== '' ? parseInt(m.g1)||0 : null;
     var g2 = m.g2 !== '' ? parseInt(m.g2)||0 : null;
-    var realizado = g1 !== null && g2 !== null;
+    // 0x0 e o placeholder da planilha antes do jogo acontecer — handebol
+    // praticamente nunca termina 0x0, entao so conta como realizado se
+    // pelo menos um time tiver marcado gol
+    var realizado = g1 !== null && g2 !== null && (g1 > 0 || g2 > 0);
     var vA = realizado && g1 > g2, vB = realizado && g2 > g1;
     html += '<div style="margin-bottom:8px;"><div style="font-size:11px;color:var(--text-muted);padding:4px 0;">'+m.fase+(m.hora?' &#183; &#x1F4C5; '+m.data+' &#183; &#x23F0; '+m.hora:'')+'</div>' +
     '<div class="knockout-match">' +
@@ -2024,7 +2027,8 @@ function renderKnockout() {
     var mf = mm[2];
     var gf1 = mf.g1 !== '' ? parseInt(mf.g1)||0 : null;
     var gf2 = mf.g2 !== '' ? parseInt(mf.g2)||0 : null;
-    var rfin = gf1 !== null && gf2 !== null;
+    // mesmo motivo do SF: 0x0 e placeholder, nao jogo realizado
+    var rfin = gf1 !== null && gf2 !== null && (gf1 > 0 || gf2 > 0);
     var vfA = rfin && gf1 > gf2, vfB = rfin && gf2 > gf1;
     html += '<div class="knockout-round"><div class="knockout-title">&#x1F3C6; Final'+(mf.hora?' <span style="font-size:11px;font-weight:500;color:var(--text-muted);">&#183; &#x1F4C5; '+mf.data+' &#183; &#x23F0; '+mf.hora+'</span>':'')+'</div>' +
     '<div class="knockout-match">' +
@@ -2216,18 +2220,12 @@ function subscribePush(reg) {
 }
 
 // ── DESTAQUE DA GALERA COROA ─────────────────────────────────────────────────
-// Para enviar votos: crie um Apps Script na planilha (Extensões → Apps Script),
-// cole o código abaixo, deploy como web app (Anyone) e cole a URL em APPS_SCRIPT_URL.
-//
-// function doPost(e){
-//   var sheet = SpreadsheetApp.openById('1jGuJHUHyY3p-PQHm7HmNjcYry_xPheuOT2RmVFHh_Go').getActiveSheet();
-//   var d = JSON.parse(e.postData.contents);
-//   sheet.appendRow([new Date(),d.nome,d.telefone,d.modalidade,d.time,d.atleta]);
-//   return ContentService.createTextOutput(JSON.stringify({success:true})).setMimeType(ContentService.MimeType.JSON);
-// }
-
-// Aba propria "Destaque" na planilha do AFOHAND (antes usava a planilha
-// compartilhada com a Supercopa, o que misturava votos de outros esportes)
+// Votos sao lidos/gravados na aba "Destaque" da propria planilha do AFOHAND
+// (mesma de Fase de Grupos/Mata-Mata), via Apps Script publicado como Web App
+// no editor DESSA planilha (Extensoes > Apps Script). O doPost la aceita
+// tipo:'voto_destaque' e faz getSheetByName('Destaque') (criando com cabecalho
+// se nao existir) + appendRow. NAO e mais a planilha compartilhada com a
+// Supercopa (1jGuJHUHyY3p...) — isso ja foi trocado.
 var VOTE_SHEET_ID  = SHEET_ID;
 var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzkh_F_gOhJhLLktT7veOqGs6rDQslfRyzkbqbKNMnNMvTScRdXVkB_y715Q-Jb4_kk/exec';
 

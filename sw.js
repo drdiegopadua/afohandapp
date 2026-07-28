@@ -1,5 +1,5 @@
 // AfoHand Service Worker
-const CACHE      = 'afohand-v10';
+const CACHE      = 'afohand-v11';
 const DATA_CACHE = 'afohand-data-v1';
 // Caminhos relativos ao escopo do SW (funciona na raiz e em /afohandapp/)
 const ASSETS = [
