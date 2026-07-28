@@ -2339,8 +2339,6 @@ function renderVoteForm() {
   var formFields = '';
   if (remaining > 0) {
     formFields = selectedBadge +
-      '<input class="vote-input" id="voteNome" type="text" placeholder="Seu nome completo" autocomplete="name">' +
-      '<input class="vote-input" id="voteTel" type="tel" placeholder="Seu telefone (WhatsApp)" autocomplete="tel">' +
       '<div class="vote-counter">Você tem <strong>'+remaining+' voto'+(remaining>1?'s':'')+' restante'+(remaining>1?'s':'')+'</strong> (máximo 3 por pessoa)</div>' +
       '<button class="vote-submit-btn" onclick="submitVote()"'+((!voteState.athlete)?' disabled':'')+'>&#x1F451; VOTAR AGORA</button>';
   } else {
@@ -2355,15 +2353,7 @@ function renderVoteForm() {
 }
 
 function submitVote() {
-  var nomeEl = document.getElementById('voteNome');
-  var telEl  = document.getElementById('voteTel');
-  if (!nomeEl || !telEl) return;
-  var nome = nomeEl.value.trim();
-  var tel  = telEl.value.trim();
-
   if (!voteState.athlete) { showToast('Selecione um atleta para votar'); return; }
-  if (!nome) { showToast('Informe seu nome'); return; }
-  if (!tel || tel.length < 8) { showToast('Informe um telefone válido'); return; }
 
   var used = getUsedVotes();
   if (used >= 3) { showToast('Você já usou seus 3 votos!'); return; }
@@ -2378,8 +2368,8 @@ function submitVote() {
 
   var payload = {
     tipo: 'voto_destaque',
-    nome: nome,
-    telefone: tel,
+    nome: '',
+    telefone: '',
     modalidade: voteState.naipe === 'masc' ? 'Masculino' : 'Feminino',
     time: voteState.team,
     atleta: '#'+voteState.athlete.num+' '+voteState.athlete.nome
