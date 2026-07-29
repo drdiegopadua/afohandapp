@@ -1580,6 +1580,11 @@ var currentNaipe = 'masc';
 // Transmissões ao vivo — lidas de 'Configuracao'!A11:B30 da planilha
 // (coluna A = nome do jogo, coluna B = link do YouTube; uma linha por live;
 //  a última linha preenchida é considerada a transmissão AO VIVO)
+// Se ninguém colar um link manualmente na planilha, o app cai sozinho
+// no canal do YouTube abaixo (embed "live_stream" que resolve pra
+// qualquer transmissão que estiver ao vivo no canal, sem precisar saber
+// o ID do vídeo com antecedência).
+var AFOHAND_YT_CHANNEL_ID = 'UCCwA_7FLmanCOEVR0Gk-cGA';
 var liveList = [];
 var liveYtUrl = '';
 
@@ -1744,6 +1749,13 @@ function parseSheetResults(results, isOffline) {
     var titulo = (url === b ? a : b) || ('Transmissão ' + (liveList.length + 1));
     liveList.push({ titulo: titulo, url: url });
   });
+  if (!liveList.length) {
+    liveList.push({
+      titulo: 'Transmissão da Copa AFOHAND',
+      url: 'https://www.youtube.com/channel/' + AFOHAND_YT_CHANNEL_ID + '/live',
+      auto: true
+    });
+  }
   liveYtUrl = liveList.length ? liveList[liveList.length - 1].url : '';
   renderLiveBanner();
   renderAll();
@@ -1764,7 +1776,8 @@ function renderLiveBanner() {
   var b = document.getElementById('liveYtBanner');
   if (!b) return;
   b.style.display = 'flex';
-  if (liveList.length) {
+  var confirmedLive = liveList.some(function(i){ return !i.auto; });
+  if (confirmedLive) {
     b.classList.add('on');
     b.innerHTML =
       '<div class="yt-live-icon">&#x25B6;</div>' +
@@ -1778,7 +1791,7 @@ function renderLiveBanner() {
     b.innerHTML =
       '<div class="yt-live-icon" style="background:rgba(255,255,255,0.14);">&#x1F4FA;</div>' +
       '<div><div class="yt-live-title">Transmissão ao Vivo</div>' +
-      '<div class="yt-live-sub">Os jogos serão transmitidos no YouTube — em breve</div></div>';
+      '<div class="yt-live-sub">Toque para ver se já começou</div></div>';
   }
 }
 
