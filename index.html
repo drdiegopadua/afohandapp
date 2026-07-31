@@ -617,7 +617,7 @@ Regulamento da Copa
   <div style="margin-left:auto;">
     <button onclick="resetOnboarding()" style="background:rgba(255,255,255,0.15);border:none;border-radius:10px;padding:6px 10px;color:#fff;font-size:11px;cursor:pointer;">Trocar</button>
   </div>
-</div><button class="coroa-btn" onclick="openVote()">
+</div><button class="coroa-btn" id="coroaBtn" onclick="openVote()">
 &#x1F451; Destaque da Galera COROA
 </button>
 
@@ -2242,6 +2242,13 @@ function subscribePush(reg) {
 var VOTE_SHEET_ID  = SHEET_ID;
 var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzkh_F_gOhJhLLktT7veOqGs6rDQslfRyzkbqbKNMnNMvTScRdXVkB_y715Q-Jb4_kk/exec';
 
+// Votação libera sábado 01/08/2026 às 10h (horário de Brasília = 13h UTC).
+// A troca de VOTE_SEASON força reset automático do contador de votos em
+// TODOS os dispositivos (mesmo quem já votou antes) assim que carregarem
+// a versão nova do app — não precisa limpar nada manualmente em cada celular.
+var GALERA_OPEN_DEADLINE = new Date("2026-08-01T13:00:00Z");
+var VOTE_SEASON = "2026-08-01-10h";
+
 var voteState = { naipe: 'masc', team: '', athlete: null };
 var rankingTimer = null;
 
@@ -2265,6 +2272,10 @@ var ATLETAS = {
 };
 
 function openVote() {
+  if (new Date() < GALERA_OPEN_DEADLINE) {
+    showToast('🔒 Destaque da Galera libera sábado (01/08) às 10h. Fique ligado!');
+    return;
+  }
   document.getElementById('voteModal').classList.add('open');
   document.body.style.overflow = 'hidden';
   voteState.naipe = 'masc'; voteState.team = ''; voteState.athlete = null;
@@ -2308,7 +2319,28 @@ function selectAthlete(nome) {
   renderVoteForm();
 }
 
-function getUsedVotes() { return parseInt(localStorage.getItem('afohand_vote_count')||'0'); }
+function getUsedVotes() {
+  if (localStorage.getItem('afohand_vote_season') !== VOTE_SEASON) {
+    localStorage.setItem('afohand_vote_season', VOTE_SEASON);
+    localStorage.setItem('afohand_vote_count', '0');
+    return 0;
+  }
+  return parseInt(localStorage.getItem('afohand_vote_count')||'0');
+}
+
+function updateCoroaBtnState() {
+  var btn = document.getElementById('coroaBtn');
+  if (!btn) return;
+  if (new Date() < GALERA_OPEN_DEADLINE) {
+    btn.innerHTML = '&#x1F512; Destaque da Galera — libera sáb 01/08 às 10h';
+    btn.style.opacity = '.75';
+  } else {
+    btn.innerHTML = '&#x1F451; Destaque da Galera COROA';
+    btn.style.opacity = '1';
+  }
+}
+document.addEventListener('DOMContentLoaded', updateCoroaBtnState);
+setInterval(updateCoroaBtnState, 30000);
 
 function renderVoteForm() {
   var used = getUsedVotes();
