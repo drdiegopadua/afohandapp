@@ -132,7 +132,8 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'Segoe U
 .nbadge{margin-left:auto;font-size:13px;font-weight:700;letter-spacing:1.5px;padding:4px 14px;border-radius:20px;}
 .nbadge.m{background:var(--mascD);color:var(--masc);}
 .nbadge.f{background:var(--femD);color:var(--fem);}
-.pbody{padding:12px 18px;flex:1;min-height:0;overflow-y:auto;}
+.pbody{padding:12px 18px;flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none;}
+.pbody::-webkit-scrollbar{display:none;width:0;height:0;}
 
 /* ═══ CLASSIFICAÇÃO 2 COL ═══ */
 .c2col{display:grid;grid-template-columns:1fr 1fr;gap:18px;height:100%;}
@@ -171,8 +172,8 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'Segoe U
 }
 .jrow.done{border-color:rgba(46,204,113,.22);}
 .jgrp{order:0;font-size:13px;font-weight:700;padding:3px 9px;border-radius:6px;flex-shrink:0;background:rgba(142,182,155,.14);color:var(--gl);}
-.jt{order:1;flex:1;font-size:19px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.jt.r{order:3;text-align:right;}
+.jt{order:1;flex:1;font-size:19px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:right;}
+.jt.r{order:3;text-align:left;}
 .jt.w{color:var(--acc);}
 .jsc{
   order:2;font-size:25px;font-weight:900;min-width:88px;text-align:center;
@@ -376,7 +377,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'Segoe U
 
     <!-- 1: MASC Classificação -->
     <div class="scene" id="s-masc-class">
-      <div class="panel mp" style="flex:1.6">
+      <div class="panel mp" style="flex:1">
         <div class="ptitle mt"><div class="pdot"></div>📊 CLASSIFICAÇÃO<span class="nbadge m">MASCULINO</span></div>
         <div class="pbody">
           <div class="c2col">
@@ -393,10 +394,6 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'Segoe U
           </div>
         </div>
       </div>
-      <div class="panel mp" style="flex:1">
-        <div class="ptitle mt"><div class="pdot"></div>⏭ PRÓXIMOS — MASC</div>
-        <div class="pbody" id="m-prox"></div>
-      </div>
     </div>
 
     <!-- 2: MASC Jogos -->
@@ -409,7 +406,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'Segoe U
 
     <!-- 3: FEM Classificação -->
     <div class="scene" id="s-fem-class">
-      <div class="panel fp" style="flex:1.6">
+      <div class="panel fp" style="flex:1">
         <div class="ptitle ft"><div class="pdot"></div>📊 CLASSIFICAÇÃO<span class="nbadge f">FEMININO</span></div>
         <div class="pbody">
           <div class="c2col">
@@ -425,10 +422,6 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'Segoe U
             </div>
           </div>
         </div>
-      </div>
-      <div class="panel fp" style="flex:1">
-        <div class="ptitle ft"><div class="pdot"></div>⏭ PRÓXIMOS — FEM</div>
-        <div class="pbody" id="f-prox"></div>
       </div>
     </div>
 
@@ -762,22 +755,6 @@ function renderClass(jogos,grupo,elId){
   document.getElementById(elId).innerHTML=html||'<div style="color:var(--muted);font-size:10px;padding:8px;text-align:center">Aguardando...</div>';
 }
 
-// ═══ PRÓXIMOS ═══
-function renderProx(jogos,elId){
-  var pend=jogos.filter(function(j){return!j.ok;});
-  if(!pend.length){document.getElementById(elId).innerHTML='<div style="color:var(--muted);font-size:10px;padding:5px;text-align:center">✅ Todos os jogos realizados</div>';return;}
-  var html='';
-  pend.slice(0,3).forEach(function(j,i){
-    html+='<div class="jrow" style="animation-delay:'+(i*.06)+'s">'
-      +'<span class="jtime">'+j.hora+'</span><span class="jgrp">'+j.g+'</span>'
-      +'<span class="jt">'+tvLogo(j.casa)+j.casa+'</span><span class="jsc vs">VS</span>'
-      +'<span class="jt r">'+j.vis+tvLogo(j.vis)+'</span>'
-      +'<span class="jst wt">⏳ A jogar</span>'
-    +'</div>';
-  });
-  document.getElementById(elId).innerHTML=html;
-}
-
 // ═══ TABELA ═══
 function renderTab(jogos,elId){
   if(!jogos.length){document.getElementById(elId).innerHTML='<div style="color:var(--muted);font-size:10px;padding:12px;text-align:center">Aguardando dados...</div>';return;}
@@ -906,11 +883,9 @@ function setCampEscudo(elId,nome){
 function renderAll(voteRows){
   renderClass(appData.m.j,'A','mc-A');
   renderClass(appData.m.j,'B','mc-B');
-  renderProx(appData.m.j,'m-prox');
   renderTab(appData.m.j,'m-tab');
   renderClass(appData.f.j,'A','fc-A');
   renderClass(appData.f.j,'B','fc-B');
-  renderProx(appData.f.j,'f-prox');
   renderTab(appData.f.j,'f-tab');
   renderMM(appData.m.mm,'mm-m','m');
   renderMM(appData.f.mm,'mm-f','f');
