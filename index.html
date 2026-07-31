@@ -2248,17 +2248,17 @@ var rankingTimer = null;
 var ATLETAS = {
   masc: {
     'AFOHAND':         [{num:null,nome:'Diego'},{num:null,nome:'Leo'},{num:null,nome:'Júnior (pé)'},{num:null,nome:'Liocer'},{num:null,nome:'Evandro'},{num:null,nome:'Peitao'},{num:null,nome:'Leo Menezes'},{num:null,nome:'Rafael'},{num:null,nome:'Renan Giestas'},{num:null,nome:'Renan Goleiro'},{num:null,nome:'Lucas'},{num:null,nome:'Vinicius'}],
-    'Dragonhand':      [],
+    'Dragonhand':      [{num:8,nome:'Gustavo Pazini Bosa'},{num:null,nome:'Johan Luchi Lingholn'},{num:4,nome:'Miguel Berger'},{num:50,nome:'João Pedro Tamanhoni Mognato'},{num:null,nome:'Victor Rocha Casagrande'},{num:77,nome:'Ian Anderson Rodrigues'},{num:11,nome:'Enzo Schirelli Barth'},{num:45,nome:'Wendel Kosanke'},{num:null,nome:'Matheus Vilela'}],
     'HandVNI':         [{num:14,nome:'Lucão'},{num:5,nome:'Warley'},{num:7,nome:'Gleidson'},{num:8,nome:'Lucas'},{num:2,nome:'Weslei'},{num:30,nome:'Davi (sábado)'},{num:1,nome:'Lucas F'},{num:4,nome:'Adobrian (domingo)'},{num:6,nome:'Yuri'},{num:9,nome:'Gabriel'},{num:11,nome:'Wandin'},{num:6,nome:'Saider'},{num:10,nome:'Juliano'}],
-    'FAEG Itaguaçu':   [],
-    'Hand Iúna':       [{num:11,nome:'Renan Vieira Madeira'},{num:8,nome:'Eduardo Soares'},{num:9,nome:'Leonardo Gomes'},{num:10,nome:'Cleyton Furtunato Silva'},{num:1,nome:'Wadrian Fernandes César'},{num:5,nome:'Fernando Gonçalves Barglini'},{num:6,nome:'Rhuan Castro Viana da Fonseca'}],
+    'FAEG Itaguaçu':   [{num:1,nome:'Lázaro Zanotti Mattedi'},{num:2,nome:'Ruan Lázaro Hell Tavares'},{num:3,nome:'Caio Trabach Noemeg'},{num:4,nome:'Eduardo Silva Marquez'},{num:5,nome:'Thiago de Souza Cavedo'},{num:6,nome:'André Luís Santos de Lima'},{num:7,nome:'Antônio Vitor Adamkosky Botti'},{num:8,nome:'Kayky Cavedo da Silva'},{num:9,nome:'Marcelo Otavio Loterio Penitente'},{num:10,nome:'Gabriel dos Santos Tineli'},{num:11,nome:'Anthony Avancini Rios'},{num:12,nome:'Fabrício Santos Pereira Júnior'},{num:13,nome:'Antonio Rivaldo da Silva'}],
+    'Hand Iúna':       [{num:11,nome:'Renan Vieira Madeira'},{num:8,nome:'Eduardo Soares'},{num:9,nome:'Leonardo Gomes'},{num:10,nome:'Cleyton Furtunato Silva'},{num:1,nome:'Wadrian Fernandes César'},{num:5,nome:'Fernando Gonçalves Barglini'},{num:6,nome:'Rhuan Castro Viana da Fonseca'},{num:12,nome:'Amaury Oliveira Paulino Junior'}],
     'ACV Vila Velha':  [{num:6,nome:'David Ramalho'},{num:9,nome:'Arthur Souza'},{num:11,nome:'Davi Honorio'},{num:7,nome:'Jordão'},{num:13,nome:'Carlos'},{num:2,nome:'Matheus B'},{num:5,nome:'João Vitor'},{num:10,nome:'Douglas'},{num:3,nome:'Kevyn'},{num:16,nome:'Gabriel'},{num:8,nome:'Samuel'},{num:4,nome:'Lucca'},{num:88,nome:'Juan'},{num:22,nome:'Matheus Couto'}]
   },
   fem: {
-    'CBH':             [],
-    'Dragonhand':      [],
+    'CBH':             [{num:7,nome:'Marinara'},{num:2,nome:'Ranyella'},{num:77,nome:'Livia'},{num:8,nome:'Ianca'},{num:5,nome:'Hynara'},{num:1,nome:'Lara'},{num:21,nome:'Fabi'},{num:11,nome:'Sergiane'},{num:4,nome:'Ana'}],
+    'Dragonhand':      [{num:3,nome:'Ana Livia Sancio Scachetti'},{num:16,nome:'Kamilly Postay Gazzolli'},{num:15,nome:'Kamylle Fink Groberio'},{num:4,nome:'Mayra Moraes Lodi Angeli'},{num:11,nome:'Luara Barcellos Aliprandi'},{num:9,nome:'Julia Barbosa Souza'},{num:14,nome:'Thaíssa Lomeu Braun'},{num:10,nome:'Giovanna De Oliveira Fudcheller'},{num:18,nome:'Thaila Lomeu Braun'},{num:12,nome:'Suria da Silva dos Santos'},{num:1,nome:'Maria Luiza Pozzatti Stinghel'}],
     'HandVNI':         [],
-    'FAEG Itaguaçu':   [],
+    'FAEG Itaguaçu':   [{num:1,nome:'Thaissa Fernandes Alves Santos'},{num:2,nome:'Beatriz Azevedo Rodrigues'},{num:3,nome:'Luísa Caitano Rosa'},{num:4,nome:'Louisy Demoner Vedova'},{num:5,nome:'Isadora Benevides'},{num:6,nome:'Rafaela Sesana Correa Gaigher'},{num:7,nome:'Maria Luiza Donadia Engel'},{num:8,nome:'Soraya Neres Oliveira'},{num:9,nome:'Letícia de Oliveira Freitas'},{num:10,nome:"Samara Del' Negri Mohem"},{num:11,nome:'Anna Lyvia Damacena'},{num:12,nome:'Lara Ferreira Batista'}],
     'Hand Iúna':       [{num:2,nome:'Maria Guadalupe'},{num:3,nome:'Iasmin Valentim'},{num:4,nome:'Kayslaine Aleixo'},{num:12,nome:'Ana Carolina'},{num:14,nome:'Lorrayne Muniz'}],
     'ACV Vila Velha':  [{num:14,nome:'Vitória Bottas'},{num:12,nome:'Angelina Queiroz'},{num:2,nome:'Thamires Galhardo'},{num:9,nome:'Kissila Aurea'},{num:17,nome:'Maria Eduarda'},{num:11,nome:'Emilly Raibeiro'},{num:7,nome:'Dieniffer Ferreira'},{num:8,nome:'Júlia Batista'},{num:3,nome:'Daynna Rufino'},{num:5,nome:'Paola'},{num:4,nome:'Luana Chaves'},{num:6,nome:'Ana Luiza Salles'}]
   }
