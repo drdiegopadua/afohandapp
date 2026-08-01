@@ -540,9 +540,9 @@ var HORARIOS_GRUPOS = {
       { teams:['ACV','HANDIUNA'],        hora:'17:30' }
     ],
     B: [
-      { teams:['CBH','HANDVNI'], hora:'10:30' },
+      { teams:['CHB','HANDVNI'], hora:'10:30' },
       { teams:['HANDVNI','FAEG'], hora:'15:50' },
-      { teams:['CBH','FAEG'],    hora:'19:10' }
+      { teams:['CHB','FAEG'],    hora:'19:10' }
     ]
   }
 };
@@ -604,7 +604,7 @@ function tvLogo(nome,cls){
   return l?'<img class="'+(cls||'tlogo')+'" src="'+l+'" alt="">':'';
 }
 // Feminino: Afonso Cláudio deu lugar à CBH (traduz caso a planilha traga o nome antigo)
-var FEM_RENAME={'AFONSOCLAUDIO':'CBH','AFOHAND':'CBH'};
+var FEM_RENAME={'AFONSOCLAUDIO':'CHb','AFOHAND':'CHb','CBH':'CHb'};
 function femName(n){return FEM_RENAME[normTeam(n)]||n;}
 
 // ═══ CLOCK ═══

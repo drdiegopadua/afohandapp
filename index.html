@@ -1228,9 +1228,9 @@ Abrir no Waze
     <span class="onboarding-team-logo"><img src="logo-acv.jpg" onerror="this.parentElement.textContent='🛡️'"></span>
     <span class="onboarding-team-name">ACV Vila Velha</span>
   </button>
-  <button class="onboarding-team-btn" onclick="selectOnboardingTeam(this,'CBH','logo-cbh.jpg')">
+  <button class="onboarding-team-btn" onclick="selectOnboardingTeam(this,'CHb','logo-cbh.jpg')">
     <span class="onboarding-team-logo"><img src="logo-cbh.jpg" onerror="this.parentElement.textContent='🐆'"></span>
-    <span class="onboarding-team-name">CBH</span>
+    <span class="onboarding-team-name">CHb</span>
   </button>
 </div>
 <button class="onboarding-confirm" id="onboardingConfirm" onclick="confirmOnboarding()">Entrar no app ➜</button>
@@ -1393,9 +1393,9 @@ Instalar agora (1 clique)
 </div>
 
 <div style="display:flex;align-items:center;gap:14px;padding:14px 0;">
-<img src="logo-cbh.jpg" alt="CBH" style="width:48px;height:48px;border-radius:14px;object-fit:cover;flex-shrink:0;">
+<img src="logo-cbh.jpg" alt="CHb" style="width:48px;height:48px;border-radius:14px;object-fit:cover;flex-shrink:0;">
 <div>
-<div style="font-weight:700;font-size:15px;">CBH</div>
+<div style="font-weight:700;font-size:15px;">CHb</div>
 <div style="font-size:12px;color:var(--text-light);">Equipe Feminina</div>
 </div>
 <div style="margin-left:auto;background:#d1fae5;color:var(--success);font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">Confirmado</div>
@@ -1660,9 +1660,9 @@ var HORARIOS_GRUPOS = {
       { teams:['ACV','HANDIUNA'],        hora:'17:30' }
     ],
     B: [
-      { teams:['CBH','HANDVNI'], hora:'10:30' },
+      { teams:['CHB','HANDVNI'], hora:'10:30' },
       { teams:['HANDVNI','FAEG'], hora:'15:50' },
-      { teams:['CBH','FAEG'],    hora:'19:10' }
+      { teams:['CHB','FAEG'],    hora:'19:10' }
     ]
   }
 };
@@ -1729,7 +1729,7 @@ function parseMM(mmRows, naipe) {
 // ── CARREGA DADOS DA PLANILHA ──────────────────────────
 // No feminino a equipe Afonso Cláudio foi substituída pela CBH;
 // traduz o nome caso a planilha ainda traga o antigo
-var FEM_RENAME = { 'AFONSOCLAUDIO': 'CBH', 'AFOHAND': 'CBH' };
+var FEM_RENAME = { 'AFONSOCLAUDIO': 'CHb', 'AFOHAND': 'CHb', 'CBH': 'CHb' };
 function femName(nome) {
   return FEM_RENAME[normTeam(nome)] || nome;
 }
@@ -2262,7 +2262,7 @@ var ATLETAS = {
     'ACV Vila Velha':  [{num:6,nome:'David Ramalho'},{num:9,nome:'Arthur Souza'},{num:11,nome:'Davi Honorio'},{num:7,nome:'Jordão'},{num:13,nome:'Carlos'},{num:2,nome:'Matheus B'},{num:5,nome:'João Vitor'},{num:10,nome:'Douglas'},{num:3,nome:'Kevyn'},{num:16,nome:'Gabriel'},{num:8,nome:'Samuel'},{num:4,nome:'Lucca'},{num:88,nome:'Juan'},{num:22,nome:'Matheus Couto'}]
   },
   fem: {
-    'CBH':             [{num:7,nome:'Marinara'},{num:2,nome:'Ranyella'},{num:77,nome:'Livia'},{num:8,nome:'Ianca'},{num:5,nome:'Hynara'},{num:1,nome:'Lara'},{num:21,nome:'Fabi'},{num:11,nome:'Sergiane'},{num:4,nome:'Ana'}],
+    'CHb':             [{num:7,nome:'Marinara'},{num:2,nome:'Ranyella'},{num:77,nome:'Livia'},{num:8,nome:'Ianca'},{num:5,nome:'Hynara'},{num:1,nome:'Lara'},{num:21,nome:'Fabi'},{num:11,nome:'Sergiane'},{num:4,nome:'Ana'}],
     'Dragonhand':      [{num:3,nome:'Ana Livia Sancio Scachetti'},{num:16,nome:'Kamilly Postay Gazzolli'},{num:15,nome:'Kamylle Fink Groberio'},{num:4,nome:'Mayra Moraes Lodi Angeli'},{num:11,nome:'Luara Barcellos Aliprandi'},{num:9,nome:'Julia Barbosa Souza'},{num:14,nome:'Thaíssa Lomeu Braun'},{num:10,nome:'Giovanna De Oliveira Fudcheller'},{num:18,nome:'Thaila Lomeu Braun'},{num:12,nome:'Suria da Silva dos Santos'},{num:1,nome:'Maria Luiza Pozzatti Stinghel'}],
     'HandVNI':         [],
     'FAEG Itaguaçu':   [{num:1,nome:'Thaissa Fernandes Alves Santos'},{num:2,nome:'Beatriz Azevedo Rodrigues'},{num:3,nome:'Luísa Caitano Rosa'},{num:4,nome:'Louisy Demoner Vedova'},{num:5,nome:'Isadora Benevides'},{num:6,nome:'Rafaela Sesana Correa Gaigher'},{num:7,nome:'Maria Luiza Donadia Engel'},{num:8,nome:'Soraya Neres Oliveira'},{num:9,nome:'Letícia de Oliveira Freitas'},{num:10,nome:"Samara Del' Negri Mohem"},{num:11,nome:'Anna Lyvia Damacena'},{num:12,nome:'Lara Ferreira Batista'}],
