@@ -2342,11 +2342,30 @@ function updateCoroaBtnState() {
 document.addEventListener('DOMContentLoaded', updateCoroaBtnState);
 setInterval(updateCoroaBtnState, 30000);
 
+// Só deixa votar em atleta de time que está na semifinal (SF1+SF2) —
+// lido direto do Mata-Mata/Mata-Mata-Fem já carregado em appData.
+// Usa o escudo (TEAM_LOGOS) como ID canônico porque a planilha do
+// Mata-Mata às vezes usa apelido curto (ex: "FAEG", "ACV") enquanto o
+// elenco/onboarding usa o nome completo ("FAEG Itaguaçu", "ACV Vila
+// Velha") — normTeam sozinho não reconhece que é o mesmo time.
+function canonTeam(nome) {
+  return TEAM_LOGOS[normTeam(nome)] || normTeam(nome);
+}
+function semifinalTeams(naipe) {
+  var mm = (appData[naipe] || {}).matamata || [];
+  var sf1 = mm[0] || {}, sf2 = mm[1] || {};
+  return [sf1.t1, sf1.t2, sf2.t1, sf2.t2].filter(Boolean).map(canonTeam);
+}
+
 function renderVoteForm() {
   var used = getUsedVotes();
   var remaining = 3 - used;
   var naipe = voteState.naipe;
-  var teams = Object.keys(ATLETAS[naipe]);
+  var sfTeams = semifinalTeams(naipe);
+  var teams = Object.keys(ATLETAS[naipe]).filter(function(t) {
+    return !sfTeams.length || sfTeams.indexOf(canonTeam(t)) !== -1;
+  });
+  if (voteState.team && teams.indexOf(voteState.team) === -1) { voteState.team = ''; voteState.athlete = null; }
 
   var naipeBar = '<div class="vote-naipe-bar">' +
     '<button class="vote-naipe-btn '+(naipe==='masc'?'active-masc':'')+'" onclick="setVoteNaipe(\'masc\')">&#x1F3C3; Masculino</button>' +
@@ -2356,7 +2375,8 @@ function renderVoteForm() {
   var teamSelect = '<select class="vote-select" onchange="setVoteTeam(this.value)">' +
     '<option value="">-- Selecione a equipe --</option>' +
     teams.map(function(t){ return '<option value="'+t+'"'+(voteState.team===t?' selected':'')+'>'+t+'</option>'; }).join('') +
-  '</select>';
+  '</select>' +
+  (sfTeams.length ? '<div style="font-size:11px;color:var(--text-light);margin:6px 0 2px;">Só times na semifinal podem receber voto</div>' : '');
 
   var athletesHtml = '';
   if (voteState.team && ATLETAS[naipe][voteState.team]) {
