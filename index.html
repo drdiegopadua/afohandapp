@@ -2484,6 +2484,7 @@ function renderRanking(rows) {
   rows.forEach(function(row){
     var naipe = (row[3]||'').toLowerCase().indexOf('fem')>=0 ? 'fem' : 'masc';
     var time   = row[4]||'';
+    if (naipe === 'fem') time = femName(time); // junta votos antigos em "CBH" com os novos em "CHb"
     var atleta = row[5]||'';
     if (!atleta) return;
     var key = atleta+'|||'+time;
